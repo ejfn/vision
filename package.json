@@ -14,6 +14,8 @@
     "qualitycheck": "npm-run-all typecheck tslint"
   },
   "dependencies": {
+    "@types/base-64": "^0.1.2",
+    "base-64": "^0.1.0",
     "expo": "17.0.0",
     "native-base": "^2.1.4",
     "react": "16.0.0-alpha.6",

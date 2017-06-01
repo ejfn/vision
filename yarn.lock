@@ -15,6 +15,10 @@
     hoist-non-react-statics "^1.2.0"
     lodash "^4.15.0"
 
+"@types/base-64@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@types/base-64/-/base-64-0.1.2.tgz#63ac318302cdabb5f04e8ae2a56e54d4832107e2"
+
 "@types/react-native@*", "@types/react-native@^0.44.4":
   version "0.44.4"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.44.4.tgz#91ff838293f87f5b27827164fc1efe5e528b6f5a"
@@ -1015,6 +1019,10 @@ babylon@^6.11.0, babylon@^6.15.0, babylon@^6.16.1:
 balanced-match@^0.4.1:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-0.4.2.tgz#cb3f3e3c732dc0f01ee70b403f302e61d7709838"
+
+base-64@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/base-64/-/base-64-0.1.0.tgz#780a99c84e7d600260361511c4877613bf24f6bb"
 
 base64-js@0.0.8:
   version "0.0.8"
@@ -3242,7 +3250,7 @@ react-native-vector-icons@4.1.1, react-native-vector-icons@~4.1.1:
     xpipe "^1.0.5"
     yargs "^6.4.0"
 
-react-navigation@1.0.0-beta.11:
+react-navigation@^1.0.0-beta.11:
   version "1.0.0-beta.11"
   resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.0.0-beta.11.tgz#4271edb23cdbcc6eb88602f7fde0a77f0ef7a160"
   dependencies:

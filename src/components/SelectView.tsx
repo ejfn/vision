@@ -1,18 +1,17 @@
 import { ImagePicker } from 'expo';
-import { Button, Text } from 'native-base';
+import { Button, Icon, Text } from 'native-base';
 import React from 'react';
 import { View } from 'react-native';
 import { NavigationScreenProp, StackNavigatorScreenOptions } from 'react-navigation';
-
 
 interface Props {
   navigation: NavigationScreenProp<{}, void>;
 }
 
-export class MainView extends React.PureComponent<Props, void> {
+export class SelectView extends React.PureComponent<Props, void> {
 
   public static navigationOptions: StackNavigatorScreenOptions = {
-    title: 'Main'
+    title: 'Select'
   };
 
   public render(): JSX.Element {
@@ -20,13 +19,20 @@ export class MainView extends React.PureComponent<Props, void> {
       <View style={{
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'center'
+        justifyContent: 'flex-end',
+        padding: 10,
+        paddingBottom: 30
       }}>
-        <Button style={{ alignSelf: 'center' }} onPress={this.pickFromCamera}>
-          <Text>Camera</Text>
+        <Button block iconLeft onPress={this.pickFromCamera}>
+          <Icon name="camera" />
+          <Text>Take a Photo</Text>
         </Button>
-        <Button style={{ alignSelf: 'center' }} onPress={this.pickFromLibrary}>
-          <Text>Photo Library</Text>
+        <View style={{
+          height: 10
+        }} />
+        <Button block iconLeft onPress={this.pickFromLibrary}>
+          <Icon name="image" />
+          <Text>Pick from Library</Text>
         </Button>
       </View>
     );
@@ -55,6 +61,6 @@ export class MainView extends React.PureComponent<Props, void> {
   }
 
   private imageSelected = (image: ImagePicker.ImageInfo): void => {
-    this.props.navigation.navigate('ImageView', { image });
+    this.props.navigation.navigate('Photo', { image });
   }
 }

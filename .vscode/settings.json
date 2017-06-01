@@ -2,8 +2,9 @@
 {
     "editor.formatOnSave": true,
     "editor.formatOnType": true,
-    "files.insertFinalNewline": true,
-    "files.trimTrailingWhitespace": true,
     "editor.insertSpaces": true,
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
+    "files.insertFinalNewline": true,
+    "files.eol": "\n",
+    "files.trimTrailingWhitespace": true
 }

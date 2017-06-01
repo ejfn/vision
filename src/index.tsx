@@ -1,10 +1,10 @@
 import { NavigationContainer, StackNavigator } from 'react-navigation';
 
-import { ImageView } from './components/ImageView';
-import { MainView } from './components/MainView';
+import { PhotoView } from './components/PhotoView';
+import { SelectView } from './components/SelectView';
 
 // tslint:disable-next-line:variable-name
 export const App: NavigationContainer = StackNavigator({
-    MainView: { screen: MainView },
-    ImageView: { screen: ImageView }
+    Select: { screen: SelectView },
+    Photo: { screen: PhotoView }
 });
