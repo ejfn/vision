@@ -1,10 +1,11 @@
 import { ImagePicker, takeSnapshotAsync } from 'expo';
 import { Spinner } from 'native-base';
 import React from 'react';
-import { Alert, Dimensions, Image, ScrollView, Text } from 'react-native';
+import { Alert, Dimensions, View } from 'react-native';
 import { NavigationAction, NavigationScreenProp, StackNavigatorScreenOptions } from 'react-navigation';
 
 import { faceDetect, FaceResult } from '../api/face';
+import { TaggedPhoto } from './TaggedPhoto';
 
 const { height, width } = Dimensions.get('window');
 
@@ -24,10 +25,10 @@ interface State {
   error?: Error;
 }
 
-export class PhotoView extends React.PureComponent<Props, State> {
+export class PhotoScreen extends React.PureComponent<Props, State> {
 
   public static navigationOptions: StackNavigatorScreenOptions = {
-    title: 'Photo'
+    title: 'Face Detect'
   };
 
   public state: State = {
@@ -36,6 +37,7 @@ export class PhotoView extends React.PureComponent<Props, State> {
 
   public componentDidMount(): void {
     this.setState((state: State) => ({ ...state, isRequesting: true }));
+    // tslint:disable-next-line:no-floating-promises
     setTimeout(() => { this.process(); }, 1000);
   }
 
@@ -49,23 +51,34 @@ export class PhotoView extends React.PureComponent<Props, State> {
     }
 
     const { image } = this.props.navigation.state.params;
-
     const imageSize: number = Math.min(height, width);
 
     return (
-      <ScrollView style={{ backgroundColor: '#000' }}>
-        <Image ref="image"
-          source={{ uri: image.uri }}
+      <View style={{
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: '#000'
+      }}>
+        <TaggedPhoto ref="image"
+          imageUri={image.uri}
+          faceResults={this.state.faceResults}
           style={{ width: imageSize, height: imageSize }} />
         {
-          this.state.isRequesting ? <Spinner color="#ccc" /> : null
-        }
-        {
-          this.state.faceResults !== undefined ?
-            <Text style={{ flex: 1, color: '#eee' }}>{JSON.stringify(this.state.faceResults)}</Text>
+          this.state.isRequesting ?
+            <View style={{
+              position: 'absolute',
+              alignSelf: 'center',
+              backgroundColor: '#000',
+              opacity: 0.8,
+              borderRadius: 20,
+              paddingLeft: 30,
+              paddingRight: 30
+            }}>
+              <Spinner color="#ccc" />
+            </View>
             : null
         }
-      </ScrollView>
+      </View>
     );
   }
 

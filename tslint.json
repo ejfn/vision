@@ -26,6 +26,13 @@
     "missing-jsdoc": false,
     "no-relative-imports": false,
     "no-unused-variable": false,
+    "no-unsafe-any": [
+      2,
+      {
+        "exceptions": "catch"
+      }
+    ],
+    "no-use-before-declare": false,
     "no-empty-interfaces": false,
     "import-name": false,
     "export-name": false,

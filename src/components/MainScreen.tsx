@@ -8,10 +8,10 @@ interface Props {
   navigation: NavigationScreenProp<{}, void>;
 }
 
-export class SelectView extends React.PureComponent<Props, void> {
+export class MainScreen extends React.PureComponent<Props, void> {
 
   public static navigationOptions: StackNavigatorScreenOptions = {
-    title: 'Select'
+    title: 'Face Detect'
   };
 
   public render(): JSX.Element {
