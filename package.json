@@ -26,7 +26,7 @@
   "devDependencies": {
     "@types/react": "^15.0.21",
     "@types/react-native": "^0.44.4",
-    "@types/react-navigation": "^1.0.3",
+    "@types/react-navigation": "^1.0.7",
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-react-native": "^1.9.1",
     "npm-run-all": "^4.0.2",

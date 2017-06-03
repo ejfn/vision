@@ -1,7 +1,7 @@
 import { ImagePicker, takeSnapshotAsync } from 'expo';
-import { Spinner } from 'native-base';
+import { Button, Icon, Spinner } from 'native-base';
 import React from 'react';
-import { Alert, Dimensions, View } from 'react-native';
+import { ActionSheetIOS, Alert, Dimensions, Platform, View } from 'react-native';
 import { NavigationAction, NavigationScreenProp, StackNavigatorScreenOptions } from 'react-navigation';
 
 import { faceDetect, FaceResult } from '../api/face';
@@ -12,6 +12,7 @@ const { height, width } = Dimensions.get('window');
 interface NavState {
   params: {
     image: ImagePicker.ImageInfo;
+    fileToShare?: string;
   };
 }
 
@@ -37,8 +38,7 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
 
   public componentDidMount(): void {
     this.setState((state: State) => ({ ...state, isRequesting: true }));
-    // tslint:disable-next-line:no-floating-promises
-    setTimeout(() => { this.process(); }, 1000);
+    setTimeout(this.process, 1000);
   }
 
   public render(): JSX.Element {
@@ -54,28 +54,46 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
     const imageSize: number = Math.min(height, width);
 
     return (
-      <View style={{
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: '#000'
-      }}>
-        <TaggedPhoto ref="image"
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          backgroundColor: '#000'
+        }}>
+        <TaggedPhoto
+          ref="image"
           imageUri={image.uri}
           faceResults={this.state.faceResults}
-          style={{ width: imageSize, height: imageSize }} />
+          style={{ width: imageSize, height: imageSize, marginBottom: 40 }} />
         {
           this.state.isRequesting ?
-            <View style={{
-              position: 'absolute',
-              alignSelf: 'center',
-              backgroundColor: '#000',
-              opacity: 0.8,
-              borderRadius: 20,
-              paddingLeft: 30,
-              paddingRight: 30
-            }}>
+            <View
+              style={{
+                position: 'absolute',
+                alignSelf: 'center',
+                backgroundColor: '#000',
+                opacity: 0.8,
+                borderRadius: 20,
+                paddingLeft: 25,
+                paddingRight: 25
+              }}>
               <Spinner color="#ccc" />
             </View>
+            : null
+        }
+        {
+          this.state.faceResults !== undefined && Platform.OS === 'ios' ?
+            <Button
+              light transparent
+              onPress={this.showShareActionSheet}
+              style={{
+                position: 'absolute',
+                alignSelf: 'center',
+                bottom: 10,
+                paddingLeft: 26
+              }}>
+              <Icon name="share" style={{ fontSize: 35 }} />
+            </Button>
             : null
         }
       </View>
@@ -97,5 +115,21 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
     } catch (e) {
       this.setState((state: State) => ({ ...state, isRequesting: false, error: e }));
     }
+  }
+
+  private showShareActionSheet = async (): Promise<void> => {
+    // tslint:disable-next-line:no-any
+    const fileToShare: string = await takeSnapshotAsync(this.refs.image as any, {
+      format: 'jpeg',
+      quality: 1,
+      result: 'file',
+      height: width,
+      width
+    });
+    ActionSheetIOS.showShareActionSheetWithOptions(
+      { url: fileToShare },
+      (error: Error): void => { Alert.alert('Ooops!', error.message); },
+      (): void => { return; }
+    );
   }
 }

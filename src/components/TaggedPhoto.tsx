@@ -13,7 +13,9 @@ interface Props {
 export class TaggedPhoto extends React.PureComponent<Props, void> {
   public render(): JSX.Element {
     return (
-      <View style={[styles.container, this.props.style]}>
+      <View
+        collapsable={false}
+        style={[styles.container, this.props.style]}>
         <Image
           source={{ uri: this.props.imageUri }}
           style={{ flex: 1 }} />

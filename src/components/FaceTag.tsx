@@ -31,19 +31,18 @@ export class FaceTag extends React.PureComponent<Props, void> {
           flexDirection: 'row',
           alignSelf: 'center',
           justifyContent: 'center',
-          alignItems: 'flex-end',
+          alignItems: 'center',
           backgroundColor: color,
-          height: 20,
+          width: 40,
+          height: 22,
           top: atBottom ? undefined : -22,
-          bottom: atBottom ? -22 : undefined,
-          paddingLeft: 5,
-          paddingRight: 5
+          bottom: atBottom ? -22 : undefined
         }}>
           <Icon
             name={faceAttributes.gender === 'male' ? 'man' : 'woman'}
-            style={{ color: '#fff', fontSize: 18, padding: 0 }}
+            style={{ color: '#fff', fontSize: 18 }}
           />
-          <Text style={{ color: '#fff', fontSize: 14, marginLeft: 2, padding: 0 }}>
+          <Text style={{ color: '#fff', marginLeft: 2, fontSize: 14 }}>
             {Math.round(faceAttributes.age)}
           </Text>
         </View>
