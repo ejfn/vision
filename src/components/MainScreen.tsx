@@ -1,8 +1,17 @@
+import { SimpleLineIcons } from '@expo/vector-icons';
 import { ImagePicker } from 'expo';
-import { Button, Icon, Text } from 'native-base';
 import React from 'react';
-import { View } from 'react-native';
+import { Text, View, ViewStyle } from 'react-native';
 import { NavigationScreenProp, StackNavigatorScreenOptions } from 'react-navigation';
+
+import { Button } from './Button';
+
+const COLOR: string = '#4169e1';
+const BUTTON_STYLE: ViewStyle = {
+  alignSelf: 'stretch',
+  marginVertical: 5,
+  backgroundColor: COLOR
+};
 
 interface Props {
   navigation: NavigationScreenProp<{}, void>;
@@ -20,32 +29,44 @@ export class MainScreen extends React.PureComponent<Props, void> {
       <View
         style={{
           flex: 1,
-          flexDirection: 'column',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-          paddingHorizontal: 20
-        }}>
-        <Button
-          block iconLeft
-          onPress={this.pickFromCamera}
+          paddingHorizontal: 10
+        }}
+      >
+        <View
           style={{
-            marginVertical: 5
-          }}>
-          <Icon name="camera" />
-          <Text>Take a Photo</Text>
-        </Button>
-        <Button block iconLeft
-          onPress={this.pickFromLibrary}
+            flex: 0.5,
+            justifyContent: 'flex-end',
+            alignItems: 'center'
+          }}
+        >
+          <SimpleLineIcons name="emotsmile" size={100} color={COLOR} />
+        </View>
+        <View
           style={{
-            marginVertical: 5,
-            marginBottom: 50
-          }}>
-          <Icon name="image" />
-          <Text>Pick from Library</Text>
-        </Button>
-        <Text style={{
-          marginBottom: 20
-        }}>Powered by Microsoft Computer Vision API</Text>
+            flex: 0.5,
+            justifyContent: 'flex-end',
+            alignItems: 'center'
+          }}
+        >
+          <Button
+            icon="md-camera"
+            title="Take A Photo"
+            style={BUTTON_STYLE}
+            onPress={this.pickFromCamera}
+          />
+          <Button
+            icon="md-photos"
+            title="Pick From Library"
+            style={BUTTON_STYLE}
+            onPress={this.pickFromLibrary}
+          />
+          <Text
+            style={{
+              marginTop: 20,
+              marginBottom: 10
+            }}
+          >Powered by Microsoft Face API</Text>
+        </View>
       </View>
     );
   }
@@ -53,7 +74,7 @@ export class MainScreen extends React.PureComponent<Props, void> {
   private pickFromCamera = async (): Promise<void> => {
     const result: ImagePicker.ImageResult = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
-      aspect: [4, 4]
+      aspect: [1, 1]
     });
 
     if (!result.cancelled) {

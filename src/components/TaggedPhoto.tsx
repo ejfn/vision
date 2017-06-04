@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, View, ViewStyle } from 'react-native';
+import { Image, View, ViewStyle } from 'react-native';
 
 import { FaceResult } from '../api/face';
 import { FaceTag } from './FaceTag';
@@ -15,22 +15,23 @@ export class TaggedPhoto extends React.PureComponent<Props, void> {
     return (
       <View
         collapsable={false}
-        style={[styles.container, this.props.style]}>
+        style={[
+          { overflow: 'hidden' },
+          this.props.style
+        ]}
+      >
         <Image
           source={{ uri: this.props.imageUri }}
-          style={{ flex: 1 }} />
+          style={{ flex: 1 }}
+        />
         {
           this.props.faceResults !== undefined ?
-            this.props.faceResults.map((f: FaceResult, i: number) => <FaceTag key={i} face={f} />)
+            this.props.faceResults.map((f: FaceResult, i: number) =>
+              <FaceTag key={i} face={f} />
+            )
             : null
         }
       </View>
     );
   }
 }
-
-const styles: { [key: string]: ViewStyle } = StyleSheet.create({
-  container: {
-    overflow: 'hidden'
-  }
-});

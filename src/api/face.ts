@@ -1,33 +1,39 @@
 import { decode } from 'base-64';
 
+// const API_KEY: string = '********';
+
+export interface FaceRectangle {
+  width: number;
+  height: number;
+  left: number;
+  top: number;
+}
+
+export interface FaceAttributes {
+  age: number;
+  gender: string;
+  smile: number;
+  facialHair: {
+    mustache: number;
+    beard: number;
+    sideburns: number;
+  };
+  glasses: string;
+  headPose: {
+    roll: number;
+    yaw: number;
+    pitch: number;
+  };
+}
+
 export interface FaceResult {
   faceId: string;
-  faceRectangle: {
-    width: number;
-    height: number;
-    left: number;
-    top: number;
-  };
+  faceRectangle: FaceRectangle;
+  faceAttributes: FaceAttributes;
   faceLandmarks: {
     [key: string]: {
       x: number;
       y: number;
-    }
-  };
-  faceAttributes: {
-    age: number;
-    gender: string;
-    smile: number;
-    facialHair: {
-      mustache: number;
-      beard: number;
-      sideburns: number;
-    },
-    glasses: string;
-    headPose: {
-      roll: number;
-      yaw: number;
-      pitch: number;
     }
   };
 }
@@ -44,7 +50,7 @@ export async function faceDetect(base64: string): Promise<Array<FaceResult>> {
       body: b64toBinary(base64),
       headers: {
         'Content-Type': 'application/octet-stream',
-        'Ocp-Apim-Subscription-Key': '7f94b81ff35743f687ebff1a86539a13'
+        'Ocp-Apim-Subscription-Key': API_KEY
       }
     }
   );
