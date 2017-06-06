@@ -1,30 +1,56 @@
-import { SimpleLineIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ImagePicker } from 'expo';
 import React from 'react';
-import { Text, View, ViewStyle } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { NavigationScreenProp, StackNavigatorScreenOptions } from 'react-navigation';
 
+import { APP_MODE_EMOTION, APP_MODE_FACE } from '../constants';
+import { AppMode } from '../types/common';
 import { Button } from './Button';
 
-const COLOR: string = '#4169e1';
-const BUTTON_STYLE: ViewStyle = {
-  alignSelf: 'stretch',
-  marginVertical: 5,
-  backgroundColor: COLOR
+const COLOR: { [key: string]: string } = {
+  Face: '#4169e1',
+  Emotion: '#ba55d3'
 };
+
+const LOGO: { [key: string]: string } = {
+  Face: 'emoticon',
+  Emotion: 'emoticon-devil'
+};
+
+const API: { [key: string]: string } = {
+  Face: 'Microsoft Face API',
+  Emotion: 'Microsoft Emotion API'
+};
+
+const MODES: Array<AppMode> = [
+  APP_MODE_FACE,
+  APP_MODE_EMOTION
+];
 
 interface Props {
   navigation: NavigationScreenProp<{}, void>;
 }
 
-export class MainScreen extends React.PureComponent<Props, void> {
+interface State {
+  mode: AppMode;
+}
+
+export class MainScreen extends React.PureComponent<Props, State> {
 
   public static navigationOptions: StackNavigatorScreenOptions = {
     title: 'Face Detect',
     headerBackTitle: 'Back'
   };
 
+  public state: State = {
+    mode: MODES[0]
+  };
+
   public render(): JSX.Element {
+
+    const color: string = COLOR[this.state.mode];
+
     return (
       <View
         style={{
@@ -39,7 +65,16 @@ export class MainScreen extends React.PureComponent<Props, void> {
             alignItems: 'center'
           }}
         >
-          <SimpleLineIcons name="emotsmile" size={100} color={COLOR} />
+          <TouchableOpacity
+            onPress={this.switchMode}
+            style={{
+              alignItems: 'center'
+            }}
+          >
+            <MaterialCommunityIcons name={LOGO[this.state.mode]} size={100} color={color} />
+            <Text style={{ fontSize: 20, color: color }}>{this.state.mode} Detect</Text>
+            <Text style={{ color: color }}>Tap me to switch mode!</Text>
+          </TouchableOpacity>
         </View>
         <View
           style={{
@@ -51,24 +86,40 @@ export class MainScreen extends React.PureComponent<Props, void> {
           <Button
             icon="md-camera"
             title="Take A Photo"
-            style={BUTTON_STYLE}
+            style={{
+              alignSelf: 'stretch',
+              marginVertical: 5,
+              backgroundColor: color
+            }}
             onPress={this.pickFromCamera}
           />
           <Button
             icon="md-photos"
             title="Pick From Library"
-            style={BUTTON_STYLE}
+            style={{
+              alignSelf: 'stretch',
+              marginVertical: 5,
+              backgroundColor: color
+            }}
             onPress={this.pickFromLibrary}
           />
           <Text
             style={{
+              color: color,
               marginTop: 20,
               marginBottom: 10
             }}
-          >Powered by Microsoft Face API</Text>
+          >Powered by {API[this.state.mode]}</Text>
         </View>
       </View>
     );
+  }
+
+  private switchMode = (): void => {
+    const currentIndex: number = MODES.indexOf(this.state.mode);
+    const nextIndex: number = currentIndex < MODES.length - 1 ? currentIndex + 1 : 0;
+    const nextMode: AppMode = MODES[nextIndex];
+    this.setState((state: State) => ({ ...state, mode: nextMode }));
   }
 
   private pickFromCamera = async (): Promise<void> => {
@@ -94,6 +145,6 @@ export class MainScreen extends React.PureComponent<Props, void> {
   }
 
   private imageSelected = (image: ImagePicker.ImageInfo): void => {
-    this.props.navigation.navigate('Photo', { image });
+    this.props.navigation.navigate('Photo', { mode: this.state.mode, image });
   }
 }

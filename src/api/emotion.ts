@@ -1,13 +1,12 @@
 import { decode } from 'base-64';
 
-import { FaceResult } from '../types/api';
+import { EmotionResult } from '../types/api';
 
 // const API_KEY: string = '********';
 
-export async function faceDetect(base64: string): Promise<Array<FaceResult>> {
+export async function emotionDetect(base64: string): Promise<Array<EmotionResult>> {
 
-  const url: string = 'https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect'
-    + '?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender';
+  const url: string = 'https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize';
 
   const request: Request = new Request(
     url,
@@ -27,7 +26,7 @@ export async function faceDetect(base64: string): Promise<Array<FaceResult>> {
     throw new Error((await response.json()).error.message);
   }
 
-  return response.json() as Promise<Array<FaceResult>>;
+  return response.json() as Promise<Array<EmotionResult>>;
 }
 
 function b64toBinary(b64Data: string): Uint8Array {

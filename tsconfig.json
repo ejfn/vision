@@ -21,7 +21,6 @@
     "skipDefaultLibCheck": true
   },
   "include": [
-    "src/**/*.js",
     "src/**/*.ts",
     "src/**/*.tsx",
     "decls/*.d.ts"

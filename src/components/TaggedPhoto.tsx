@@ -1,13 +1,15 @@
 import React from 'react';
 import { Image, View, ViewStyle } from 'react-native';
 
-import { FaceResult } from '../api/face';
+import { EmotionResult, FaceResult } from '../types/api';
+import { EmotionTag } from './EmotionTag';
 import { FaceTag } from './FaceTag';
 
 interface Props {
   style: ViewStyle;
   imageUri: string;
   faceResults?: Array<FaceResult>;
+  emotionResults?: Array<EmotionResult>;
 }
 
 export class TaggedPhoto extends React.PureComponent<Props, void> {
@@ -28,6 +30,13 @@ export class TaggedPhoto extends React.PureComponent<Props, void> {
           this.props.faceResults !== undefined ?
             this.props.faceResults.map((f: FaceResult, i: number) =>
               <FaceTag key={i} face={f} />
+            )
+            : null
+        }
+        {
+          this.props.emotionResults !== undefined ?
+            this.props.emotionResults.map((e: EmotionResult, i: number) =>
+              <EmotionTag key={i} emotion={e} />
             )
             : null
         }

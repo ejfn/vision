@@ -3,7 +3,11 @@ import React from 'react';
 import { ActionSheetIOS, ActivityIndicator, Alert, Dimensions, Platform, Text, View } from 'react-native';
 import { NavigationAction, NavigationScreenProp, StackNavigatorScreenOptions } from 'react-navigation';
 
-import { faceDetect, FaceResult } from '../api/face';
+import { emotionDetect } from '../api/emotion';
+import { faceDetect } from '../api/face';
+import { APP_MODE_EMOTION, APP_MODE_FACE } from '../constants';
+import { EmotionResult, FaceResult } from '../types/api';
+import { AppMode } from '../types/common';
 import { Button } from './Button';
 import { TaggedPhoto } from './TaggedPhoto';
 
@@ -11,6 +15,7 @@ const { height, width } = Dimensions.get('window');
 
 interface NavState {
   params: {
+    mode: AppMode;
     image: ImagePicker.ImageInfo;
     fileToShare?: string;
   };
@@ -23,6 +28,7 @@ interface Props {
 interface State {
   isRequesting: boolean;
   faceResults?: Array<FaceResult>;
+  emotionResults?: Array<EmotionResult>;
   error?: Error;
 }
 
@@ -67,6 +73,7 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
             ref="image"
             imageUri={image.uri}
             faceResults={this.state.faceResults}
+            emotionResults={this.state.emotionResults}
             style={{
               width: imageSize,
               height: imageSize,
@@ -104,7 +111,10 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
           }}
         >
           {
-            this.state.faceResults !== undefined && Platform.OS === 'ios' ?
+            (
+              this.state.faceResults !== undefined ||
+              this.state.emotionResults !== undefined
+            ) && Platform.OS === 'ios' ?
               <Button
                 fontSize={28}
                 icon="ios-share-outline"
@@ -130,8 +140,21 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
       width
     });
     try {
-      const response: Array<FaceResult> = await faceDetect(base64);
-      this.setState((state: State) => ({ ...state, isRequesting: false, faceResults: response }));
+      const mode: AppMode = this.props.navigation.state.params.mode;
+      switch (mode) {
+        case APP_MODE_FACE: {
+          const response: Array<FaceResult> = await faceDetect(base64);
+          this.setState((state: State): State => ({ ...state, isRequesting: false, faceResults: response }));
+          break;
+        }
+        case APP_MODE_EMOTION: {
+          const response: Array<EmotionResult> = await emotionDetect(base64);
+          this.setState((state: State): State => ({ ...state, isRequesting: false, emotionResults: response }));
+          break;
+        }
+        default:
+          return;
+      }
     } catch (e) {
       this.setState((state: State) => ({ ...state, isRequesting: false, error: e }));
     }
@@ -149,7 +172,7 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
     ActionSheetIOS.showShareActionSheetWithOptions(
       { url: fileToShare },
       (error: Error): void => {
-        Alert.alert('Ooops!', error.message);
+        Alert.alert('Oops!', error.message);
       },
       (completed: boolean, _: string): void => {
         if (completed) {

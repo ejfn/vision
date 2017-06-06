@@ -1,6 +1,6 @@
 {
   "name": "face-detect",
-  "description": "Detect faces, genders and ages from photo.",
+  "description": "Detect faces and emotions from photo.",
   "slug": "face-detect",
   "privacy": "public",
   "sdkVersion": "17.0.0",
