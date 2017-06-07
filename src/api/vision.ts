@@ -1,12 +1,11 @@
-import { FaceResult } from '../types/api';
+import { VisionResult } from '../types/api';
 import { b64toBinary } from '../utils';
 
 // const API_KEY: string = '********';
 
-export async function detectFaces(base64: string): Promise<Array<FaceResult>> {
+export async function describeImage(base64: string): Promise<VisionResult> {
 
-  const url: string = 'https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect'
-    + '?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender';
+  const url: string = 'https://westcentralus.api.cognitive.microsoft.com/vision/v1.0/describe';
 
   const request: Request = new Request(
     url,
@@ -26,5 +25,5 @@ export async function detectFaces(base64: string): Promise<Array<FaceResult>> {
     throw new Error((await response.json()).error.message);
   }
 
-  return response.json() as Promise<Array<FaceResult>>;
+  return response.json() as Promise<VisionResult>;
 }

@@ -1,15 +1,15 @@
 {
-  "name": "face-detect",
-  "description": "Detect faces and emotions from photo.",
-  "slug": "face-detect",
+  "name": "Vision",
+  "description": "A Computer Vision App",
+  "slug": "vision",
   "privacy": "public",
   "sdkVersion": "17.0.0",
   "version": "1.0.0",
   "orientation": "portrait",
   "primaryColor": "#cccccc",
-  "icon": "./assets/icons/app.png",
+  "icon": "./assets/icons/vision.png",
   "loading": {
-    "icon": "./assets/icons/loading.png",
+    "icon": "./assets/icons/vision.png",
     "hideExponentText": false
   },
   "packagerOpts": {

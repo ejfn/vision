@@ -4,28 +4,38 @@ import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { NavigationScreenProp, StackNavigatorScreenOptions } from 'react-navigation';
 
-import { APP_MODE_EMOTION, APP_MODE_FACE } from '../constants';
+import { APP_MODE_EMOTION, APP_MODE_FACE, APP_MODE_VISION } from '../constants';
 import { AppMode } from '../types/common';
 import { Button } from './Button';
 
 const COLOR: { [key: string]: string } = {
   Face: '#4169e1',
-  Emotion: '#ba55d3'
+  Emotion: '#ba55d3',
+  Vision: '#2e8b57'
 };
 
 const LOGO: { [key: string]: string } = {
   Face: 'emoticon',
-  Emotion: 'emoticon-devil'
+  Emotion: 'emoticon-devil',
+  Vision: 'tag-text-outline'
+};
+
+const TITLE: { [key: string]: string } = {
+  Face: 'Face Detection',
+  Emotion: 'Emotion Detection',
+  Vision: 'Image Tagging'
 };
 
 const API: { [key: string]: string } = {
   Face: 'Microsoft Face API',
-  Emotion: 'Microsoft Emotion API'
+  Emotion: 'Microsoft Emotion API',
+  Vision: 'Microsoft Computer Vision API'
 };
 
 const MODES: Array<AppMode> = [
   APP_MODE_FACE,
-  APP_MODE_EMOTION
+  APP_MODE_EMOTION,
+  APP_MODE_VISION
 ];
 
 interface Props {
@@ -39,7 +49,7 @@ interface State {
 export class MainScreen extends React.PureComponent<Props, State> {
 
   public static navigationOptions: StackNavigatorScreenOptions = {
-    title: 'Face Detect',
+    title: 'Vision',
     headerBackTitle: 'Back'
   };
 
@@ -72,7 +82,7 @@ export class MainScreen extends React.PureComponent<Props, State> {
             }}
           >
             <MaterialCommunityIcons name={LOGO[this.state.mode]} size={100} color={color} />
-            <Text style={{ fontSize: 20, color: color }}>{this.state.mode} Detect</Text>
+            <Text style={{ fontSize: 20, color: color }}>{TITLE[this.state.mode]}</Text>
             <Text style={{ color: color }}>Tap me to switch mode!</Text>
           </TouchableOpacity>
         </View>
@@ -106,8 +116,7 @@ export class MainScreen extends React.PureComponent<Props, State> {
           <Text
             style={{
               color: color,
-              marginTop: 20,
-              marginBottom: 10
+              marginVertical: 10
             }}
           >Powered by {API[this.state.mode]}</Text>
         </View>

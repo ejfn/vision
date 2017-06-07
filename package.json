@@ -1,7 +1,7 @@
 {
-  "name": "face-detect",
-  "version": "0.0.0",
-  "description": "Hello Expo!",
+  "name": "vision",
+  "version": "1.0.0",
+  "description": "A Computer Vision App",
   "author": "Eric Fan",
   "private": true,
   "main": "main.js",

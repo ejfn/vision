@@ -1,10 +1,9 @@
-import { decode } from 'base-64';
-
 import { EmotionResult } from '../types/api';
+import { b64toBinary } from '../utils';
 
 // const API_KEY: string = '********';
 
-export async function emotionDetect(base64: string): Promise<Array<EmotionResult>> {
+export async function detectEmotions(base64: string): Promise<Array<EmotionResult>> {
 
   const url: string = 'https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize';
 
@@ -27,14 +26,4 @@ export async function emotionDetect(base64: string): Promise<Array<EmotionResult
   }
 
   return response.json() as Promise<Array<EmotionResult>>;
-}
-
-function b64toBinary(b64Data: string): Uint8Array {
-  const byteCharacters: string = decode(b64Data);
-  const byteNumbers: Array<number> = [];
-  for (let i: number = 0; i < byteCharacters.length; i++) {
-    byteNumbers[i] = byteCharacters.charCodeAt(i);
-  }
-
-  return new Uint8Array(byteNumbers);
 }

@@ -42,3 +42,18 @@ export interface EmotionResult {
   faceRectangle: FaceRectangle;
   scores: EmotionScores;
 }
+
+export interface Description {
+  tags: Array<string>;
+  captions: Array<Caption>;
+
+}
+
+export interface Caption {
+  text: string;
+  confidence: number;
+}
+
+export interface VisionResult {
+  description: Description;
+}
