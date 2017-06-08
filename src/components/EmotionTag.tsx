@@ -57,8 +57,9 @@ export class EmotionTag extends React.PureComponent<Props, void> {
             height: size,
             bottom: 0,
             right: 0
-          }} />
-      </View >
+          }}
+        />
+      </View>
     );
 
   }
