@@ -19,6 +19,6 @@
     ]
   },
   "ios": {
-    "supportsTablet": true
+    "supportsTablet": false
   }
 }

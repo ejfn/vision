@@ -102,7 +102,7 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
                     fontSize: 12,
                     marginTop: 10
                   }}
-                >DETECTING...</Text>
+                >Analysing...</Text>
               </View>
               : null
           }
@@ -170,9 +170,9 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
     const fileToShare: string = await takeSnapshotAsync(this.refs.image as any, {
       format: 'jpeg',
       quality: 1,
-      result: 'file',
+      result: 'data-uri',
       height: width,
-      width
+      width: width
     });
     ActionSheetIOS.showShareActionSheetWithOptions(
       {

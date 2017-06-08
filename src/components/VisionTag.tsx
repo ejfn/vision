@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, ViewStyle } from 'react-native';
 
 import { VisionResult } from '../types/api';
 
@@ -26,14 +26,22 @@ export class VisionTag extends React.PureComponent<Props, void> {
           }}
         >
           {
-            tags.map((t: string, i: number) => <Tag text={t} key={i} />)
+            tags.map((t: string, i: number) =>
+              <Tag
+                text={t}
+                key={i}
+                style={{
+                  marginBottom: 1,
+                  marginHorizontal: 0.5
+                }}
+              />)
           }
         </View>
         <View
           style={{
             alignSelf: 'stretch',
             backgroundColor: '#1e90ff',
-            paddingHorizontal: 5,
+            paddingHorizontal: 6,
             paddingVertical: 1
           }}
         >
@@ -48,16 +56,23 @@ export class VisionTag extends React.PureComponent<Props, void> {
   }
 }
 
-class Tag extends React.PureComponent<{ text: string }, void> {
+interface TagProps {
+  text: string;
+  style?: ViewStyle;
+}
+class Tag extends React.PureComponent<TagProps, void> {
   public render(): JSX.Element {
     return (
       <View
-        style={{
-          backgroundColor: '#1e90ff',
-          borderRadius: 7,
-          paddingHorizontal: 6,
-          margin: 1
-        }}>
+        style={[
+          {
+            backgroundColor: '#1e90ff',
+            borderRadius: 7,
+            paddingHorizontal: 6
+          },
+          this.props.style
+        ]}
+      >
         <Text
           style={{
             color: '#ffffff'
