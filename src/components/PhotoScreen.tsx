@@ -89,7 +89,7 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
                 style={{
                   position: 'absolute',
                   alignSelf: 'center',
-                  padding: 25,
+                  padding: 20,
                   borderRadius: 20,
                   opacity: 0.8,
                   backgroundColor: '#000000'
@@ -100,9 +100,9 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
                   style={{
                     color: '#eeeeee',
                     fontSize: 12,
-                    marginTop: 10
+                    marginTop: 5
                   }}
-                >Analysing...</Text>
+                >ANALYSING...</Text>
               </View>
               : null
           }
@@ -120,6 +120,7 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
                 icon="ios-share-outline"
                 onPress={this.showShareActionSheet}
                 style={{
+                  alignSelf: 'center',
                   backgroundColor: '#000000'
                 }}
               />
