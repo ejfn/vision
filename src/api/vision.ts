@@ -5,7 +5,7 @@ import { b64toBinary } from '../utils';
 
 export async function describeImage(base64: string): Promise<VisionResult> {
 
-  const url: string = 'https://westcentralus.api.cognitive.microsoft.com/vision/v1.0/describe';
+  const url: string = 'https://southeastasia.api.cognitive.microsoft.com/vision/v1.0/describe';
 
   const request: Request = new Request(
     url,
@@ -21,8 +21,9 @@ export async function describeImage(base64: string): Promise<VisionResult> {
 
   const response: Response = await fetch(request);
   if (!response.ok) {
-    // tslint:disable-next-line:no-unsafe-any
-    throw new Error((await response.json()).error.message);
+    // tslint:disable-next-line:no-any
+    const e: any = await response.json();
+    throw new Error(e.message || e.error.message);
   }
 
   return response.json() as Promise<VisionResult>;
