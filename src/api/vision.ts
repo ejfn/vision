@@ -1,7 +1,6 @@
 import { VisionResult } from '../types/api';
 import { b64toBinary } from '../utils';
-
-// const API_KEY: string = '********';
+import { VISION_API_KEY } from './keys';
 
 export async function describeImage(base64: string): Promise<VisionResult> {
 
@@ -14,7 +13,7 @@ export async function describeImage(base64: string): Promise<VisionResult> {
       body: b64toBinary(base64),
       headers: {
         'Content-Type': 'application/octet-stream',
-        'Ocp-Apim-Subscription-Key': API_KEY
+        'Ocp-Apim-Subscription-Key': VISION_API_KEY
       }
     }
   );

@@ -1,7 +1,6 @@
 import { FaceResult } from '../types/api';
 import { b64toBinary } from '../utils';
-
-// const API_KEY: string = '********';
+import { FACE_API_KEY } from './keys';
 
 export async function detectFaces(base64: string): Promise<Array<FaceResult>> {
 
@@ -15,7 +14,7 @@ export async function detectFaces(base64: string): Promise<Array<FaceResult>> {
       body: b64toBinary(base64),
       headers: {
         'Content-Type': 'application/octet-stream',
-        'Ocp-Apim-Subscription-Key': API_KEY
+        'Ocp-Apim-Subscription-Key': FACE_API_KEY
       }
     }
   );

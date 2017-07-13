@@ -1,7 +1,6 @@
 import { EmotionResult } from '../types/api';
 import { b64toBinary } from '../utils';
-
-// const API_KEY: string = '********';
+import { EMOTION_API_KEY } from './keys';
 
 export async function detectEmotions(base64: string): Promise<Array<EmotionResult>> {
 
@@ -14,7 +13,7 @@ export async function detectEmotions(base64: string): Promise<Array<EmotionResul
       body: b64toBinary(base64),
       headers: {
         'Content-Type': 'application/octet-stream',
-        'Ocp-Apim-Subscription-Key': API_KEY
+        'Ocp-Apim-Subscription-Key': EMOTION_API_KEY
       }
     }
   );
