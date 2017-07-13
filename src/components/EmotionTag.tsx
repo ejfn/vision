@@ -21,7 +21,7 @@ interface Props {
   emotion: EmotionResult;
 }
 
-export class EmotionTag extends React.PureComponent<Props, void> {
+export class EmotionTag extends React.PureComponent<Props, {}> {
   public render(): JSX.Element {
     let { faceRectangle } = this.props.emotion;
     const r: number = PixelRatio.get();

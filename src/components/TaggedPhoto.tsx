@@ -14,7 +14,7 @@ interface Props {
   visionResult?: VisionResult;
 }
 
-export class TaggedPhoto extends React.PureComponent<Props, void> {
+export class TaggedPhoto extends React.PureComponent<Props, {}> {
   public render(): JSX.Element {
     return (
       <View

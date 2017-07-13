@@ -1,7 +1,7 @@
 import { ImagePicker, takeSnapshotAsync } from 'expo';
 import React from 'react';
 import { ActionSheetIOS, ActivityIndicator, Alert, Dimensions, Platform, Text, View } from 'react-native';
-import { NavigationAction, NavigationScreenProp, StackNavigatorScreenOptions } from 'react-navigation';
+import { NavigationAction, NavigationScreenProp, NavigationStackScreenOptions } from 'react-navigation';
 
 import { detectEmotions } from '../api/emotion';
 import { detectFaces } from '../api/face';
@@ -36,7 +36,7 @@ interface State {
 
 export class PhotoScreen extends React.PureComponent<Props, State> {
 
-  public static navigationOptions: StackNavigatorScreenOptions = {
+  public static navigationOptions: NavigationStackScreenOptions = {
     title: 'Vision'
   };
 

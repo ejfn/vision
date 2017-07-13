@@ -2,7 +2,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ImagePicker } from 'expo';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { NavigationScreenProp, StackNavigatorScreenOptions } from 'react-navigation';
+import { NavigationScreenProp, NavigationStackScreenOptions } from 'react-navigation';
 
 import { APP_MODE_EMOTION, APP_MODE_FACE, APP_MODE_VISION } from '../constants';
 import { AppMode } from '../types/common';
@@ -48,7 +48,7 @@ interface State {
 
 export class MainScreen extends React.PureComponent<Props, State> {
 
-  public static navigationOptions: StackNavigatorScreenOptions = {
+  public static navigationOptions: NavigationStackScreenOptions = {
     title: 'Vision',
     headerBackTitle: 'Back'
   };

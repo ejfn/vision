@@ -11,7 +11,7 @@ interface Props {
   face: FaceResult;
 }
 
-export class FaceTag extends React.PureComponent<Props, void> {
+export class FaceTag extends React.PureComponent<Props, {}> {
   public render(): JSX.Element {
     let { faceRectangle } = this.props.face;
     const r: number = PixelRatio.get();
