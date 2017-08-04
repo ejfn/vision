@@ -100,9 +100,9 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
                   style={{
                     color: '#eeeeee',
                     fontSize: 12,
-                    marginTop: 5
+                    marginTop: 10
                   }}
-                >ANALYSING...</Text>
+                >Processing...</Text>
               </View>
               : null
           }
