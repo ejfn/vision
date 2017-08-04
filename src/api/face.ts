@@ -1,11 +1,10 @@
 import { FaceResult } from '../types/api';
 import { b64toBinary } from '../utils';
-import { FACE_API_KEY } from './keys';
+import { FACE_API_KEY, FACE_API_URL } from './config';
 
 export async function detectFaces(base64: string): Promise<Array<FaceResult>> {
 
-  const url: string = 'https://southeastasia.api.cognitive.microsoft.com/face/v1.0/detect'
-    + '?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender';
+  const url: string = `${FACE_API_URL}/detect?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender`;
 
   const request: Request = new Request(
     url,

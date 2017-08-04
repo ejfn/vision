@@ -1,10 +1,10 @@
 import { VisionResult } from '../types/api';
 import { b64toBinary } from '../utils';
-import { VISION_API_KEY } from './keys';
+import { VISION_API_KEY, VISION_API_URL } from './config';
 
 export async function describeImage(base64: string): Promise<VisionResult> {
 
-  const url: string = 'https://southeastasia.api.cognitive.microsoft.com/vision/v1.0/describe';
+  const url: string = `${VISION_API_URL}/describe`;
 
   const request: Request = new Request(
     url,

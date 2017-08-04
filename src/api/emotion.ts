@@ -1,10 +1,10 @@
 import { EmotionResult } from '../types/api';
 import { b64toBinary } from '../utils';
-import { EMOTION_API_KEY } from './keys';
+import { EMOTION_API_KEY, EMOTION_API_URL } from './config';
 
 export async function detectEmotions(base64: string): Promise<Array<EmotionResult>> {
 
-  const url: string = 'https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize';
+  const url: string = `${EMOTION_API_URL}/recognize`;
 
   const request: Request = new Request(
     url,
