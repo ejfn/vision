@@ -11,10 +11,10 @@ export async function describeImage(base64: string): Promise<VisionResult> {
     {
       method: 'POST',
       body: b64toBinary(base64),
-      headers: {
-        'Content-Type': 'application/octet-stream',
-        'Ocp-Apim-Subscription-Key': VISION_API_KEY
-      }
+      headers: [
+        ['Content-Type', 'application/octet-stream'],
+        ['Ocp-Apim-Subscription-Key', VISION_API_KEY]
+      ]
     }
   );
 

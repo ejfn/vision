@@ -11,10 +11,10 @@ export async function detectFaces(base64: string): Promise<Array<FaceResult>> {
     {
       method: 'POST',
       body: b64toBinary(base64),
-      headers: {
-        'Content-Type': 'application/octet-stream',
-        'Ocp-Apim-Subscription-Key': FACE_API_KEY
-      }
+      headers: [
+        ['Content-Type', 'application/octet-stream'],
+        ['Ocp-Apim-Subscription-Key', FACE_API_KEY]
+      ]
     }
   );
 

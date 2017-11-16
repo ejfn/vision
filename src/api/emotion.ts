@@ -11,10 +11,10 @@ export async function detectEmotions(base64: string): Promise<Array<EmotionResul
     {
       method: 'POST',
       body: b64toBinary(base64),
-      headers: {
-        'Content-Type': 'application/octet-stream',
-        'Ocp-Apim-Subscription-Key': EMOTION_API_KEY
-      }
+      headers: [
+        ['Content-Type', 'application/octet-stream'],
+        ['Ocp-Apim-Subscription-Key', EMOTION_API_KEY]
+      ]
     }
   );
 
