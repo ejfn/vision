@@ -7,5 +7,6 @@
     "files.insertFinalNewline": true,
     "files.eol": "\n",
     "files.trimTrailingWhitespace": true,
-    "tslint.configFile": "tslint.editor.json"
+    "tslint.configFile": "tslint.editor.json",
+    "typescript.tsdk": "node_modules/typescript/lib"
 }
