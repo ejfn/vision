@@ -6,15 +6,16 @@ export async function detectEmotions(base64: string): Promise<Array<EmotionResul
 
   const url: string = `${EMOTION_API_URL}/recognize`;
 
+  const headers: Headers = new Headers();
+  headers.append('Content-Type', 'application/octet-stream');
+  headers.append('Ocp-Apim-Subscription-Key', EMOTION_API_KEY);
+
   const request: Request = new Request(
     url,
     {
       method: 'POST',
       body: b64toBinary(base64),
-      headers: [
-        ['Content-Type', 'application/octet-stream'],
-        ['Ocp-Apim-Subscription-Key', EMOTION_API_KEY]
-      ]
+      headers
     }
   );
 

@@ -6,15 +6,16 @@ export async function describeImage(base64: string): Promise<VisionResult> {
 
   const url: string = `${VISION_API_URL}/describe`;
 
+  const headers: Headers = new Headers();
+  headers.append('Content-Type', 'application/octet-stream');
+  headers.append('Ocp-Apim-Subscription-Key', VISION_API_KEY);
+
   const request: Request = new Request(
     url,
     {
       method: 'POST',
       body: b64toBinary(base64),
-      headers: [
-        ['Content-Type', 'application/octet-stream'],
-        ['Ocp-Apim-Subscription-Key', VISION_API_KEY]
-      ]
+      headers
     }
   );
 

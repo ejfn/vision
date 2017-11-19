@@ -6,15 +6,16 @@ export async function detectFaces(base64: string): Promise<Array<FaceResult>> {
 
   const url: string = `${FACE_API_URL}/detect?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender`;
 
+  const headers: Headers = new Headers();
+  headers.append('Content-Type', 'application/octet-stream');
+  headers.append('Ocp-Apim-Subscription-Key', FACE_API_KEY);
+
   const request: Request = new Request(
     url,
     {
       method: 'POST',
       body: b64toBinary(base64),
-      headers: [
-        ['Content-Type', 'application/octet-stream'],
-        ['Ocp-Apim-Subscription-Key', FACE_API_KEY]
-      ]
+      headers
     }
   );
 
