@@ -1,13 +1,15 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { Text, TouchableOpacity, ViewStyle } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 
 interface Props {
   icon?: string;
   title?: string;
   fontSize?: number;
   color?: string;
-  style?: ViewStyle;
+  // tslint:disable-next-line:no-any
+  style?: any;
+  disabled?: boolean;
   onPress(): void;
 }
 
@@ -19,6 +21,7 @@ export class Button extends React.PureComponent<Props, {}> {
     return (
       <TouchableOpacity
         onPress={this.props.onPress}
+        disabled={this.props.disabled}
         style={[
           {
             flexDirection: 'row',

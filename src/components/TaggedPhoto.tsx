@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, View, ViewStyle } from 'react-native';
+import { Image, View } from 'react-native';
 
 import { EmotionResult, FaceResult, VisionResult } from '../types/api';
 import { EmotionTag } from './EmotionTag';
@@ -7,7 +7,8 @@ import { FaceTag } from './FaceTag';
 import { VisionTag } from './VisionTag';
 
 interface Props {
-  style: ViewStyle;
+  // tslint:disable-next-line:no-any
+  style: any;
   imageUri: string;
   faceResults?: Array<FaceResult>;
   emotionResults?: Array<EmotionResult>;

@@ -1,6 +1,6 @@
+import { EMOTION_API_KEY, EMOTION_API_URL } from '../config';
 import { EmotionResult } from '../types/api';
 import { b64toBinary } from '../utils';
-import { EMOTION_API_KEY, EMOTION_API_URL } from './config';
 
 export async function detectEmotions(base64: string): Promise<Array<EmotionResult>> {
 

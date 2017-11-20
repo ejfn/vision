@@ -1,11 +1,26 @@
-import { ImagePicker, takeSnapshotAsync } from 'expo';
+import { AdMobBanner, ImagePicker, takeSnapshotAsync } from 'expo';
 import React from 'react';
-import { ActionSheetIOS, ActivityIndicator, Alert, Dimensions, Platform, Text, View } from 'react-native';
-import { NavigationAction, NavigationScreenProp, NavigationStackScreenOptions } from 'react-navigation';
+import {
+  ActionSheetIOS,
+  ActivityIndicator,
+  Alert,
+  Dimensions,
+  Platform,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
+import {
+  NavigationAction,
+  NavigationScreenConfigProps,
+  NavigationScreenProp,
+  NavigationStackScreenOptions
+} from 'react-navigation';
 
 import { detectEmotions } from '../api/emotion';
 import { detectFaces } from '../api/face';
 import { describeImage } from '../api/vision';
+import { PHOTO_SCREEN_AD } from '../config';
 import { APP_MODE_EMOTION, APP_MODE_FACE, APP_MODE_VISION } from '../constants';
 import { EmotionResult, FaceResult, VisionResult } from '../types/api';
 import { AppMode } from '../types/common';
@@ -14,7 +29,7 @@ import { TaggedPhoto } from './TaggedPhoto';
 
 const { height, width } = Dimensions.get('window');
 
-interface NavState {
+export interface NavState {
   params: {
     mode: AppMode;
     image: ImagePicker.ImageInfo;
@@ -36,13 +51,13 @@ interface State {
 
 export class PhotoScreen extends React.PureComponent<Props, State> {
 
-  public static navigationOptions: NavigationStackScreenOptions = {
-    title: 'Vision'
-  };
-
   public state: State = {
     isRequesting: false
   };
+
+  public static navigationOptions = (props: NavigationScreenConfigProps): NavigationStackScreenOptions => ({
+    title: `${props.navigation.state.params.title}`
+  })
 
   public componentDidMount(): void {
     this.setState((state: State) => ({ ...state, isRequesting: true }));
@@ -62,68 +77,36 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
     const imageSize: number = Math.min(height, width);
 
     return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: '#000000'
-        }}>
-        <View style={{
-          flex: 0.9,
-          justifyContent: 'center'
-        }}>
+      <View style={styles.container}>
+        <View style={styles.banner}>
+          <AdMobBanner bannerSize="smartBannerPortrait" adUnitID={PHOTO_SCREEN_AD} />
+        </View>
+        <View style={styles.main}>
           <TaggedPhoto
             ref="image"
             imageUri={image.uri}
             faceResults={this.state.faceResults}
             emotionResults={this.state.emotionResults}
             visionResult={this.state.visionResult}
-            style={{
-              width: imageSize,
-              height: imageSize,
-              justifyContent: 'center'
-            }}
+            style={[styles.photo, { width: imageSize, height: imageSize }]}
           />
           {
             this.state.isRequesting ?
-              <View
-                style={{
-                  position: 'absolute',
-                  alignSelf: 'center',
-                  padding: 20,
-                  borderRadius: 20,
-                  opacity: 0.8,
-                  backgroundColor: '#000000'
-                }}
-              >
+              <View style={styles.indicatorContainer} >
                 <ActivityIndicator size="large" />
-                <Text
-                  style={{
-                    color: '#eeeeee',
-                    fontSize: 12,
-                    marginTop: 10
-                  }}
-                >Processing...</Text>
+                <Text style={styles.indicatorText}>PROCESSING...</Text>
               </View>
               : null
           }
         </View>
-        <View
-          style={{
-            flex: 0.1,
-            justifyContent: 'flex-end'
-          }}
-        >
+        <View style={styles.bottom}>
           {
             !this.state.isRequesting && Platform.OS === 'ios' ?
               <Button
                 fontSize={28}
                 icon="ios-share-outline"
                 onPress={this.showShareActionSheet}
-                style={{
-                  alignSelf: 'center',
-                  backgroundColor: '#000000'
-                }}
-              />
+                style={styles.shareButton} />
               : null
           }
         </View>
@@ -190,3 +173,43 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
     );
   }
 }
+
+// tslint:disable-next-line:no-any
+const styles: any = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000000'
+  },
+  banner: {
+    flex: 0.1,
+    justifyContent: 'flex-start'
+  },
+  main: {
+    flex: 0.8,
+    justifyContent: 'center'
+  },
+  photo: {
+    justifyContent: 'center'
+  },
+  indicatorContainer: {
+    position: 'absolute',
+    alignSelf: 'center',
+    padding: 20,
+    borderRadius: 20,
+    opacity: 0.8,
+    backgroundColor: '#000000'
+  },
+  indicatorText: {
+    color: '#eeeeee',
+    fontSize: 12,
+    marginTop: 10
+  },
+  bottom: {
+    flex: 0.1,
+    justifyContent: 'flex-end'
+  },
+  shareButton: {
+    alignSelf: 'center',
+    backgroundColor: '#000000'
+  }
+});

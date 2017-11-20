@@ -1,9 +1,10 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { ImagePicker } from 'expo';
+import { AdMobBanner, AdMobInterstitial, ImagePicker } from 'expo';
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { NavigationScreenProp, NavigationStackScreenOptions } from 'react-navigation';
 
+import { INTERSTITIAL_AD, MAIN_SCREEN_AD } from '../config';
 import { APP_MODE_EMOTION, APP_MODE_FACE, APP_MODE_VISION } from '../constants';
 import { AppMode } from '../types/common';
 import { Button } from './Button';
@@ -22,7 +23,7 @@ const LOGO: { [key: string]: string } = {
 
 const TITLE: { [key: string]: string } = {
   Face: 'Face Detection',
-  Emotion: 'Emotion Detection',
+  Emotion: 'Mood Detection',
   Vision: 'Image Tagging'
 };
 
@@ -44,17 +45,20 @@ interface Props {
 
 interface State {
   mode: AppMode;
+  count: number;
+  disabled: boolean;
 }
 
 export class MainScreen extends React.PureComponent<Props, State> {
 
   public static navigationOptions: NavigationStackScreenOptions = {
-    title: 'Vision',
-    headerBackTitle: 'Back'
+    header: null
   };
 
   public state: State = {
-    mode: MODES[0]
+    mode: MODES[0],
+    count: 0,
+    disabled: false
   };
 
   public render(): JSX.Element {
@@ -62,66 +66,46 @@ export class MainScreen extends React.PureComponent<Props, State> {
     const color: string = COLOR[this.state.mode];
 
     return (
-      <View
-        style={{
-          flex: 1,
-          paddingHorizontal: 10
-        }}
-      >
-        <View
-          style={{
-            flex: 0.5,
-            justifyContent: 'flex-end',
-            alignItems: 'center'
-          }}
-        >
-          <TouchableOpacity
-            onPress={this.switchMode}
-            style={{
-              alignItems: 'center'
-            }}
-          >
+      <View style={styles.container} >
+        <View style={styles.banner}>
+          <AdMobBanner
+            bannerSize="smartBannerPortrait"
+            adUnitID={MAIN_SCREEN_AD}
+            onAdFailedToLoad={this.onAdFailedToLoad} />
+        </View>
+        <View style={styles.main} >
+          <TouchableOpacity onPress={this.switchMode} style={styles.appSwitch}>
             <MaterialCommunityIcons name={LOGO[this.state.mode]} size={100} color={color} />
-            <Text style={{ fontSize: 20, color: color }}>{TITLE[this.state.mode]}</Text>
+            <Text style={[styles.appSwtichText, { color: color }]}>{TITLE[this.state.mode]}</Text>
             <Text style={{ color: color }}>Tap me to switch mode!</Text>
           </TouchableOpacity>
         </View>
-        <View
-          style={{
-            flex: 0.5,
-            justifyContent: 'flex-end',
-            alignItems: 'center'
-          }}
-        >
+        <View style={styles.bottom} >
           <Button
             icon="md-camera"
             title="Take A Photo"
-            style={{
-              alignSelf: 'stretch',
-              marginVertical: 5,
-              backgroundColor: color
-            }}
+            style={[styles.button, { backgroundColor: color }]}
             onPress={this.pickFromCamera}
+            disabled={this.state.disabled}
           />
           <Button
             icon="md-photos"
             title="Pick From Library"
-            style={{
-              alignSelf: 'stretch',
-              marginVertical: 5,
-              backgroundColor: color
-            }}
+            style={[styles.button, { backgroundColor: color }]}
             onPress={this.pickFromLibrary}
+            disabled={this.state.disabled}
           />
-          <Text
-            style={{
-              color: color,
-              marginVertical: 10
-            }}
-          >Powered by {API[this.state.mode]}</Text>
+          <Text style={[styles.powerdby, { color: color }]}>
+            Powered by {API[this.state.mode]}
+          </Text>
         </View>
       </View>
     );
+  }
+
+  private onAdFailedToLoad = (_: Error): void => {
+    this.setState((state: State) => ({ ...state, disabled: true }));
+    Alert.alert('Oops!', 'Failed to load Ad!');
   }
 
   private switchMode = (): void => {
@@ -138,7 +122,7 @@ export class MainScreen extends React.PureComponent<Props, State> {
     });
 
     if (!result.cancelled) {
-      this.imageSelected(result);
+      this.interstitialCall(() => this.imageSelected(result));
     }
   }
 
@@ -149,11 +133,64 @@ export class MainScreen extends React.PureComponent<Props, State> {
     });
 
     if (!result.cancelled) {
-      this.imageSelected(result);
+      this.interstitialCall(() => this.imageSelected(result));
+    }
+  }
+
+  private interstitialCall = (callback: () => void): void => {
+    if (this.state.count >= 10) {
+      AdMobInterstitial.setAdUnitID(INTERSTITIAL_AD);
+      AdMobInterstitial.addEventListener(
+        'adClosed',
+        () => {
+          this.setState((state: State) => ({ ...state, count: 1 }));
+          callback();
+        },
+        { once: true }
+      );
+      AdMobInterstitial.requestAd(() => AdMobInterstitial.showAd());
+    } else {
+      this.setState((state: State) => ({ ...state, count: state.count + 1 }));
+      callback();
     }
   }
 
   private imageSelected = (image: ImagePicker.ImageInfo): void => {
-    this.props.navigation.navigate('Photo', { mode: this.state.mode, image });
+    this.props.navigation.navigate('Photo', { mode: this.state.mode, title: TITLE[this.state.mode], image });
   }
 }
+
+// tslint:disable-next-line:no-any
+const styles: any = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  banner: {
+    flex: 0.1,
+    justifyContent: 'flex-end'
+  },
+  main: {
+    flex: 0.5,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  appSwitch: {
+    alignItems: 'center'
+  },
+  appSwitchText: {
+    fontSize: 20
+  },
+  bottom: {
+    flex: 0.4,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    padding: 10
+  },
+  button: {
+    alignSelf: 'stretch',
+    marginVertical: 5
+  },
+  poweredby: {
+    marginVertical: 10
+  }
+});

@@ -1,6 +1,6 @@
+import { VISION_API_KEY, VISION_API_URL } from '../config';
 import { VisionResult } from '../types/api';
 import { b64toBinary } from '../utils';
-import { VISION_API_KEY, VISION_API_URL } from './config';
 
 export async function describeImage(base64: string): Promise<VisionResult> {
 

@@ -1,6 +1,6 @@
+import { FACE_API_KEY, FACE_API_URL } from '../config';
 import { FaceResult } from '../types/api';
 import { b64toBinary } from '../utils';
-import { FACE_API_KEY, FACE_API_URL } from './config';
 
 export async function detectFaces(base64: string): Promise<Array<FaceResult>> {
 

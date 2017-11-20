@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Vision",
-    "description": "A computer vision app",
+    "description": "an AI vision app",
     "slug": "vision",
     "privacy": "public",
     "sdkVersion": "23.0.0",
@@ -15,7 +15,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "bundleIdentifier": "com.fanstek.vision"
+    },
+    "android": {
+      "package": "com.fanstek.vision"
     }
   }
 }

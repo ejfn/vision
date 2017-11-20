@@ -3,6 +3,25 @@ declare module 'expo' {
     import { Component } from 'react';
     import { ViewStyle, ViewProperties, ColorPropType } from 'react-native';
 
+    export interface AdMobBannerProps {
+        bannerSize: string;
+        adUnitID: string;
+        onAdLoaded?: () => void;
+        onAdFailedToLoad?: (error: Error) => void;
+    }
+    export class AdMobBanner extends React.Component<AdMobBannerProps, {}> { }
+
+    export interface AdMobInterstitialProps {
+
+    }
+    export namespace AdMobInterstitial {
+        export function setAdUnitID(adUnitID: string);
+        export function requestAd(callback?: () => void);
+        export function showAd(callback?: () => void);
+        export function addEventListener(evt: string, callback: () => void, options: {});
+        export function removeEventListener(evt: string);
+    }
+
     /**
      * Expo Accelerometer
      */

@@ -7,13 +7,14 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "tslint": "tslint --project tsconfig.json -t stylish --type-check",
+    "tslint": "tslint --project tsconfig.json -t stylish --project",
     "prebuild": "rimraf artifacts",
     "build": "tsc",
     "watch": "npm run build -- --watch",
     "qualitycheck": "npm-run-all typecheck tslint"
   },
   "dependencies": {
+    "@expo/vector-icons": "^6.2.0",
     "@types/base-64": "^0.1.2",
     "base-64": "^0.1.0",
     "expo": "^23.0.0",
