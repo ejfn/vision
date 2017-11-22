@@ -3,11 +3,14 @@ declare module 'expo' {
     import { Component } from 'react';
     import { ViewStyle, ViewProperties, ColorPropType } from 'react-native';
 
+    namespace AdMobBanner {
+        export const simulatorId: string;
+    }
     export interface AdMobBannerProps {
         bannerSize: string;
         adUnitID: string;
-        onAdLoaded?: () => void;
-        onAdFailedToLoad?: (error: Error) => void;
+        testDeviceID?: string;
+        didFailToReceiveAdWithError?: (error: Error) => void;
     }
     export class AdMobBanner extends React.Component<AdMobBannerProps, {}> { }
 
@@ -15,7 +18,11 @@ declare module 'expo' {
 
     }
     export namespace AdMobInterstitial {
+
+        export const simulatorId: string;
+
         export function setAdUnitID(adUnitID: string);
+        export function setTestDeviceID(device: string);
         export function requestAd(callback?: () => void);
         export function showAd(callback?: () => void);
         export function addEventListener(evt: string, callback: () => void, options: {});

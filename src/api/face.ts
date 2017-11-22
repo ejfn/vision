@@ -1,14 +1,14 @@
-import { FACE_API_KEY, FACE_API_URL } from '../config';
+import { ApiKey, getApiKey } from '../apiSelector';
 import { FaceResult } from '../types/api';
 import { b64toBinary } from '../utils';
 
 export async function detectFaces(base64: string): Promise<Array<FaceResult>> {
+  const apiKey: ApiKey = getApiKey('Face');
 
-  const url: string = `${FACE_API_URL}/detect?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender`;
-
+  const url: string = `${apiKey.url}/detect?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender`;
   const headers: Headers = new Headers();
   headers.append('Content-Type', 'application/octet-stream');
-  headers.append('Ocp-Apim-Subscription-Key', FACE_API_KEY);
+  headers.append('Ocp-Apim-Subscription-Key', apiKey.key);
 
   const request: Request = new Request(
     url,

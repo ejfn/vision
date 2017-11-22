@@ -1,14 +1,14 @@
-import { EMOTION_API_KEY, EMOTION_API_URL } from '../config';
+import { ApiKey, getApiKey } from '../apiSelector';
 import { EmotionResult } from '../types/api';
 import { b64toBinary } from '../utils';
 
 export async function detectEmotions(base64: string): Promise<Array<EmotionResult>> {
+  const apiKey: ApiKey = getApiKey('Emotion');
 
-  const url: string = `${EMOTION_API_URL}/recognize`;
-
+  const url: string = `${apiKey.url}/recognize`;
   const headers: Headers = new Headers();
   headers.append('Content-Type', 'application/octet-stream');
-  headers.append('Ocp-Apim-Subscription-Key', EMOTION_API_KEY);
+  headers.append('Ocp-Apim-Subscription-Key', apiKey.key);
 
   const request: Request = new Request(
     url,

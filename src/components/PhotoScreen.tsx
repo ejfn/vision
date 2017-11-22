@@ -17,13 +17,13 @@ import {
   NavigationStackScreenOptions
 } from 'react-navigation';
 
+import { getBannerId } from '../adSelector';
 import { detectEmotions } from '../api/emotion';
 import { detectFaces } from '../api/face';
 import { describeImage } from '../api/vision';
-import { PHOTO_SCREEN_AD } from '../config';
-import { APP_MODE_EMOTION, APP_MODE_FACE, APP_MODE_VISION } from '../constants';
+import { TEST_DEVICE } from '../config';
+import { AppMode } from '../constants';
 import { EmotionResult, FaceResult, VisionResult } from '../types/api';
-import { AppMode } from '../types/common';
 import { Button } from './Button';
 import { TaggedPhoto } from './TaggedPhoto';
 
@@ -79,7 +79,10 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
     return (
       <View style={styles.container}>
         <View style={styles.banner}>
-          <AdMobBanner bannerSize="smartBannerPortrait" adUnitID={PHOTO_SCREEN_AD} />
+          <AdMobBanner
+            bannerSize="smartBannerPortrait"
+            adUnitID={getBannerId(1)}
+            testDeviceID={TEST_DEVICE} />
         </View>
         <View style={styles.main}>
           <TaggedPhoto
@@ -126,17 +129,17 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
     try {
       const mode: AppMode = this.props.navigation.state.params.mode;
       switch (mode) {
-        case APP_MODE_FACE: {
+        case 'Face': {
           const response: Array<FaceResult> = await detectFaces(base64);
           this.setState((state: State): State => ({ ...state, isRequesting: false, faceResults: response }));
           break;
         }
-        case APP_MODE_EMOTION: {
+        case 'Emotion': {
           const response: Array<EmotionResult> = await detectEmotions(base64);
           this.setState((state: State): State => ({ ...state, isRequesting: false, emotionResults: response }));
           break;
         }
-        case APP_MODE_VISION: {
+        case 'Vision': {
           const response: VisionResult = await describeImage(base64);
           this.setState((state: State): State => ({ ...state, isRequesting: false, visionResult: response }));
           break;

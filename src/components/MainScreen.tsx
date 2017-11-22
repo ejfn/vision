@@ -4,39 +4,15 @@ import React from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { NavigationScreenProp, NavigationStackScreenOptions } from 'react-navigation';
 
-import { INTERSTITIAL_AD, MAIN_SCREEN_AD } from '../config';
-import { APP_MODE_EMOTION, APP_MODE_FACE, APP_MODE_VISION } from '../constants';
-import { AppMode } from '../types/common';
+import { getBannerId, getInterstitialId } from '../adSelector';
+import { TEST_DEVICE } from '../config';
+import { AppMode, MAIN_SCREEN_CONFIG, MainScreenConfig } from '../constants';
 import { Button } from './Button';
 
-const COLOR: { [key: string]: string } = {
-  Face: '#4169e1',
-  Emotion: '#ba55d3',
-  Vision: '#2e8b57'
-};
-
-const LOGO: { [key: string]: string } = {
-  Face: 'emoticon',
-  Emotion: 'emoticon-devil',
-  Vision: 'tag-text-outline'
-};
-
-const TITLE: { [key: string]: string } = {
-  Face: 'Face Detection',
-  Emotion: 'Mood Detection',
-  Vision: 'Image Tagging'
-};
-
-const API: { [key: string]: string } = {
-  Face: 'Microsoft Face API',
-  Emotion: 'Microsoft Emotion API',
-  Vision: 'Microsoft Computer Vision API'
-};
-
 const MODES: Array<AppMode> = [
-  APP_MODE_FACE,
-  APP_MODE_EMOTION,
-  APP_MODE_VISION
+  'Face',
+  'Emotion',
+  'Vision'
 ];
 
 interface Props {
@@ -63,40 +39,41 @@ export class MainScreen extends React.PureComponent<Props, State> {
 
   public render(): JSX.Element {
 
-    const color: string = COLOR[this.state.mode];
+    const config: MainScreenConfig = MAIN_SCREEN_CONFIG[this.state.mode];
 
     return (
       <View style={styles.container} >
         <View style={styles.banner}>
           <AdMobBanner
             bannerSize="smartBannerPortrait"
-            adUnitID={MAIN_SCREEN_AD}
-            onAdFailedToLoad={this.onAdFailedToLoad} />
+            adUnitID={getBannerId(0)}
+            testDeviceID={TEST_DEVICE}
+            didFailToReceiveAdWithError={this.onAdFailedToLoad} />
         </View>
         <View style={styles.main} >
           <TouchableOpacity onPress={this.switchMode} style={styles.appSwitch}>
-            <MaterialCommunityIcons name={LOGO[this.state.mode]} size={100} color={color} />
-            <Text style={[styles.appSwtichText, { color: color }]}>{TITLE[this.state.mode]}</Text>
-            <Text style={{ color: color }}>Tap me to switch mode!</Text>
+            <MaterialCommunityIcons name={config.logo} size={100} color={config.color} />
+            <Text style={[styles.appSwtichText, { color: config.color }]}>{config.title}</Text>
+            <Text style={{ color: config.color }}>Tap me to switch mode!</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.bottom} >
           <Button
             icon="md-camera"
             title="Take A Photo"
-            style={[styles.button, { backgroundColor: color }]}
+            style={[styles.button, { backgroundColor: config.color }]}
             onPress={this.pickFromCamera}
             disabled={this.state.disabled}
           />
           <Button
             icon="md-photos"
             title="Pick From Library"
-            style={[styles.button, { backgroundColor: color }]}
+            style={[styles.button, { backgroundColor: config.color }]}
             onPress={this.pickFromLibrary}
             disabled={this.state.disabled}
           />
-          <Text style={[styles.powerdby, { color: color }]}>
-            Powered by {API[this.state.mode]}
+          <Text style={[styles.powerdby, { color: config.color }]}>
+            Powered by {config.tag}
           </Text>
         </View>
       </View>
@@ -105,7 +82,7 @@ export class MainScreen extends React.PureComponent<Props, State> {
 
   private onAdFailedToLoad = (_: Error): void => {
     this.setState((state: State) => ({ ...state, disabled: true }));
-    Alert.alert('Oops!', 'Failed to load Ad!');
+    Alert.alert('Sorry', 'Couldn\'t display Ad from Google.');
   }
 
   private switchMode = (): void => {
@@ -122,7 +99,9 @@ export class MainScreen extends React.PureComponent<Props, State> {
     });
 
     if (!result.cancelled) {
-      this.interstitialCall(() => this.imageSelected(result));
+      this.interstitialCall(() => {
+        this.imageSelected(result);
+      });
     }
   }
 
@@ -133,15 +112,18 @@ export class MainScreen extends React.PureComponent<Props, State> {
     });
 
     if (!result.cancelled) {
-      this.interstitialCall(() => this.imageSelected(result));
+      this.interstitialCall(() => {
+        this.imageSelected(result);
+      });
     }
   }
 
   private interstitialCall = (callback: () => void): void => {
     if (this.state.count >= 10) {
-      AdMobInterstitial.setAdUnitID(INTERSTITIAL_AD);
+      AdMobInterstitial.setAdUnitID(getInterstitialId(0));
+      AdMobInterstitial.setTestDeviceID(TEST_DEVICE);
       AdMobInterstitial.addEventListener(
-        'adClosed',
+        'interstitialDidClose',
         () => {
           this.setState((state: State) => ({ ...state, count: 1 }));
           callback();
@@ -156,7 +138,8 @@ export class MainScreen extends React.PureComponent<Props, State> {
   }
 
   private imageSelected = (image: ImagePicker.ImageInfo): void => {
-    this.props.navigation.navigate('Photo', { mode: this.state.mode, title: TITLE[this.state.mode], image });
+    const config: MainScreenConfig = MAIN_SCREEN_CONFIG[this.state.mode];
+    this.props.navigation.navigate('Photo', { mode: this.state.mode, title: config.title, image });
   }
 }
 

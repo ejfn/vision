@@ -1,14 +1,14 @@
-import { VISION_API_KEY, VISION_API_URL } from '../config';
+import { ApiKey, getApiKey } from '../apiSelector';
 import { VisionResult } from '../types/api';
 import { b64toBinary } from '../utils';
 
 export async function describeImage(base64: string): Promise<VisionResult> {
+  const apiKey: ApiKey = getApiKey('Vision');
 
-  const url: string = `${VISION_API_URL}/describe`;
-
+  const url: string = `${apiKey.url}/describe`;
   const headers: Headers = new Headers();
   headers.append('Content-Type', 'application/octet-stream');
-  headers.append('Ocp-Apim-Subscription-Key', VISION_API_KEY);
+  headers.append('Ocp-Apim-Subscription-Key', apiKey.key);
 
   const request: Request = new Request(
     url,
