@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, PixelRatio, View } from 'react-native';
 
-import { EmotionResult, EmotionScores } from '../types/api';
+import { EmotionResult, EmotionScores } from '../api/types';
 
 // tslint:disable-next-line:no-any
 const ICONS: { [key: string]: any } = {

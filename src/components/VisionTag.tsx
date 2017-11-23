@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Text, View, ViewStyle } from 'react-native';
 
-import { VisionResult } from '../types/api';
+import { VisionResult } from '../api/types';
 
 interface Props {
   vision: VisionResult;

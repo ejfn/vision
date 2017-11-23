@@ -1,4 +1,4 @@
-import { API_KEYS, Region } from './config';
+import { API_KEYS, AzureLocation } from './config';
 import { AppMode } from './constants';
 
 export interface ApiKey {
@@ -6,13 +6,12 @@ export interface ApiKey {
   key: string;
 }
 
-export type RegionalApiKeys = Partial<Record<Region, ApiKey>>;
+export type RegionalApiKeys = Partial<Record<AzureLocation, ApiKey>>;
 
 export function getApiKey(mode: AppMode): ApiKey {
-  const region: Region = 'westus';
-  const regionalApiKeys: RegionalApiKeys = API_KEYS[mode];
-  const apiKey: ApiKey | undefined = regionalApiKeys[region];
-
+  const region: AzureLocation = 'westus';
+  const regionalApiKeys = API_KEYS[mode];
+  const apiKey = regionalApiKeys[region];
   // tslint:disable-next-line:no-non-null-assertion
   return apiKey !== undefined ? apiKey : regionalApiKeys.westus!;
 }

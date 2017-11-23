@@ -1,8 +1,14 @@
 import { Asset } from 'expo';
-import { NavigationContainer, StackNavigator } from 'react-navigation';
+import * as React from 'react';
+import { StackNavigator } from 'react-navigation';
+import { Provider } from 'react-redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 
 import { MainScreen } from './components/MainScreen';
 import { PhotoScreen } from './components/PhotoScreen';
+import * as reducers from './reducers';
+import { rootSaga } from './sagas';
 
 // tslint:disable:no-require-imports no-var-requires
 Asset.fromModule(require('../assets/emotions/anger.png')).downloadAsync();
@@ -15,8 +21,28 @@ Asset.fromModule(require('../assets/emotions/sadness.png')).downloadAsync();
 Asset.fromModule(require('../assets/emotions/surprise.png')).downloadAsync();
 // tslint:enable:no-require-imports no-var-requires
 
+const sagaMiddleware = createSagaMiddleware();
+const rootReducer = combineReducers(reducers);
+
+const store = createStore(
+    rootReducer,
+    applyMiddleware(sagaMiddleware)
+);
+
+sagaMiddleware.run(rootSaga);
+
 // tslint:disable-next-line:variable-name
-export const App: NavigationContainer = StackNavigator({
+const AppNavigator = StackNavigator({
     Main: { screen: MainScreen },
     Photo: { screen: PhotoScreen }
 });
+
+export class App extends React.PureComponent {
+    public render(): JSX.Element {
+        return (
+            <Provider store={store}>
+                <AppNavigator />
+            </Provider>
+        );
+    }
+}

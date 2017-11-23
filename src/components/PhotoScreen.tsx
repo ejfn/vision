@@ -18,12 +18,12 @@ import {
 } from 'react-navigation';
 
 import { getBannerId } from '../adSelector';
-import { detectEmotions } from '../api/emotion';
-import { detectFaces } from '../api/face';
-import { describeImage } from '../api/vision';
+import { postRecognizeEmotion } from '../api/emotion';
+import { postDetectFace } from '../api/face';
+import { EmotionResult, FaceResult, VisionResult } from '../api/types';
+import { postDescribePhoto } from '../api/vision';
 import { TEST_DEVICE } from '../config';
 import { AppMode } from '../constants';
-import { EmotionResult, FaceResult, VisionResult } from '../types/api';
 import { Button } from './Button';
 import { TaggedPhoto } from './TaggedPhoto';
 
@@ -130,17 +130,17 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
       const mode: AppMode = this.props.navigation.state.params.mode;
       switch (mode) {
         case 'Face': {
-          const response: Array<FaceResult> = await detectFaces(base64);
+          const response: Array<FaceResult> = await postDetectFace(base64);
           this.setState((state: State): State => ({ ...state, isRequesting: false, faceResults: response }));
           break;
         }
         case 'Emotion': {
-          const response: Array<EmotionResult> = await detectEmotions(base64);
+          const response: Array<EmotionResult> = await postRecognizeEmotion(base64);
           this.setState((state: State): State => ({ ...state, isRequesting: false, emotionResults: response }));
           break;
         }
         case 'Vision': {
-          const response: VisionResult = await describeImage(base64);
+          const response: VisionResult = await postDescribePhoto(base64);
           this.setState((state: State): State => ({ ...state, isRequesting: false, visionResult: response }));
           break;
         }

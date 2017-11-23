@@ -1,8 +1,8 @@
 import { ApiKey, getApiKey } from '../apiSelector';
-import { EmotionResult } from '../types/api';
 import { b64toBinary } from '../utils';
+import { EmotionResult } from './types';
 
-export async function detectEmotions(base64: string): Promise<Array<EmotionResult>> {
+export async function postRecognizeEmotion(base64: string): Promise<Array<EmotionResult>> {
   const apiKey: ApiKey = getApiKey('Emotion');
 
   const url: string = `${apiKey.url}/recognize`;

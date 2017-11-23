@@ -1,8 +1,8 @@
 import { ApiKey, getApiKey } from '../apiSelector';
-import { FaceResult } from '../types/api';
 import { b64toBinary } from '../utils';
+import { FaceResult } from './types';
 
-export async function detectFaces(base64: string): Promise<Array<FaceResult>> {
+export async function postDetectFace(base64: string): Promise<Array<FaceResult>> {
   const apiKey: ApiKey = getApiKey('Face');
 
   const url: string = `${apiKey.url}/detect?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender`;

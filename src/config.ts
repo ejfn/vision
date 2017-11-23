@@ -2,7 +2,7 @@ import { AdUnit } from './adSelector';
 import { RegionalApiKeys } from './apiSelector';
 import { AppMode } from './constants';
 
-export type Region = 'westus' | 'australiaeast' | 'southeastasia' | 'northeurope';
+export type AzureLocation = 'westus' | 'australiaeast' | 'southeastasia' | 'northeurope';
 
 export const API_KEYS: Record<AppMode, RegionalApiKeys> = {
   Face: {

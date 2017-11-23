@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { PixelRatio, Text, View } from 'react-native';
 
-import { FaceAttributes, FaceRectangle, FaceResult } from '../types/api';
+import { FaceAttributes, FaceRectangle, FaceResult } from '../api/types';
 
 const LABEL_WIDTH: number = 40;
 const LABEL_HEIGHT: number = 22;

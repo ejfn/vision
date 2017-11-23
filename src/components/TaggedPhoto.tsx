@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, View } from 'react-native';
 
-import { EmotionResult, FaceResult, VisionResult } from '../types/api';
+import { EmotionResult, FaceResult, VisionResult } from '../api/types';
 import { EmotionTag } from './EmotionTag';
 import { FaceTag } from './FaceTag';
 import { VisionTag } from './VisionTag';

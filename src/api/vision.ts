@@ -1,8 +1,8 @@
 import { ApiKey, getApiKey } from '../apiSelector';
-import { VisionResult } from '../types/api';
 import { b64toBinary } from '../utils';
+import { VisionResult } from './types';
 
-export async function describeImage(base64: string): Promise<VisionResult> {
+export async function postDescribePhoto(base64: string): Promise<VisionResult> {
   const apiKey: ApiKey = getApiKey('Vision');
 
   const url: string = `${apiKey.url}/describe`;
