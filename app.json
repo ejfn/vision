@@ -15,11 +15,16 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": false,
-      "bundleIdentifier": "com.fanstek.vision"
+      "bundleIdentifier": "com.fanstek.vision",
+      "buildNumber": "1.0.0",
+      "supportsTablet": false
     },
     "android": {
-      "package": "com.fanstek.vision"
+      "package": "com.fanstek.vision",
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA"
+      ]
     }
   }
 }

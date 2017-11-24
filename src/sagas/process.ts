@@ -8,6 +8,7 @@ import { postDescribePhoto } from '../api/vision';
 
 function* detectFaceSaga(action: typeof actions.detectFace.shape): SagaIterator {
   try {
+    yield put(actions.describePhotoStart);
     const result = yield call(
       postDetectFace,
       action.payload.base64
@@ -21,6 +22,7 @@ function* detectFaceSaga(action: typeof actions.detectFace.shape): SagaIterator 
 
 function* recognizeEmotionSaga(action: typeof actions.recognizeEmotion.shape): SagaIterator {
   try {
+    yield put(actions.recognizeEmotionStart);
     const result = yield call(
       postRecognizeEmotion,
       action.payload.base64
@@ -34,6 +36,7 @@ function* recognizeEmotionSaga(action: typeof actions.recognizeEmotion.shape): S
 
 function* describePhotoSaga(action: typeof actions.describePhoto.shape): SagaIterator {
   try {
+    yield put(actions.describePhotoStart);
     const result = yield call(
       postDescribePhoto,
       action.payload.base64

@@ -17,13 +17,11 @@ import {
   NavigationStackScreenOptions
 } from 'react-navigation';
 
+import { connect, MapStateToProps } from 'react-redux';
+import { describePhoto, detectFace, recognizeEmotion } from '../actions/process';
 import { getBannerId } from '../adSelector';
-import { postRecognizeEmotion } from '../api/emotion';
-import { postDetectFace } from '../api/face';
-import { EmotionResult, FaceResult, VisionResult } from '../api/types';
-import { postDescribePhoto } from '../api/vision';
 import { TEST_DEVICE } from '../config';
-import { AppMode } from '../constants';
+import { AppMode, AppState, ProcessState } from '../store';
 import { Button } from './Button';
 import { TaggedPhoto } from './TaggedPhoto';
 
@@ -31,44 +29,43 @@ const { height, width } = Dimensions.get('window');
 
 export interface NavState {
   params: {
-    mode: AppMode;
     image: ImagePicker.ImageInfo;
     fileToShare?: string;
   };
 }
 
-interface Props {
+interface OwnProps {
   navigation: NavigationScreenProp<NavState, NavigationAction>;
 }
 
-interface State {
-  isRequesting: boolean;
-  faceResults?: Array<FaceResult>;
-  emotionResults?: Array<EmotionResult>;
-  visionResult?: VisionResult;
-  error?: Error;
+interface StateProps {
+  appMode: AppMode;
+  processState: ProcessState;
 }
 
-export class PhotoScreen extends React.PureComponent<Props, State> {
+interface DispatchProps {
+  detectFace: typeof detectFace;
+  recognizeEmotion: typeof recognizeEmotion;
+  describePhoto: typeof describePhoto;
+}
 
-  public state: State = {
-    isRequesting: false
-  };
+class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & DispatchProps> {
 
-  public static navigationOptions = (props: NavigationScreenConfigProps): NavigationStackScreenOptions => ({
-    title: `${props.navigation.state.params.title}`
-  })
+  public static navigationOptions = (props: NavigationScreenConfigProps): NavigationStackScreenOptions => {
+    return {
+      title: `${props.navigation.state.params.title}`
+    };
+  }
 
   public componentDidMount(): void {
-    this.setState((state: State) => ({ ...state, isRequesting: true }));
     setTimeout(this.process, 1000);
   }
 
   public render(): JSX.Element {
-    if (this.state.error !== undefined) {
-      Alert.alert('Oops!', this.state.error.message, [{
+    if (this.props.processState.error !== null) {
+      Alert.alert('Oops!', this.props.processState.error.message, [{
         text: 'OK', onPress: (): void => {
-          this.setState((state: State) => ({ ...state, error: undefined }));
+          //this.setState((state: State) => ({ ...state, error: undefined }));
         }
       }]);
     }
@@ -88,13 +85,13 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
           <TaggedPhoto
             ref="image"
             imageUri={image.uri}
-            faceResults={this.state.faceResults}
-            emotionResults={this.state.emotionResults}
-            visionResult={this.state.visionResult}
+            faceResults={this.props.appMode === 'Face' ? this.props.processState.faceResult : null}
+            emotionResults={this.props.appMode === 'Emotion' ? this.props.processState.emotionResult : null}
+            visionResult={this.props.appMode === 'Vision' ? this.props.processState.visionResult : null}
             style={[styles.photo, { width: imageSize, height: imageSize }]}
           />
           {
-            this.state.isRequesting ?
+            this.props.processState.status === 'requesting' ?
               <View style={styles.indicatorContainer} >
                 <ActivityIndicator size="large" />
                 <Text style={styles.indicatorText}>PROCESSING...</Text>
@@ -104,7 +101,7 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
         </View>
         <View style={styles.bottom}>
           {
-            !this.state.isRequesting && Platform.OS === 'ios' ?
+            this.props.processState.status === 'success' && Platform.OS === 'ios' ?
               <Button
                 fontSize={28}
                 icon="ios-share-outline"
@@ -126,29 +123,18 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
       height: width,
       width
     });
-    try {
-      const mode: AppMode = this.props.navigation.state.params.mode;
-      switch (mode) {
-        case 'Face': {
-          const response: Array<FaceResult> = await postDetectFace(base64);
-          this.setState((state: State): State => ({ ...state, isRequesting: false, faceResults: response }));
-          break;
-        }
-        case 'Emotion': {
-          const response: Array<EmotionResult> = await postRecognizeEmotion(base64);
-          this.setState((state: State): State => ({ ...state, isRequesting: false, emotionResults: response }));
-          break;
-        }
-        case 'Vision': {
-          const response: VisionResult = await postDescribePhoto(base64);
-          this.setState((state: State): State => ({ ...state, isRequesting: false, visionResult: response }));
-          break;
-        }
-        default:
-          return;
-      }
-    } catch (e) {
-      this.setState((state: State) => ({ ...state, isRequesting: false, error: e }));
+    switch (this.props.appMode) {
+      case 'Face':
+        this.props.detectFace({ base64 });
+        break;
+      case 'Emotion':
+        this.props.recognizeEmotion({ base64 });
+        break;
+      case 'Vision':
+        this.props.describePhoto({ base64 });
+        break;
+      default:
+        return;
     }
   }
 
@@ -176,6 +162,21 @@ export class PhotoScreen extends React.PureComponent<Props, State> {
     );
   }
 }
+
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => {
+  return {
+    appMode: state.appMode,
+    processState: state.process
+  };
+};
+
+// tslint:disable-next-line:variable-name
+export const PhotoScreen = connect<StateProps, DispatchProps, OwnProps>(
+  mapStateToProps, {
+    detectFace,
+    recognizeEmotion,
+    describePhoto
+  })(InnerPhotoScreen);
 
 // tslint:disable-next-line:no-any
 const styles: any = StyleSheet.create({

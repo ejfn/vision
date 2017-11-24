@@ -1,6 +1,6 @@
 import { AdUnit } from './adSelector';
 import { RegionalApiKeys } from './apiSelector';
-import { AppMode } from './constants';
+import { AppMode } from './store';
 
 export type AzureLocation = 'westus' | 'australiaeast' | 'southeastasia' | 'northeurope';
 

@@ -1,13 +1,13 @@
-export type AppMode = 'Face' | 'Emotion' | 'Vision';
+import { AppMode } from './store';
 
-export interface MainScreenConfig {
+export interface AppConfig {
   color: string;
   logo: string;
   title: string;
   tag: string;
 }
 
-export const MAIN_SCREEN_CONFIG: Record<AppMode, MainScreenConfig> = {
+export const APP_CONFIG: Record<AppMode, AppConfig> = {
   Face: {
     color: '#4169e1',
     logo: 'emoticon',

@@ -8,6 +8,7 @@ import createSagaMiddleware from 'redux-saga';
 import { MainScreen } from './components/MainScreen';
 import { PhotoScreen } from './components/PhotoScreen';
 import * as reducers from './reducers';
+import { INITIAL_STATE } from './reducers/initialState';
 import { rootSaga } from './sagas';
 
 // tslint:disable:no-require-imports no-var-requires
@@ -26,6 +27,7 @@ const rootReducer = combineReducers(reducers);
 
 const store = createStore(
     rootReducer,
+    INITIAL_STATE,
     applyMiddleware(sagaMiddleware)
 );
 

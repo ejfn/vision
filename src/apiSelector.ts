@@ -1,5 +1,5 @@
 import { API_KEYS, AzureLocation } from './config';
-import { AppMode } from './constants';
+import { AppMode } from './store';
 
 export interface ApiKey {
   url: string;

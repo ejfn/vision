@@ -1,17 +1,18 @@
 import { AppState } from '../store';
 
 export const INITIAL_STATE: AppState = {
-    processState: {
+    appMode: 'Face',
+    process: {
         status: 'ready',
         error: null,
         faceResult: null,
         emotionResult: null,
         visionResult: null,
-        totalCalled: 0,
-        disabled: false
+        totalCalled: 0
     },
     geoLocation: {
         freeGeoIp: {},
         azureLocation: null
-    }
+    },
+    disabled: false
 };

@@ -3,21 +3,20 @@ import { ProcessState } from '../store';
 import { INITIAL_STATE } from './initialState';
 
 export function processReducer(
-  state: ProcessState = INITIAL_STATE.processState,
+  state: ProcessState = INITIAL_STATE.process,
   action:
-    typeof actions.detectFace.shape |
+    typeof actions.detectFaceStart.shape |
     typeof actions.detectFaceSuccess.shape |
     typeof actions.detectFaceError.shape |
-    typeof actions.recognizeEmotion.shape |
+    typeof actions.recognizeEmotionStart.shape |
     typeof actions.recognizeEmotionSuccess.shape |
     typeof actions.recognizeEmotionError.shape |
-    typeof actions.describePhoto.shape |
+    typeof actions.describePhotoStart.shape |
     typeof actions.describePhotoSuccess.shape |
-    typeof actions.describePhotoError.shape |
-    typeof actions.disableProcess.shape
+    typeof actions.describePhotoError.shape
 ): ProcessState {
   switch (action.type) {
-    case actions.detectFace.type:
+    case actions.detectFaceStart.type:
       return {
         ...state,
         status: 'requesting',
@@ -36,7 +35,7 @@ export function processReducer(
         status: 'error',
         error: action.payload
       };
-    case actions.recognizeEmotion.type:
+    case actions.recognizeEmotionStart.type:
       return {
         ...state,
         status: 'requesting',
@@ -56,7 +55,7 @@ export function processReducer(
         status: 'error',
         error: action.payload
       };
-    case actions.describePhoto.type:
+    case actions.describePhotoStart.type:
       return {
         ...state,
         status: 'requesting',
@@ -75,11 +74,6 @@ export function processReducer(
         ...state,
         status: 'error',
         error: action.payload
-      };
-    case actions.disableProcess.type:
-      return {
-        ...state,
-        disabled: true
       };
     default:
       return state;
