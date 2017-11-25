@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { AdMobBanner, AdMobInterstitial, ImagePicker } from 'expo';
+import { AdMobBanner, AdMobInterstitial } from 'expo';
 import React from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { NavigationScreenProp, NavigationStackScreenOptions } from 'react-navigation';
@@ -8,10 +8,11 @@ import { connect, MapStateToProps } from 'react-redux';
 import { switchAppMode } from '../actions/appMode';
 import { disableProcess } from '../actions/disable';
 import { requestGeoLocation } from '../actions/geoLocation';
+import { pickImageFromCamera, pickImageFromLibrary } from '../actions/process';
 import { getBannerId, getInterstitialId } from '../adSelector';
 import { TEST_DEVICE } from '../config';
 import { APP_CONFIG, AppConfig } from '../constants';
-import { AppMode, AppState } from '../store';
+import { AppMode, AppState, ProcessState } from '../store';
 import { Button } from './Button';
 
 interface OwnProps {
@@ -20,6 +21,7 @@ interface OwnProps {
 
 interface StateProps {
   appMode: AppMode;
+  processState: ProcessState;
   disabled: boolean;
   totalCalled: number;
 }
@@ -28,6 +30,8 @@ interface DispatchProps {
   requestGeoLocation: typeof requestGeoLocation;
   switchAppMode: typeof switchAppMode;
   disableProcess: typeof disableProcess;
+  pickImageFromCamera: typeof pickImageFromCamera;
+  pickImageFromLibrary: typeof pickImageFromLibrary;
 }
 
 class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & DispatchProps> {
@@ -40,8 +44,16 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
     this.props.requestGeoLocation(undefined);
   }
 
-  public render(): JSX.Element {
+  public componentDidUpdate(): void {
+    if (this.props.processState.status === 'ready') {
+      this.checkInterstitial(() => {
+        const title = APP_CONFIG[this.props.appMode].title;
+        this.props.navigation.navigate('Photo', { title });
+      });
+    }
+  }
 
+  public render(): JSX.Element {
     const config: AppConfig = APP_CONFIG[this.props.appMode];
 
     return (
@@ -51,13 +63,14 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
             bannerSize="smartBannerPortrait"
             adUnitID={getBannerId(0)}
             testDeviceID={TEST_DEVICE}
-            didFailToReceiveAdWithError={this.onAdFailedToLoad} />
+            didFailToReceiveAdWithError={this.onAdFailedToLoad}
+          />
         </View>
         <View style={styles.main} >
           <TouchableOpacity onPress={this.onSwitchAppMode} style={styles.appSwitch}>
             <MaterialCommunityIcons name={config.logo} size={100} color={config.color} />
-            <Text style={[styles.appSwtichText, { color: config.color }]}>{config.title}</Text>
-            <Text style={{ color: config.color }}>Tap me to switch mode!</Text>
+            <Text style={{ color: config.color }}>{config.title}</Text>
+            <Text style={{ color: config.color }}>Tap me!</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.bottom} >
@@ -65,15 +78,13 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
             icon="md-camera"
             title="Take A Photo"
             style={[styles.button, { backgroundColor: config.color }]}
-            onPress={this.pickFromCamera}
-            disabled={this.props.disabled}
+            onPress={this.onPickFromCamera}
           />
           <Button
             icon="md-photos"
             title="Pick From Library"
             style={[styles.button, { backgroundColor: config.color }]}
-            onPress={this.pickFromLibrary}
-            disabled={this.props.disabled}
+            onPress={this.onPickFromLibrary}
           />
           <Text style={[styles.powerdby, { color: config.color }]}>
             Powered by {config.tag}
@@ -85,37 +96,26 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
 
   private onAdFailedToLoad = (_: Error): void => {
     this.props.disableProcess(undefined);
-    Alert.alert('Sorry', 'Couldn\'t show Ad.');
   }
 
-  private pickFromCamera = async (): Promise<void> => {
-    const result: ImagePicker.ImageResult = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [1, 1]
-    });
-
-    if (!result.cancelled) {
-      this.interstitialCall(() => {
-        this.imageSelected(result);
-      });
+  private onPickFromCamera = () => {
+    if (this.props.disabled) {
+      Alert.alert('Sorry!', 'Service is not available in your country.');
+    } else {
+      this.props.pickImageFromCamera(undefined);
     }
   }
 
-  private pickFromLibrary = async (): Promise<void> => {
-    const result: ImagePicker.ImageResult = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [1, 1]
-    });
-
-    if (!result.cancelled) {
-      this.interstitialCall(() => {
-        this.imageSelected(result);
-      });
+  private onPickFromLibrary = () => {
+    if (this.props.disabled) {
+      Alert.alert('Sorry!', 'Service is not available in your country.');
+    } else {
+      this.props.pickImageFromLibrary(undefined);
     }
   }
 
-  private interstitialCall = (callback: () => void): void => {
-    if ((this.props.totalCalled + 1) % 10 === 0) {
+  private checkInterstitial = (callback: () => void): void => {
+    if (this.props.totalCalled > 0 && this.props.totalCalled % 3 === 0) {
       AdMobInterstitial.setAdUnitID(getInterstitialId(0));
       AdMobInterstitial.setTestDeviceID(TEST_DEVICE);
       AdMobInterstitial.addEventListener(
@@ -131,11 +131,6 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
     }
   }
 
-  private imageSelected = (image: ImagePicker.ImageInfo): void => {
-    const title = APP_CONFIG[this.props.appMode].title;
-    this.props.navigation.navigate('Photo', { image, title });
-  }
-
   private onSwitchAppMode = () => {
     this.props.switchAppMode(undefined);
   }
@@ -144,8 +139,9 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => {
   return {
     appMode: state.appMode,
+    processState: state.processState,
     disabled: state.disabled,
-    totalCalled: state.process.totalCalled
+    totalCalled: state.processState.totalCalled
   };
 };
 
@@ -154,7 +150,9 @@ export const MainScreen = connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps, {
     requestGeoLocation,
     switchAppMode,
-    disableProcess
+    disableProcess,
+    pickImageFromCamera,
+    pickImageFromLibrary
   })(InnerMainScreen);
 
 // tslint:disable-next-line:no-any
@@ -173,9 +171,6 @@ const styles: any = StyleSheet.create({
   },
   appSwitch: {
     alignItems: 'center'
-  },
-  appSwitchText: {
-    fontSize: 20
   },
   bottom: {
     flex: 0.4,

@@ -21,8 +21,7 @@ export async function postDescribePhoto(base64: string): Promise<VisionResult> {
 
   const response: Response = await fetch(request);
   if (!response.ok) {
-    // tslint:disable-next-line:no-any
-    const e: any = await response.json();
+    const e = await response.json();
     throw new Error(e.message || e.error.message);
   }
 

@@ -20,31 +20,30 @@ Asset.fromModule(require('../assets/emotions/happiness.png')).downloadAsync();
 Asset.fromModule(require('../assets/emotions/neutral.png')).downloadAsync();
 Asset.fromModule(require('../assets/emotions/sadness.png')).downloadAsync();
 Asset.fromModule(require('../assets/emotions/surprise.png')).downloadAsync();
-// tslint:enable:no-require-imports no-var-requires
 
 const sagaMiddleware = createSagaMiddleware();
 const rootReducer = combineReducers(reducers);
 
 const store = createStore(
-    rootReducer,
-    INITIAL_STATE,
-    applyMiddleware(sagaMiddleware)
+  rootReducer,
+  INITIAL_STATE,
+  applyMiddleware(sagaMiddleware)
 );
 
 sagaMiddleware.run(rootSaga);
 
 // tslint:disable-next-line:variable-name
 const AppNavigator = StackNavigator({
-    Main: { screen: MainScreen },
-    Photo: { screen: PhotoScreen }
+  Main: { screen: MainScreen },
+  Photo: { screen: PhotoScreen }
 });
 
 export class App extends React.PureComponent {
-    public render(): JSX.Element {
-        return (
-            <Provider store={store}>
-                <AppNavigator />
-            </Provider>
-        );
-    }
+  public render(): JSX.Element {
+    return (
+      <Provider store={store}>
+        <AppNavigator />
+      </Provider>
+    );
+  }
 }

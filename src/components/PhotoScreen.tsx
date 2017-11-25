@@ -1,4 +1,4 @@
-import { AdMobBanner, ImagePicker, takeSnapshotAsync } from 'expo';
+import { AdMobBanner, takeSnapshotAsync } from 'expo';
 import React from 'react';
 import {
   ActionSheetIOS,
@@ -16,8 +16,8 @@ import {
   NavigationScreenProp,
   NavigationStackScreenOptions
 } from 'react-navigation';
-
 import { connect, MapStateToProps } from 'react-redux';
+
 import { describePhoto, detectFace, recognizeEmotion } from '../actions/process';
 import { getBannerId } from '../adSelector';
 import { TEST_DEVICE } from '../config';
@@ -27,15 +27,8 @@ import { TaggedPhoto } from './TaggedPhoto';
 
 const { height, width } = Dimensions.get('window');
 
-export interface NavState {
-  params: {
-    image: ImagePicker.ImageInfo;
-    fileToShare?: string;
-  };
-}
-
 interface OwnProps {
-  navigation: NavigationScreenProp<NavState, NavigationAction>;
+  navigation: NavigationScreenProp<{}, NavigationAction>;
 }
 
 interface StateProps {
@@ -58,19 +51,20 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
   }
 
   public componentDidMount(): void {
-    setTimeout(this.process, 1000);
+    if (this.props.processState.status === 'ready') {
+      setTimeout(this.process, 500);
+    }
   }
 
   public render(): JSX.Element {
-    if (this.props.processState.error !== null) {
-      Alert.alert('Oops!', this.props.processState.error.message, [{
+    if (this.props.processState.error != null) {
+      Alert.alert('Opps, Something went wrong!', this.props.processState.error.message, [{
         text: 'OK', onPress: (): void => {
           //this.setState((state: State) => ({ ...state, error: undefined }));
         }
       }]);
     }
 
-    const { image } = this.props.navigation.state.params;
     const imageSize: number = Math.min(height, width);
 
     return (
@@ -82,22 +76,23 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
             testDeviceID={TEST_DEVICE} />
         </View>
         <View style={styles.main}>
-          <TaggedPhoto
-            ref="image"
-            imageUri={image.uri}
-            faceResults={this.props.appMode === 'Face' ? this.props.processState.faceResult : null}
-            emotionResults={this.props.appMode === 'Emotion' ? this.props.processState.emotionResult : null}
-            visionResult={this.props.appMode === 'Vision' ? this.props.processState.visionResult : null}
-            style={[styles.photo, { width: imageSize, height: imageSize }]}
-          />
+          {
+            this.props.processState.image != null ?
+              <TaggedPhoto
+                ref="image"
+                imageUri={this.props.processState.image.uri}
+                result={this.props.processState.result}
+                style={[styles.photo, { width: imageSize, height: imageSize }]}
+              /> : null
+          }
           {
             this.props.processState.status === 'requesting' ?
               <View style={styles.indicatorContainer} >
                 <ActivityIndicator size="large" />
                 <Text style={styles.indicatorText}>PROCESSING...</Text>
-              </View>
-              : null
+              </View> : null
           }
+
         </View>
         <View style={styles.bottom}>
           {
@@ -166,7 +161,7 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => {
   return {
     appMode: state.appMode,
-    processState: state.process
+    processState: state.processState
   };
 };
 

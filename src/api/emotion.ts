@@ -21,7 +21,6 @@ export async function postRecognizeEmotion(base64: string): Promise<Array<Emotio
 
   const response: Response = await fetch(request);
   if (!response.ok) {
-    // tslint:disable-next-line:no-unsafe-any
     throw new Error((await response.json()).error.message);
   }
 

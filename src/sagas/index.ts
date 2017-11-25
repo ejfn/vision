@@ -5,6 +5,6 @@ import { geoLocationSaga } from './geoLocation';
 import { processSaga } from './process';
 
 export function* rootSaga(): SagaIterator {
-    yield fork(geoLocationSaga);
-    yield fork(processSaga);
+  yield fork(geoLocationSaga);
+  yield fork(processSaga);
 }

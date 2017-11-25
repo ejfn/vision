@@ -7,8 +7,7 @@ interface Props {
   title?: string;
   fontSize?: number;
   color?: string;
-  // tslint:disable-next-line:no-any
-  style?: any;
+  style?: {};
   disabled?: boolean;
   onPress(): void;
 }

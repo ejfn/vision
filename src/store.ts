@@ -1,31 +1,31 @@
+import { ImagePicker } from 'expo';
+
 import { FreeGeoIp } from './api/freeGeoIp';
 import { EmotionResult, FaceResult, VisionResult } from './api/types';
 import { AzureLocation } from './config';
 
 export type AppMode = 'Face' | 'Emotion' | 'Vision';
 
-export interface AppConfig {
-  color: string;
-  logo: string;
-  title: string;
-  tag: string;
-}
-
 export interface AppState {
   appMode: AppMode;
-  process: ProcessState;
+  processState: ProcessState;
   geoLocation: GeoLocationState;
   disabled: boolean;
 }
 
-export type RequestStatus = 'ready' | 'requesting' | 'success' | 'error';
+export type ProcessStatus = 'none' | 'picking' | 'ready' | 'requesting' | 'success' | 'error';
+
+export interface ProcessResult {
+  face?: Array<FaceResult>;
+  emotion?: Array<EmotionResult>;
+  vision?: VisionResult;
+}
 
 export interface ProcessState {
-  status: RequestStatus;
+  status: ProcessStatus;
+  image: ImagePicker.ImageInfo | null;
+  result: ProcessResult | null;
   error: Error | null;
-  faceResult: Array<FaceResult> | null;
-  emotionResult: Array<EmotionResult> | null;
-  visionResult: VisionResult | null;
   totalCalled: number;
 }
 

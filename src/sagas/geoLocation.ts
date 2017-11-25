@@ -9,13 +9,13 @@ function* requestGeoLocationSaga(): SagaIterator {
     const result = yield call(
       getFreeGeoIp
     );
-    yield put(actions.requestGeoLocation(result));
+    yield put(actions.requestGeoLocationSuccess(result));
 
   } catch (e) {
-    yield put(actions.requestGeoLocation(e));
+    yield put(actions.requestGeoLocationError(e));
   }
 }
 
 export function* geoLocationSaga(): SagaIterator {
-  yield takeLatest(actions.requestGeoLocation, requestGeoLocationSaga);
+  yield takeLatest(actions.requestGeoLocation.type, requestGeoLocationSaga);
 }

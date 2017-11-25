@@ -21,7 +21,6 @@ export async function postDetectFace(base64: string): Promise<Array<FaceResult>>
 
   const response: Response = await fetch(request);
   if (!response.ok) {
-    // tslint:disable-next-line:no-unsafe-any
     throw new Error((await response.json()).error.message);
   }
 

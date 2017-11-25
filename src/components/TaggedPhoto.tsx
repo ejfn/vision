@@ -1,54 +1,65 @@
 import React from 'react';
-import { Image, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 
-import { EmotionResult, FaceResult, VisionResult } from '../api/types';
+import { EmotionResult, FaceResult } from '../api/types';
+import { ProcessResult } from '../store';
 import { EmotionTag } from './EmotionTag';
 import { FaceTag } from './FaceTag';
 import { VisionTag } from './VisionTag';
 
 interface Props {
-  // tslint:disable-next-line:no-any
-  style: any;
+  style: {};
   imageUri: string;
-  faceResults: Array<FaceResult> | null;
-  emotionResults: Array<EmotionResult> | null;
-  visionResult: VisionResult | null;
+  result: ProcessResult | null;
 }
 
 export class TaggedPhoto extends React.PureComponent<Props, {}> {
+
+  private renderResult(): Array<JSX.Element> | JSX.Element | null {
+
+    if (this.props.result != null) {
+
+      if (this.props.result.face !== undefined) {
+        return this.props.result.face.map((f: FaceResult, i: number) =>
+          <FaceTag key={i} face={f} />
+        );
+      }
+      if (this.props.result.emotion !== undefined) {
+        return this.props.result.emotion.map((e: EmotionResult, i: number) =>
+          <EmotionTag key={i} emotion={e} />
+        );
+      }
+      if (this.props.result.vision !== undefined) {
+        return (
+          <VisionTag vision={this.props.result.vision} />
+        );
+      }
+    }
+    return null;
+  }
+
   public render(): JSX.Element {
     return (
       <View
+        style={[styles.container, this.props.style]}
         collapsable={false}
-        style={[
-          { overflow: 'hidden' },
-          this.props.style
-        ]}
       >
         <Image
+          style={styles.image}
           source={{ uri: this.props.imageUri }}
-          style={{ flex: 1 }}
         />
-        {
-          this.props.faceResults != null ?
-            this.props.faceResults.map((f: FaceResult, i: number) =>
-              <FaceTag key={i} face={f} />
-            )
-            : null
-        }
-        {
-          this.props.emotionResults != null ?
-            this.props.emotionResults.map((e: EmotionResult, i: number) =>
-              <EmotionTag key={i} emotion={e} />
-            )
-            : null
-        }
-        {
-          this.props.visionResult != null ?
-            <VisionTag vision={this.props.visionResult} />
-            : null
-        }
+        {this.renderResult()}
       </View>
     );
   }
 }
+
+// tslint:disable-next-line:no-any
+const styles: any = StyleSheet.create({
+  container: {
+    overflow: 'hidden'
+  },
+  image: {
+    flex: 1
+  }
+});

@@ -3,8 +3,7 @@ import { Image, PixelRatio, View } from 'react-native';
 
 import { EmotionResult, EmotionScores } from '../api/types';
 
-// tslint:disable-next-line:no-any
-const ICONS: { [key: string]: any } = {
+const ICONS: { [key: string]: {} } = {
   // tslint:disable:no-require-imports
   anger: require('../../assets/emotions/anger.png'),
   contempt: require('../../assets/emotions/contempt.png'),
