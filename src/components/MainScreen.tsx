@@ -7,7 +7,7 @@ import { connect, MapStateToProps } from 'react-redux';
 
 import { switchAppMode } from '../actions/appMode';
 import { disableProcess } from '../actions/disable';
-import { requestGeoLocation } from '../actions/geoLocation';
+import { queryGeoLocation } from '../actions/geoLocation';
 import { pickImageFromCamera, pickImageFromLibrary } from '../actions/process';
 import { getBannerId, getInterstitialId } from '../adSelector';
 import { TEST_DEVICE } from '../config';
@@ -27,7 +27,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  requestGeoLocation: typeof requestGeoLocation;
+  queryGeoLocation: typeof queryGeoLocation;
   switchAppMode: typeof switchAppMode;
   disableProcess: typeof disableProcess;
   pickImageFromCamera: typeof pickImageFromCamera;
@@ -41,7 +41,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
   };
 
   public componentDidMount(): void {
-    this.props.requestGeoLocation(undefined);
+    this.props.queryGeoLocation(undefined);
   }
 
   public componentDidUpdate(): void {
@@ -63,8 +63,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
             bannerSize="smartBannerPortrait"
             adUnitID={getBannerId(0)}
             testDeviceID={TEST_DEVICE}
-            didFailToReceiveAdWithError={this.onAdFailedToLoad}
-          />
+            didFailToReceiveAdWithError={this.onAdFailedToLoad} />
         </View>
         <View style={styles.main} >
           <TouchableOpacity onPress={this.onSwitchAppMode} style={styles.appSwitch}>
@@ -78,15 +77,13 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
             icon="md-camera"
             title="Take A Photo"
             style={[styles.button, { backgroundColor: config.color }]}
-            onPress={this.onPickFromCamera}
-          />
+            onPress={this.onPickFromCamera} />
           <Button
             icon="md-photos"
             title="Pick From Library"
             style={[styles.button, { backgroundColor: config.color }]}
-            onPress={this.onPickFromLibrary}
-          />
-          <Text style={[styles.powerdby, { color: config.color }]}>
+            onPress={this.onPickFromLibrary} />
+          <Text style={{ color: config.color }}>
             Powered by {config.tag}
           </Text>
         </View>
@@ -100,7 +97,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
 
   private onPickFromCamera = () => {
     if (this.props.disabled) {
-      Alert.alert('Sorry!', 'Service is not available in your country.');
+      Alert.alert('Sorry', 'Service is not available in your country.');
     } else {
       this.props.pickImageFromCamera(undefined);
     }
@@ -108,7 +105,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
 
   private onPickFromLibrary = () => {
     if (this.props.disabled) {
-      Alert.alert('Sorry!', 'Service is not available in your country.');
+      Alert.alert('Sorry', 'Service is not available in your country.');
     } else {
       this.props.pickImageFromLibrary(undefined);
     }
@@ -148,15 +145,14 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state:
 // tslint:disable-next-line:variable-name
 export const MainScreen = connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps, {
-    requestGeoLocation,
+    queryGeoLocation,
     switchAppMode,
     disableProcess,
     pickImageFromCamera,
     pickImageFromLibrary
   })(InnerMainScreen);
 
-// tslint:disable-next-line:no-any
-const styles: any = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1
   },
@@ -181,8 +177,5 @@ const styles: any = StyleSheet.create({
   button: {
     alignSelf: 'stretch',
     marginVertical: 5
-  },
-  poweredby: {
-    marginVertical: 10
   }
 });

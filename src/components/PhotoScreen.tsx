@@ -21,7 +21,7 @@ import { connect, MapStateToProps } from 'react-redux';
 import { describePhoto, detectFace, recognizeEmotion } from '../actions/process';
 import { getBannerId } from '../adSelector';
 import { TEST_DEVICE } from '../config';
-import { AppMode, AppState, ProcessState } from '../store';
+import { AppMode, AppState, GeoLocationState, ProcessState } from '../store';
 import { Button } from './Button';
 import { TaggedPhoto } from './TaggedPhoto';
 
@@ -33,6 +33,7 @@ interface OwnProps {
 
 interface StateProps {
   appMode: AppMode;
+  geoLocation: GeoLocationState;
   processState: ProcessState;
 }
 
@@ -50,17 +51,17 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
     };
   }
 
-  public componentDidMount(): void {
+  private onLoad = async (): Promise<void> => {
     if (this.props.processState.status === 'ready') {
-      setTimeout(this.process, 500);
+      await this.process();
     }
   }
 
   public render(): JSX.Element {
     if (this.props.processState.error != null) {
-      Alert.alert('Opps, Something went wrong!', this.props.processState.error.message, [{
+      Alert.alert('Something went wrong', this.props.processState.error.message, [{
         text: 'OK', onPress: (): void => {
-          //this.setState((state: State) => ({ ...state, error: undefined }));
+          this.props.navigation.goBack();
         }
       }]);
     }
@@ -69,19 +70,14 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
 
     return (
       <View style={styles.container}>
-        <View style={styles.banner}>
-          <AdMobBanner
-            bannerSize="smartBannerPortrait"
-            adUnitID={getBannerId(1)}
-            testDeviceID={TEST_DEVICE} />
-        </View>
         <View style={styles.main}>
           {
             this.props.processState.image != null ?
               <TaggedPhoto
                 ref="image"
-                imageUri={this.props.processState.image.uri}
+                source={{ uri: this.props.processState.image.uri }}
                 result={this.props.processState.result}
+                onLoad={this.onLoad}
                 style={[styles.photo, { width: imageSize, height: imageSize }]}
               /> : null
           }
@@ -92,9 +88,6 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
                 <Text style={styles.indicatorText}>PROCESSING...</Text>
               </View> : null
           }
-
-        </View>
-        <View style={styles.bottom}>
           {
             this.props.processState.status === 'success' && Platform.OS === 'ios' ?
               <Button
@@ -105,11 +98,18 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
               : null
           }
         </View>
+        <View style={styles.banner}>
+          <AdMobBanner
+            bannerSize="smartBannerPortrait"
+            adUnitID={getBannerId(1)}
+            testDeviceID={TEST_DEVICE} />
+        </View>
       </View>
     );
   }
 
   private process = async (): Promise<void> => {
+    const azureLocation = this.props.geoLocation.azureLocation;
     // tslint:disable-next-line:no-any
     const base64: string = await takeSnapshotAsync(this.refs.image as any, {
       format: 'jpeg',
@@ -120,13 +120,13 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
     });
     switch (this.props.appMode) {
       case 'Face':
-        this.props.detectFace({ base64 });
+        this.props.detectFace({ azureLocation, base64 });
         break;
       case 'Emotion':
-        this.props.recognizeEmotion({ base64 });
+        this.props.recognizeEmotion({ azureLocation, base64 });
         break;
       case 'Vision':
-        this.props.describePhoto({ base64 });
+        this.props.describePhoto({ azureLocation, base64 });
         break;
       default:
         return;
@@ -147,11 +147,11 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
         url: fileToShare
       },
       (error: Error): void => {
-        Alert.alert('Oops!', error.message);
+        Alert.alert('Something went wrong', error.message);
       },
       (completed: boolean, _: string): void => {
         if (completed) {
-          // Alert.alert('Shared!');
+          Alert.alert('Successfully shared!');
         }
       }
     );
@@ -161,6 +161,7 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => {
   return {
     appMode: state.appMode,
+    geoLocation: state.geoLocation,
     processState: state.processState
   };
 };
@@ -173,18 +174,13 @@ export const PhotoScreen = connect<StateProps, DispatchProps, OwnProps>(
     describePhoto
   })(InnerPhotoScreen);
 
-// tslint:disable-next-line:no-any
-const styles: any = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000000'
   },
-  banner: {
-    flex: 0.1,
-    justifyContent: 'flex-start'
-  },
   main: {
-    flex: 0.8,
+    flex: 0.9,
     justifyContent: 'center'
   },
   photo: {
@@ -203,12 +199,14 @@ const styles: any = StyleSheet.create({
     fontSize: 12,
     marginTop: 10
   },
-  bottom: {
-    flex: 0.1,
-    justifyContent: 'flex-end'
-  },
   shareButton: {
+    position: 'absolute',
+    bottom: 0,
     alignSelf: 'center',
     backgroundColor: '#000000'
+  },
+  banner: {
+    flex: 0.1,
+    justifyContent: 'flex-end'
   }
 });

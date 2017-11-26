@@ -1,9 +1,10 @@
+import { RequestPayload } from '../actions/process';
 import { ApiKey, getApiKey } from '../apiSelector';
 import { b64toBinary } from '../utils';
 import { EmotionResult } from './types';
 
-export async function postRecognizeEmotion(base64: string): Promise<Array<EmotionResult>> {
-  const apiKey: ApiKey = getApiKey('Emotion');
+export async function postRecognizeEmotion(payload: RequestPayload): Promise<Array<EmotionResult>> {
+  const apiKey: ApiKey = getApiKey('Emotion', payload.azureLocation);
 
   const url: string = `${apiKey.url}/recognize`;
   const headers: Headers = new Headers();
@@ -14,7 +15,7 @@ export async function postRecognizeEmotion(base64: string): Promise<Array<Emotio
     url,
     {
       method: 'POST',
-      body: b64toBinary(base64),
+      body: b64toBinary(payload.base64),
       headers
     }
   );

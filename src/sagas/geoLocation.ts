@@ -2,20 +2,17 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import * as actions from '../actions/geoLocation';
-import { getFreeGeoIp } from '../api/freeGeoIp';
+import { queryFreeGeoIp } from '../api/freeGeoIp';
 
 function* requestGeoLocationSaga(): SagaIterator {
   try {
-    const result = yield call(
-      getFreeGeoIp
-    );
-    yield put(actions.requestGeoLocationSuccess(result));
-
+    const result = yield call(queryFreeGeoIp);
+    yield put(actions.queryGeoLocationSuccess(result));
   } catch (e) {
-    yield put(actions.requestGeoLocationError(e));
+    yield put(actions.queryGeoLocationError(e));
   }
 }
 
 export function* geoLocationSaga(): SagaIterator {
-  yield takeLatest(actions.requestGeoLocation.type, requestGeoLocationSaga);
+  yield takeLatest(actions.queryGeoLocation.type, requestGeoLocationSaga);
 }

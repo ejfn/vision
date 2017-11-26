@@ -1,9 +1,10 @@
+import { RequestPayload } from '../actions/process';
 import { ApiKey, getApiKey } from '../apiSelector';
 import { b64toBinary } from '../utils';
 import { VisionResult } from './types';
 
-export async function postDescribePhoto(base64: string): Promise<VisionResult> {
-  const apiKey: ApiKey = getApiKey('Vision');
+export async function postDescribePhoto(payload: RequestPayload): Promise<VisionResult> {
+  const apiKey: ApiKey = getApiKey('Vision', payload.azureLocation);
 
   const url: string = `${apiKey.url}/describe`;
   const headers: Headers = new Headers();
@@ -14,7 +15,7 @@ export async function postDescribePhoto(base64: string): Promise<VisionResult> {
     url,
     {
       method: 'POST',
-      body: b64toBinary(base64),
+      body: b64toBinary(payload.base64),
       headers
     }
   );

@@ -71,13 +71,11 @@ class Tag extends React.PureComponent<TagProps, {}> {
             paddingHorizontal: 6
           },
           this.props.style
-        ]}
-      >
+        ]} >
         <Text
           style={{
             color: '#ffffff'
-          }}
-        >
+          }} >
           {this.props.text}
         </Text>
       </View>

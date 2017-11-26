@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, ImageURISource, StyleSheet, View } from 'react-native';
 
 import { EmotionResult, FaceResult } from '../api/types';
 import { ProcessResult } from '../store';
@@ -9,8 +9,9 @@ import { VisionTag } from './VisionTag';
 
 interface Props {
   style: {};
-  imageUri: string;
+  source: ImageURISource;
   result: ProcessResult | null;
+  onLoad?: (() => void) | undefined;
 }
 
 export class TaggedPhoto extends React.PureComponent<Props, {}> {
@@ -42,20 +43,18 @@ export class TaggedPhoto extends React.PureComponent<Props, {}> {
     return (
       <View
         style={[styles.container, this.props.style]}
-        collapsable={false}
-      >
+        collapsable={false} >
         <Image
           style={styles.image}
-          source={{ uri: this.props.imageUri }}
-        />
+          source={this.props.source}
+          onLoad={this.props.onLoad} />
         {this.renderResult()}
       </View>
     );
   }
 }
 
-// tslint:disable-next-line:no-any
-const styles: any = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     overflow: 'hidden'
   },

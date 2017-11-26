@@ -1,6 +1,6 @@
 import { ImagePicker } from 'expo';
 
-import { FreeGeoIp } from './api/freeGeoIp';
+import { FreeGeoIpResult } from './api/freeGeoIp';
 import { EmotionResult, FaceResult, VisionResult } from './api/types';
 import { AzureLocation } from './config';
 
@@ -30,6 +30,6 @@ export interface ProcessState {
 }
 
 export interface GeoLocationState {
-  freeGeoIp: FreeGeoIp;
-  azureLocation: AzureLocation | null;
+  freeGeoIp: FreeGeoIpResult;
+  azureLocation: AzureLocation;
 }

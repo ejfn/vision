@@ -11,7 +11,7 @@ export const INITIAL_STATE: AppState = {
   },
   geoLocation: {
     freeGeoIp: {},
-    azureLocation: null
+    azureLocation: 'westus'
   },
   disabled: false
 };

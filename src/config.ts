@@ -1,8 +1,19 @@
 import { AdUnit } from './adSelector';
+import { ContinentCode } from './api/freeGeoIp';
 import { RegionalApiKeys } from './apiSelector';
 import { AppMode } from './store';
 
 export type AzureLocation = 'westus' | 'australiaeast' | 'southeastasia' | 'northeurope';
+
+export const GEO_AZURE_MAP: Record<ContinentCode, AzureLocation> = {
+  AF: 'northeurope',
+  AN: 'australiaeast',
+  AS: 'southeastasia',
+  EU: 'northeurope',
+  NA: 'westus',
+  OC: 'australiaeast',
+  SA: 'westus'
+};
 
 export const API_KEYS: Record<AppMode, RegionalApiKeys> = {
   Face: {

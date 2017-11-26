@@ -1,4 +1,5 @@
 import { ImagePicker } from 'expo';
+import { Alert } from 'react-native';
 import { SagaIterator } from 'redux-saga';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
@@ -18,7 +19,11 @@ function* pickImageFromCameraSaga(): SagaIterator {
     }
   );
   if (!result.cancelled) {
-    yield put(actions.pickImageSuccess(result));
+    if (result.type === 'image') {
+      yield put(actions.pickImageSuccess(result));
+    } else {
+      Alert.alert('Unsupported media type', `Media type '${result.type}' is not surpported, please select an image.`);
+    }
   }
 }
 
@@ -32,7 +37,11 @@ function* pickImageFromLibrarySaga(): SagaIterator {
     }
   );
   if (!result.cancelled) {
-    yield put(actions.pickImageSuccess(result));
+    if (result.type === 'image') {
+      yield put(actions.pickImageSuccess(result));
+    } else {
+      Alert.alert('Unsupported media type', `Media type '${result.type}' is not surpported, please select an image.`);
+    }
   }
 }
 
@@ -41,7 +50,7 @@ function* detectFaceSaga(action: typeof actions.detectFace.shape): SagaIterator 
   try {
     const result: Array<FaceResult> = yield call(
       postDetectFace,
-      action.payload.base64
+      action.payload
     );
     yield put(actions.processSuccess({ face: result }));
   } catch (e) {
@@ -54,7 +63,7 @@ function* recognizeEmotionSaga(action: typeof actions.recognizeEmotion.shape): S
   try {
     const result = yield call(
       postRecognizeEmotion,
-      action.payload.base64
+      action.payload
     );
     yield put(actions.processSuccess({ emotion: result }));
   } catch (e) {
@@ -67,7 +76,7 @@ function* describePhotoSaga(action: typeof actions.describePhoto.shape): SagaIte
   try {
     const result = yield call(
       postDescribePhoto,
-      action.payload.base64
+      action.payload
     );
     yield put(actions.processSuccess({ vision: result }));
   } catch (e) {

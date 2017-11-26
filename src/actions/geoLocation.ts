@@ -1,14 +1,14 @@
-import { FreeGeoIp } from '../api/freeGeoIp';
+import { FreeGeoIpResult } from '../api/freeGeoIp';
 import { createAction } from './action';
 
-export const requestGeoLocation = createAction<'vision/geoLocation/request'>(
-  'vision/geoLocation/request'
+export const queryGeoLocation = createAction<'vision/geoLocation/query'>(
+  'vision/geoLocation/query'
 );
 
-export const requestGeoLocationSuccess = createAction<'vision/geoLocation/request/success', FreeGeoIp>(
-  'vision/geoLocation/request/success'
+export const queryGeoLocationSuccess = createAction<'vision/geoLocation/query/success', FreeGeoIpResult>(
+  'vision/geoLocation/query/success'
 );
 
-export const requestGeoLocationError = createAction<'vision/geoLocation/request/error', Error>(
-  'vision/geoLocation/request/error'
+export const queryGeoLocationError = createAction<'vision/geoLocation/query/error', Error>(
+  'vision/geoLocation/query/error'
 );

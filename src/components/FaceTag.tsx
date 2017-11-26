@@ -37,11 +37,10 @@ export class FaceTag extends React.PureComponent<Props, {}> {
             width: Math.max(faceRectangle.width, LABEL_WIDTH),
             height: faceRectangle.height + LABEL_HEIGHT,
             alignItems: 'center'
-          }}
-        >
+          }}>
           {this.renderBox(faceRectangle, color)}
           {this.renderLabel(faceAttributes, color)}
-        </View >
+        </View>
       );
     } else {
       return (
@@ -54,11 +53,10 @@ export class FaceTag extends React.PureComponent<Props, {}> {
             width: Math.max(faceRectangle.width, LABEL_WIDTH),
             height: faceRectangle.height + LABEL_HEIGHT,
             alignItems: 'center'
-          }}
-        >
+          }} >
           {this.renderLabel(faceAttributes, color)}
           {this.renderBox(faceRectangle, color)}
-        </View >
+        </View>
       );
     }
   }
@@ -73,8 +71,7 @@ export class FaceTag extends React.PureComponent<Props, {}> {
           height: faceRectangle.height,
           borderColor: color,
           borderWidth: 2
-        }}
-      />
+        }} />
     );
   }
 
@@ -89,21 +86,18 @@ export class FaceTag extends React.PureComponent<Props, {}> {
           backgroundColor: color,
           height: LABEL_HEIGHT,
           width: LABEL_WIDTH
-        }}
-      >
+        }}>
         <Ionicons
           name={faceAttributes.gender === 'male' ? 'ios-man' : 'ios-woman'}
           color="#eeeeee"
-          size={18}
-        />
+          size={18} />
         <Text
           numberOfLines={1}
           style={{
             color: '#eeeeee',
             fontSize: 14,
             marginLeft: 2
-          }}
-        >
+          }} >
           {Math.round(faceAttributes.age)}
         </Text>
       </View>

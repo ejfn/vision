@@ -741,8 +741,10 @@ declare module 'expo' {
     export namespace ImagePicker {
         export interface ImageInfo {
             uri: string;
+            base64: string;
             width: number;
             height: number;
+            type: 'image' | 'video'
         }
 
         export type ImageResult = { cancelled: true } | ({ cancelled: false } & ImageInfo);
@@ -751,6 +753,7 @@ declare module 'expo' {
             allowsEditing?: boolean;
             aspect?: [number, number];
             quality?: number;
+            base64?: boolean;
         }
 
         export function launchImageLibraryAsync(options?: ImageLibraryOptions): Promise<ImageResult>;
@@ -759,6 +762,7 @@ declare module 'expo' {
             allowsEditing?: boolean;
             aspect?: [number, number];
             quality?: number;
+            base64?: boolean;
         }
         export function launchCameraAsync(options?: CameraOptions): Promise<ImageResult>;
     }

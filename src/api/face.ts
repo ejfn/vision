@@ -1,9 +1,10 @@
+import { RequestPayload } from '../actions/process';
 import { ApiKey, getApiKey } from '../apiSelector';
 import { b64toBinary } from '../utils';
 import { FaceResult } from './types';
 
-export async function postDetectFace(base64: string): Promise<Array<FaceResult>> {
-  const apiKey: ApiKey = getApiKey('Face');
+export async function postDetectFace(payload: RequestPayload): Promise<Array<FaceResult>> {
+  const apiKey: ApiKey = getApiKey('Face', payload.azureLocation);
 
   const url: string = `${apiKey.url}/detect?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender`;
   const headers: Headers = new Headers();
@@ -14,7 +15,7 @@ export async function postDetectFace(base64: string): Promise<Array<FaceResult>>
     url,
     {
       method: 'POST',
-      body: b64toBinary(base64),
+      body: b64toBinary(payload.base64),
       headers
     }
   );

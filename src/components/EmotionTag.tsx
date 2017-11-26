@@ -45,8 +45,7 @@ export class EmotionTag extends React.PureComponent<Props, {}> {
           height: faceRectangle.height,
           borderColor: '#ffff00',
           borderWidth: 2
-        }}
-      >
+        }}>
         <Image
           source={ICONS[emotion]}
           style={{
@@ -56,8 +55,7 @@ export class EmotionTag extends React.PureComponent<Props, {}> {
             height: size,
             bottom: 0,
             right: 0
-          }}
-        />
+          }} />
       </View>
     );
 

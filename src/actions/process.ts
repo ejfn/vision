@@ -1,9 +1,11 @@
 import { ImagePicker } from 'expo';
 
+import { AzureLocation } from '../config';
 import { ProcessResult } from '../store';
 import { createAction } from './action';
 
 export interface RequestPayload {
+  azureLocation: AzureLocation;
   base64: string;
 }
 
