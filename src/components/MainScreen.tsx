@@ -10,8 +10,8 @@ import { disableProcess } from '../actions/disable';
 import { queryGeoLocation } from '../actions/geoLocation';
 import { pickImageFromCamera, pickImageFromLibrary } from '../actions/process';
 import { getBannerId, getInterstitialId } from '../adSelector';
-import { TEST_DEVICE } from '../config';
 import { APP_CONFIG, AppConfig } from '../constants';
+import { TEST_DEVICE_ID } from '../secure';
 import { AppMode, AppState, ProcessState } from '../store';
 import { Button } from './Button';
 
@@ -61,8 +61,8 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
         <View style={styles.banner}>
           <AdMobBanner
             bannerSize="smartBannerPortrait"
-            adUnitID={getBannerId(0)}
-            testDeviceID={TEST_DEVICE}
+            adUnitID={getBannerId('main')}
+            testDeviceID={TEST_DEVICE_ID}
             didFailToReceiveAdWithError={this.onAdFailedToLoad} />
         </View>
         <View style={styles.main} >
@@ -113,8 +113,8 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
 
   private checkInterstitial = (callback: () => void): void => {
     if (this.props.totalCalled > 0 && this.props.totalCalled % 3 === 0) {
-      AdMobInterstitial.setAdUnitID(getInterstitialId(0));
-      AdMobInterstitial.setTestDeviceID(TEST_DEVICE);
+      AdMobInterstitial.setAdUnitID(getInterstitialId());
+      AdMobInterstitial.setTestDeviceID(TEST_DEVICE_ID);
       AdMobInterstitial.addEventListener(
         'interstitialDidClose',
         () => {

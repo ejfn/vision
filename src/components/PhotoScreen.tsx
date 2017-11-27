@@ -20,7 +20,7 @@ import { connect, MapStateToProps } from 'react-redux';
 
 import { describePhoto, detectFace, recognizeEmotion } from '../actions/process';
 import { getBannerId } from '../adSelector';
-import { TEST_DEVICE } from '../config';
+import { TEST_DEVICE_ID } from '../secure';
 import { AppMode, AppState, GeoLocationState, ProcessState } from '../store';
 import { Button } from './Button';
 import { TaggedPhoto } from './TaggedPhoto';
@@ -101,8 +101,8 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
         <View style={styles.banner}>
           <AdMobBanner
             bannerSize="smartBannerPortrait"
-            adUnitID={getBannerId(1)}
-            testDeviceID={TEST_DEVICE} />
+            adUnitID={getBannerId('photo')}
+            testDeviceID={TEST_DEVICE_ID} />
         </View>
       </View>
     );
