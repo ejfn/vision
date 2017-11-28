@@ -97,7 +97,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
 
   private onPickFromCamera = () => {
     if (this.props.disabled) {
-      Alert.alert('Sorry', 'Service is not available in your country.');
+      Alert.alert('Sorry!', 'Service is not available in your country.');
     } else {
       this.props.pickImageFromCamera(undefined);
     }
@@ -105,7 +105,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
 
   private onPickFromLibrary = () => {
     if (this.props.disabled) {
-      Alert.alert('Sorry', 'Service is not available in your country.');
+      Alert.alert('Sorry!', 'Service is not available in your country.');
     } else {
       this.props.pickImageFromLibrary(undefined);
     }

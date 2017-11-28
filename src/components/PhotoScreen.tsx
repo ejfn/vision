@@ -58,12 +58,27 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
   }
 
   public render(): JSX.Element {
-    if (this.props.processState.error != null) {
-      Alert.alert('Something went wrong', this.props.processState.error.message, [{
-        text: 'OK', onPress: (): void => {
-          this.props.navigation.goBack();
-        }
-      }]);
+    if (this.props.processState.status === 'error') {
+      let message = 'Something went wrong.';
+      if (this.props.processState.error != null) {
+        message = this.props.processState.error.message;
+      }
+      Alert.alert(
+        'Oops!',
+        message,
+        [
+          {
+            text: 'Cancel',
+            onPress: () => this.props.navigation.goBack(),
+            style: 'cancel'
+          },
+          {
+            text: 'Retry',
+            onPress: () => this.process()
+          }
+        ],
+        { cancelable: false }
+      );
     }
 
     const imageSize: number = Math.min(height, width);
@@ -147,7 +162,7 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
         url: fileToShare
       },
       (error: Error): void => {
-        Alert.alert('Something went wrong', error.message);
+        Alert.alert('Oops!', error.message);
       },
       (completed: boolean, _: string): void => {
         if (completed) {

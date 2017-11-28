@@ -22,7 +22,9 @@ function* pickImageFromCameraSaga(): SagaIterator {
     if (result.type === 'image') {
       yield put(actions.pickImageSuccess(result));
     } else {
-      Alert.alert('Unsupported media type', `Media type '${result.type}' is not surpported, please select an image.`);
+      Alert.alert(
+        'Invalid media type!',
+        `Media type '${result.type}' is not surpported, please select an image.`);
     }
   }
 }
@@ -40,7 +42,9 @@ function* pickImageFromLibrarySaga(): SagaIterator {
     if (result.type === 'image') {
       yield put(actions.pickImageSuccess(result));
     } else {
-      Alert.alert('Unsupported media type', `Media type '${result.type}' is not surpported, please select an image.`);
+      Alert.alert(
+        'Invalid media type!',
+        `Media type '${result.type}' is not surpported, please select an image.`);
     }
   }
 }
