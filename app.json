@@ -5,7 +5,7 @@
     "slug": "vision",
     "privacy": "public",
     "sdkVersion": "23.0.0",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icon.png",
@@ -16,12 +16,12 @@
     },
     "ios": {
       "bundleIdentifier": "com.fanstek.vision",
-      "buildNumber": "1.0.0",
+      "buildNumber": "1.1.0b13",
       "supportsTablet": false
     },
     "android": {
       "package": "com.fanstek.vision",
-      "versionCode": 1,
+      "versionCode": 1010013,
       "permissions": [
         "CAMERA"
       ]
