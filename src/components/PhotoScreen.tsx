@@ -58,6 +58,26 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
   }
 
   public render(): JSX.Element {
+    if (this.props.processState.status === 'success' && this.props.processState.result != null) {
+      if ((this.props.appMode === 'Face' && (
+        this.props.processState.result.face == null ||
+        this.props.processState.result.face.length === 0)) ||
+        (this.props.appMode === 'Emotion' && (
+          this.props.processState.result.emotion == null ||
+          this.props.processState.result.emotion.length === 0))
+      ) {
+        Alert.alert(
+          'No face detected!',
+          'Please select a photo with faces.',
+          [
+            {
+              text: 'OK',
+              onPress: () => this.props.navigation.goBack()
+            }
+          ]
+        );
+      }
+    }
     if (this.props.processState.status === 'error') {
       let message = 'Something went wrong.';
       if (this.props.processState.error != null) {

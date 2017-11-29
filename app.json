@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Vision",
-    "description": "an AI vision app",
+    "name": "AiVision",
+    "description": "An AI Vision app powered by Microsoft Cognitive Service",
     "slug": "vision",
     "privacy": "public",
     "sdkVersion": "23.0.0",
@@ -16,12 +16,15 @@
     },
     "ios": {
       "bundleIdentifier": "com.fanstek.vision",
-      "buildNumber": "1.1.0b13",
-      "supportsTablet": false
+      "buildNumber": "1010015",
+      "supportsTablet": false,
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.fanstek.vision",
-      "versionCode": 1010013,
+      "versionCode": 1010015,
       "permissions": [
         "CAMERA"
       ]

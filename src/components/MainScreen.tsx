@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AdMobBanner, AdMobInterstitial } from 'expo';
 import React from 'react';
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { NavigationScreenProp, NavigationStackScreenOptions } from 'react-navigation';
 import { connect, MapStateToProps } from 'react-redux';
 
@@ -58,6 +58,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
 
     return (
       <View style={styles.container} >
+        <StatusBar barStyle="dark-content" />
         <View style={styles.banner}>
           <AdMobBanner
             bannerSize="smartBannerPortrait"
@@ -67,9 +68,9 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
         </View>
         <View style={styles.main} >
           <TouchableOpacity onPress={this.onSwitchAppMode} style={styles.appSwitch}>
-            <MaterialCommunityIcons name={config.logo} size={100} color={config.color} />
-            <Text style={{ color: config.color }}>{config.title}</Text>
-            <Text style={{ color: config.color }}>Tap me!</Text>
+            <MaterialCommunityIcons name={config.logo} size={120} color={config.color} />
+            <Text style={[styles.appTitle, { color: config.color }]}>{config.title}</Text>
+            <Text style={[styles.appTitle, { color: config.color }]}>Tap me!</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.bottom} >
@@ -83,7 +84,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
             title="Pick From Library"
             style={[styles.button, { backgroundColor: config.color }]}
             onPress={this.onPickFromLibrary} />
-          <Text style={{ color: config.color }}>
+          <Text style={[styles.poweredBy, { color: config.color }]}>
             Powered by {config.tag}
           </Text>
         </View>
@@ -168,6 +169,9 @@ const styles = StyleSheet.create({
   appSwitch: {
     alignItems: 'center'
   },
+  appTitle: {
+    fontSize: 18
+  },
   bottom: {
     flex: 0.4,
     justifyContent: 'flex-end',
@@ -176,6 +180,10 @@ const styles = StyleSheet.create({
   },
   button: {
     alignSelf: 'stretch',
+    marginVertical: 5,
+    fontSize: 18
+  },
+  poweredBy: {
     marginVertical: 5
   }
 });
