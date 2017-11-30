@@ -1,4 +1,4 @@
 import 'expo'
-import { App } from './artifacts/';
+import { App } from './src/';
 
 export default App;

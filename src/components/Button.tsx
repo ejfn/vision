@@ -29,8 +29,8 @@ export class Button extends React.PureComponent<Props, {}> {
             alignItems: 'center',
             borderRadius: 5,
             backgroundColor: '#4169e1',
-            paddingHorizontal: fontSize + 5,
-            paddingVertical: fontSize - 5
+            paddingHorizontal: fontSize,
+            paddingVertical: fontSize * 0.6
           },
           this.props.style
         ]}>
@@ -47,7 +47,7 @@ export class Button extends React.PureComponent<Props, {}> {
             <Text
               ellipsizeMode="middle"
               style={{
-                marginLeft: this.props.icon !== undefined ? 10 : undefined,
+                marginLeft: this.props.icon !== undefined ? fontSize * 0.5 : undefined,
                 color: color,
                 fontSize: fontSize
               }}>{this.props.title}</Text>

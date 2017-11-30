@@ -6,6 +6,7 @@ import {
   Alert,
   Dimensions,
   Platform,
+  SafeAreaView,
   StyleSheet,
   Text,
   View
@@ -104,7 +105,7 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
     const imageSize: number = Math.min(height, width);
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.main}>
           {
             this.props.processState.image != null ?
@@ -139,7 +140,7 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
             adUnitID={getBannerId('photo')}
             testDeviceID={TEST_DEVICE_ID} />
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 

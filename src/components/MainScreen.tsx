@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AdMobBanner, AdMobInterstitial } from 'expo';
 import React from 'react';
-import { Alert, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { NavigationScreenProp, NavigationStackScreenOptions } from 'react-navigation';
 import { connect, MapStateToProps } from 'react-redux';
 
@@ -34,10 +34,18 @@ interface DispatchProps {
   pickImageFromLibrary: typeof pickImageFromLibrary;
 }
 
-class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & DispatchProps> {
+interface OwnState {
+  showHint: boolean;
+}
+
+class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & DispatchProps, OwnState> {
 
   public static navigationOptions: NavigationStackScreenOptions = {
     header: null
+  };
+
+  public state: OwnState = {
+    showHint: true
   };
 
   public componentDidMount(): void {
@@ -55,11 +63,10 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
 
   public render(): JSX.Element {
     const config: AppConfig = APP_CONFIG[this.props.appMode];
-
     return (
-      <View style={styles.container} >
+      <SafeAreaView style={styles.container} >
         <StatusBar barStyle="dark-content" />
-        <View style={styles.banner}>
+        <View style={styles.top}>
           <AdMobBanner
             bannerSize="smartBannerPortrait"
             adUnitID={getBannerId('main')}
@@ -69,26 +76,32 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
         <View style={styles.main} >
           <TouchableOpacity onPress={this.onSwitchAppMode} style={styles.appSwitch}>
             <MaterialCommunityIcons name={config.logo} size={120} color={config.color} />
-            <Text style={[styles.appTitle, { color: config.color }]}>{config.title}</Text>
-            <Text style={[styles.appTitle, { color: config.color }]}>Tap me!</Text>
+            <Text style={[styles.appTitle, { color: config.color }]}>
+              {config.title}
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.bottom} >
+          {
+            this.state.showHint &&
+            <Text style={[styles.hint, { color: config.color }]}>
+              Tap the big icon to try more!
+            </Text>
+          }
           <Button
             icon="md-camera"
             title="Take A Photo"
             style={[styles.button, { backgroundColor: config.color }]}
+            fontSize={18}
             onPress={this.onPickFromCamera} />
           <Button
             icon="md-photos"
             title="Pick From Library"
             style={[styles.button, { backgroundColor: config.color }]}
+            fontSize={18}
             onPress={this.onPickFromLibrary} />
-          <Text style={[styles.poweredBy, { color: config.color }]}>
-            Powered by {config.tag}
-          </Text>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 
@@ -96,20 +109,20 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
     this.props.disableProcess(undefined);
   }
 
-  private onPickFromCamera = () => {
+  private checkAvailability = (callback: () => void): void => {
     if (this.props.disabled) {
-      Alert.alert('Sorry!', 'Service is not available in your country.');
+      Alert.alert('Sorry!', 'Service is not available in your region.');
     } else {
-      this.props.pickImageFromCamera(undefined);
+      callback();
     }
   }
 
+  private onPickFromCamera = () => {
+    this.checkAvailability(() => this.props.pickImageFromCamera(undefined));
+  }
+
   private onPickFromLibrary = () => {
-    if (this.props.disabled) {
-      Alert.alert('Sorry!', 'Service is not available in your country.');
-    } else {
-      this.props.pickImageFromLibrary(undefined);
-    }
+    this.checkAvailability(() => this.props.pickImageFromLibrary(undefined));
   }
 
   private checkInterstitial = (callback: () => void): void => {
@@ -157,33 +170,42 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  banner: {
-    flex: 0.1,
-    justifyContent: 'flex-end'
+  top: {
+    flex: 0.2,
+    justifyContent: 'flex-start',
+    alignItems: 'center'
   },
   main: {
-    flex: 0.5,
+    flex: 0.35,
     justifyContent: 'flex-end',
     alignItems: 'center'
+  },
+  bottom: {
+    flex: 0.45,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingBottom: 20
   },
   appSwitch: {
     alignItems: 'center'
   },
   appTitle: {
-    fontSize: 18
+    fontSize: 18,
+    marginTop: -5
   },
-  bottom: {
-    flex: 0.4,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    padding: 10
+  hint: {
+    fontSize: 16,
+    marginVertical: 5
   },
   button: {
     alignSelf: 'stretch',
-    marginVertical: 5,
-    fontSize: 18
-  },
-  poweredBy: {
     marginVertical: 5
+  },
+  version: {
+    alignSelf: 'flex-end',
+    color: '#a9a9a9',
+    fontSize: 12,
+    paddingBottom: 5
   }
 });
