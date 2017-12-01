@@ -1,6 +1,12 @@
 import { AppState } from '../store';
 
 export const INITIAL_STATE: AppState = {
+  network: {
+    isConnected: false,
+    adReceived: false,
+    freeGeoIp: {},
+    azureLocation: 'westus'
+  },
   appMode: 'Face',
   processState: {
     status: 'none',
@@ -8,10 +14,5 @@ export const INITIAL_STATE: AppState = {
     result: null,
     error: null,
     totalCalled: 0
-  },
-  geoLocation: {
-    freeGeoIp: {},
-    azureLocation: 'westus'
-  },
-  disabled: false
+  }
 };

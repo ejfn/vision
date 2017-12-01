@@ -15,10 +15,6 @@
       "backgroundColor": "#ffffff"
     },
     "packagerOpts": {
-      "assetExts": [
-        "ttf",
-        "mp4"
-      ],
       "sourceExts": [
         "ts",
         "tsx"
@@ -27,7 +23,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.fanstek.vision",
-      "buildNumber": "1010015",
+      "buildNumber": "1010016",
       "supportsTablet": false,
       "config": {
         "usesNonExemptEncryption": false
@@ -35,7 +31,7 @@
     },
     "android": {
       "package": "com.fanstek.vision",
-      "versionCode": 1010015,
+      "versionCode": 1010016,
       "permissions": [
         "CAMERA"
       ]

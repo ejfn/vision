@@ -6,13 +6,12 @@ import { NavigationScreenProp, NavigationStackScreenOptions } from 'react-naviga
 import { connect, MapStateToProps } from 'react-redux';
 
 import { switchAppMode } from '../actions/appMode';
-import { disableProcess } from '../actions/disable';
-import { queryGeoLocation } from '../actions/geoLocation';
+import { adReceived } from '../actions/network';
 import { pickImageFromCamera, pickImageFromLibrary } from '../actions/process';
 import { getBannerId, getInterstitialId } from '../adSelector';
 import { APP_CONFIG, AppConfig } from '../constants';
 import { TEST_DEVICE_ID } from '../secure';
-import { AppMode, AppState, ProcessState } from '../store';
+import { AppMode, AppState, NetworkState, ProcessState } from '../store';
 import { Button } from './Button';
 
 interface OwnProps {
@@ -22,14 +21,13 @@ interface OwnProps {
 interface StateProps {
   appMode: AppMode;
   processState: ProcessState;
-  disabled: boolean;
+  network: NetworkState;
   totalCalled: number;
 }
 
 interface DispatchProps {
-  queryGeoLocation: typeof queryGeoLocation;
   switchAppMode: typeof switchAppMode;
-  disableProcess: typeof disableProcess;
+  adReceived: typeof adReceived;
   pickImageFromCamera: typeof pickImageFromCamera;
   pickImageFromLibrary: typeof pickImageFromLibrary;
 }
@@ -47,10 +45,6 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
   public state: OwnState = {
     showHint: true
   };
-
-  public componentDidMount(): void {
-    this.props.queryGeoLocation(undefined);
-  }
 
   public componentDidUpdate(): void {
     if (this.props.processState.status === 'ready') {
@@ -71,7 +65,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
             bannerSize="smartBannerPortrait"
             adUnitID={getBannerId('main')}
             testDeviceID={TEST_DEVICE_ID}
-            didFailToReceiveAdWithError={this.onAdFailedToLoad} />
+            adViewDidReceiveAd={this.onAdReceived} />
         </View>
         <View style={styles.main} >
           <TouchableOpacity onPress={this.onSwitchAppMode} style={styles.appSwitch}>
@@ -105,13 +99,15 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
     );
   }
 
-  private onAdFailedToLoad = (_: Error): void => {
-    this.props.disableProcess(undefined);
+  private onAdReceived = (): void => {
+    this.props.adReceived(undefined);
   }
 
   private checkAvailability = (callback: () => void): void => {
-    if (this.props.disabled) {
-      Alert.alert('Sorry!', 'Service is not available in your region.');
+    if (!this.props.network.isConnected) {
+      Alert.alert('Disconneced!', 'Please check you internet connection.');
+    } else if (!this.props.network.adReceived) {
+      Alert.alert('Sorry!', 'Service is currently unavailable in your region.');
     } else {
       callback();
     }
@@ -151,7 +147,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state:
   return {
     appMode: state.appMode,
     processState: state.processState,
-    disabled: state.disabled,
+    network: state.network,
     totalCalled: state.processState.totalCalled
   };
 };
@@ -159,9 +155,8 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state:
 // tslint:disable-next-line:variable-name
 export const MainScreen = connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps, {
-    queryGeoLocation,
     switchAppMode,
-    disableProcess,
+    adReceived,
     pickImageFromCamera,
     pickImageFromLibrary
   })(InnerMainScreen);
@@ -171,17 +166,17 @@ const styles = StyleSheet.create({
     flex: 1
   },
   top: {
-    flex: 0.2,
+    flex: 0.3,
     justifyContent: 'flex-start',
     alignItems: 'center'
   },
   main: {
-    flex: 0.35,
-    justifyContent: 'flex-end',
+    flex: 0.3,
+    justifyContent: 'center',
     alignItems: 'center'
   },
   bottom: {
-    flex: 0.45,
+    flex: 0.4,
     justifyContent: 'flex-end',
     alignItems: 'center',
     paddingHorizontal: 10,

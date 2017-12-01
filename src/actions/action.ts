@@ -18,8 +18,6 @@ export function createAction<Type extends string, Payload = void>(type: Type): A
     const action = ((payload: Payload): Action<Type, Payload> => {
         return { type, payload };
     }) as ActionCreator<Type, Payload>;
-
     action.type = type;
-
     return action;
 }

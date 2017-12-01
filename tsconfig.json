@@ -20,7 +20,6 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "outDir": "build",
     "preserveConstEnums": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
@@ -31,7 +30,7 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "decls/*.d.ts"
+    "typings/*.d.ts"
   ],
   "exclude": [
     "node_modules"

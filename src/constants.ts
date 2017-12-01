@@ -24,7 +24,7 @@ export const APP_CONFIG: Record<AppMode, AppConfig> = {
   Vision: {
     color: '#2e8b57',
     logo: 'tag-text-outline',
-    title: 'Image Tagging',
+    title: 'Photo Tagging',
     tag: 'Microsoft Computer Vision API'
   }
 };

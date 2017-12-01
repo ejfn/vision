@@ -1,17 +1,19 @@
 import { Asset } from 'expo';
 import * as React from 'react';
+import { NetInfo } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
+import * as actions from './actions/network';
 import { MainScreen } from './components/MainScreen';
 import { PhotoScreen } from './components/PhotoScreen';
 import * as reducers from './reducers';
 import { INITIAL_STATE } from './reducers/initialState';
 import { rootSaga } from './sagas';
 
-// tslint:disable:no-require-imports no-var-requires
+// tslint:disable:no-require-imports no-var-requires no-floating-promises
 Asset.fromModule(require('../assets/emotions/anger.png')).downloadAsync();
 Asset.fromModule(require('../assets/emotions/contempt.png')).downloadAsync();
 Asset.fromModule(require('../assets/emotions/disgust.png')).downloadAsync();
@@ -31,6 +33,13 @@ const store = createStore(
 );
 
 sagaMiddleware.run(rootSaga);
+
+// listen network changes
+NetInfo.addEventListener('connectionChange', () => {
+  store.dispatch(actions.checkNetwork(undefined));
+});
+
+store.dispatch(actions.checkNetwork(undefined));
 
 // tslint:disable-next-line:variable-name
 const AppNavigator = StackNavigator({

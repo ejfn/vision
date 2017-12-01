@@ -7,10 +7,16 @@ import { AzureLocation } from './config';
 export type AppMode = 'Face' | 'Emotion' | 'Vision';
 
 export interface AppState {
+  network: NetworkState;
   appMode: AppMode;
   processState: ProcessState;
-  geoLocation: GeoLocationState;
-  disabled: boolean;
+}
+
+export interface NetworkState {
+  isConnected: boolean;
+  adReceived: boolean;
+  freeGeoIp: FreeGeoIpResult;
+  azureLocation: AzureLocation;
 }
 
 export type ProcessStatus = 'none' | 'picking' | 'ready' | 'requesting' | 'success' | 'error';
@@ -27,9 +33,4 @@ export interface ProcessState {
   result: ProcessResult | null;
   error: Error | null;
   totalCalled: number;
-}
-
-export interface GeoLocationState {
-  freeGeoIp: FreeGeoIpResult;
-  azureLocation: AzureLocation;
 }

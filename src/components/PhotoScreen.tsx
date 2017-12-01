@@ -22,7 +22,7 @@ import { connect, MapStateToProps } from 'react-redux';
 import { describePhoto, detectFace, recognizeEmotion } from '../actions/process';
 import { getBannerId } from '../adSelector';
 import { TEST_DEVICE_ID } from '../secure';
-import { AppMode, AppState, GeoLocationState, ProcessState } from '../store';
+import { AppMode, AppState, NetworkState, ProcessState } from '../store';
 import { Button } from './Button';
 import { TaggedPhoto } from './TaggedPhoto';
 
@@ -34,7 +34,7 @@ interface OwnProps {
 
 interface StateProps {
   appMode: AppMode;
-  geoLocation: GeoLocationState;
+  network: NetworkState;
   processState: ProcessState;
 }
 
@@ -95,7 +95,7 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
           },
           {
             text: 'Retry',
-            onPress: () => this.process()
+            onPress: async () => { await this.process(); }
           }
         ],
         { cancelable: false }
@@ -145,7 +145,7 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
   }
 
   private process = async (): Promise<void> => {
-    const azureLocation = this.props.geoLocation.azureLocation;
+    const azureLocation = this.props.network.azureLocation;
     // tslint:disable-next-line:no-any
     const base64: string = await takeSnapshotAsync(this.refs.image as any, {
       format: 'jpeg',
@@ -197,7 +197,7 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => {
   return {
     appMode: state.appMode,
-    geoLocation: state.geoLocation,
+    network: state.network,
     processState: state.processState
   };
 };

@@ -8,7 +8,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "tslint": "tslint --project tsconfig.json -t stylish --project",
-    "build": "tsc --noEmit",
+    "start": "node ./node_modules/exp/bin/exp.js start",
     "watch": "npm run build -- --watch",
     "qualitycheck": "npm-run-all typecheck tslint"
   },
@@ -30,6 +30,7 @@
     "@types/react-navigation": "^1.0.16",
     "@types/react-redux": "^5.0.13",
     "babel-preset-es2015": "^6.24.0",
+    "exp": "^46.0.5",
     "npm-run-all": "^4.0.2",
     "react-native-typescript-transformer": "1.1.4",
     "rimraf": "^2.6.1",
