@@ -9,7 +9,6 @@
     "typecheck": "tsc --noEmit",
     "tslint": "tslint --project tsconfig.json -t stylish --project",
     "start": "node ./node_modules/exp/bin/exp.js start",
-    "watch": "npm run build -- --watch",
     "qualitycheck": "npm-run-all typecheck tslint"
   },
   "dependencies": {

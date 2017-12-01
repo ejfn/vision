@@ -105,9 +105,10 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
 
   private checkAvailability = (callback: () => void): void => {
     if (!this.props.network.isConnected) {
-      Alert.alert('Disconneced!', 'Please check you internet connection.');
-    } else if (!this.props.network.adReceived) {
-      Alert.alert('Sorry!', 'Service is currently unavailable in your region.');
+      Alert.alert('No Connectivity!', 'Please check you internet connection.');
+    } else if (!this.props.network.adReceived && this.props.processState.totalCalled > 0) {
+      // only one call is allowed before ad received.
+      Alert.alert('Limited Access!', 'Service is limited in your region.');
     } else {
       callback();
     }
@@ -127,9 +128,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
       AdMobInterstitial.setTestDeviceID(TEST_DEVICE_ID);
       AdMobInterstitial.addEventListener(
         'interstitialDidClose',
-        () => {
-          callback();
-        },
+        callback,
         { once: true }
       );
       AdMobInterstitial.requestAd(() => AdMobInterstitial.showAd());
