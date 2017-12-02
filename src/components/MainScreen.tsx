@@ -14,6 +14,9 @@ import { TEST_DEVICE_ID } from '../secure';
 import { AppMode, AppState, NetworkState, ProcessState } from '../store';
 import { Button } from './Button';
 
+const SHOW_INTERSTITIAL_INTERVAL: number = 5; // calls
+const SHOW_HINT_THRESHOLD: number = 5; // second
+
 interface OwnProps {
   navigation: NavigationScreenProp<{}, void>;
 }
@@ -38,13 +41,19 @@ interface OwnState {
 
 class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & DispatchProps, OwnState> {
 
+  private timeoutHandle: number | null = null;
+
   public static navigationOptions: NavigationStackScreenOptions = {
     header: null
   };
 
   public state: OwnState = {
-    showHint: true
+    showHint: false
   };
+
+  public componentDidMount(): void {
+    this.setHintTimeout();
+  }
 
   public componentDidUpdate(): void {
     if (this.props.processState.status === 'ready') {
@@ -79,7 +88,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
           {
             this.state.showHint &&
             <Text style={[styles.hint, { color: config.color }]}>
-              Tap the big icon to try more!
+              Hint: Tap the big icon to try more.
             </Text>
           }
           <Button
@@ -99,6 +108,27 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
     );
   }
 
+  private setHintTimeout(): void {
+    if (this.timeoutHandle != null) {
+      clearTimeout(this.timeoutHandle);
+    }
+    this.timeoutHandle = setTimeout(
+      () => {
+        this.setState((state: OwnState) => {
+          return { ...state, showHint: true };
+        });
+      },
+      SHOW_HINT_THRESHOLD * 1000);
+  }
+
+  private onSwitchAppMode = () => {
+    this.setState((state: OwnState) => {
+      return { ...state, showHint: false };
+    });
+    this.setHintTimeout();
+    this.props.switchAppMode(undefined);
+  }
+
   private onAdReceived = (): void => {
     this.props.adReceived(undefined);
   }
@@ -106,9 +136,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
   private checkAvailability = (callback: () => void): void => {
     if (!this.props.network.isConnected) {
       Alert.alert('No Connectivity!', 'Please check you internet connection.');
-    } else if (!this.props.network.adReceived && this.props.processState.totalCalled >= 5) {
-      // only limited calls are allowed until ad received.
-      // TODO: move ad received state to local storage
+    } else if (!this.props.network.adReceived && this.props.processState.totalCalled >= SHOW_INTERSTITIAL_INTERVAL) {
       Alert.alert('Limited Access!', 'Service is limited in your region.');
     } else {
       callback();
@@ -136,10 +164,6 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
     } else {
       callback();
     }
-  }
-
-  private onSwitchAppMode = () => {
-    this.props.switchAppMode(undefined);
   }
 }
 
@@ -190,7 +214,7 @@ const styles = StyleSheet.create({
     marginTop: -5
   },
   hint: {
-    fontSize: 16,
+    fontSize: 14,
     marginVertical: 5
   },
   button: {
