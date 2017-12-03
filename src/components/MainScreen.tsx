@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { AdMobBanner, AdMobInterstitial } from 'expo';
+import { AdMobBanner, AdMobInterstitial, Constants } from 'expo';
 import React from 'react';
 import { Alert, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { NavigationScreenProp, NavigationStackScreenOptions } from 'react-navigation';
@@ -13,10 +13,6 @@ import { APP_CONFIG, AppConfig } from '../constants';
 import { TEST_DEVICE_ID } from '../secure';
 import { AppMode, AppState, NetworkState, ProcessState } from '../store';
 import { Button } from './Button';
-
-const SHOW_HINT_THRESHOLD: number = 5; // in second
-const LIMITED_ACCESS_CALLS: number = 3; // calls
-const INTERSTITIAL_THRESHOLD: number = 7;
 
 interface OwnProps {
   navigation: NavigationScreenProp<{}, void>;
@@ -104,6 +100,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
             style={[styles.button, { backgroundColor: config.color }]}
             fontSize={18}
             onPress={this.onPickFromLibrary} />
+          <Text style={styles.version}>{Constants.manifest.version}</Text>
         </View>
       </SafeAreaView>
     );
@@ -122,7 +119,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
           return { ...state, showHint: true };
         });
       },
-      SHOW_HINT_THRESHOLD * 1000);
+      Constants.manifest.extra.showHintIdleSeconds * 1000);
   }
 
   private onSwitchAppMode = () => {
@@ -137,7 +134,8 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
   private checkAvailability = (callback: () => void): void => {
     if (!this.props.network.isConnected) {
       Alert.alert('No Connectivity!', 'Please check you internet connection.');
-    } else if (!this.props.network.adReceived && this.props.processState.totalCalled >= LIMITED_ACCESS_CALLS) {
+    } else if (!this.props.network.adReceived &&
+      this.props.processState.totalCalled >= Constants.manifest.extra.limitedAccessCalls) {
       Alert.alert('Limited Access!', 'Service is limited in your region.');
     } else {
       callback();
@@ -155,7 +153,8 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
   }
 
   private checkInterstitial = (callback: () => void): void => {
-    if (this.props.totalCalled > 0 && this.props.totalCalled % INTERSTITIAL_THRESHOLD === 0) {
+    if (this.props.totalCalled > 0 &&
+      this.props.totalCalled % Constants.manifest.extra.showInterstitialCalls === 0) {
       AdMobInterstitial.setAdUnitID(getInterstitialId());
       AdMobInterstitial.setTestDeviceID(TEST_DEVICE_ID);
       AdMobInterstitial.addEventListener(
@@ -206,8 +205,7 @@ const styles = StyleSheet.create({
     flex: 0.4,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingBottom: 20
+    paddingHorizontal: 10
   },
   appSwitch: {
     alignItems: 'center'
@@ -228,6 +226,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     color: '#a9a9a9',
     fontSize: 12,
+    paddingRight: 5,
     paddingBottom: 5
   }
 });
