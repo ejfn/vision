@@ -14,8 +14,9 @@ import { TEST_DEVICE_ID } from '../secure';
 import { AppMode, AppState, NetworkState, ProcessState } from '../store';
 import { Button } from './Button';
 
-const SHOW_INTERSTITIAL_INTERVAL: number = 5; // calls
-const SHOW_HINT_THRESHOLD: number = 5; // second
+const SHOW_HINT_THRESHOLD: number = 5; // in second
+const LIMITED_ACCESS_CALLS: number = 3; // calls
+const INTERSTITIAL_THRESHOLD: number = 7;
 
 interface OwnProps {
   navigation: NavigationScreenProp<{}, void>;
@@ -52,7 +53,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
   };
 
   public componentDidMount(): void {
-    this.setHintTimeout();
+    this.resetHint();
   }
 
   public componentDidUpdate(): void {
@@ -108,8 +109,11 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
     );
   }
 
-  private setHintTimeout(): void {
+  private resetHint(): void {
     if (this.timeoutHandle != null) {
+      this.setState((state: OwnState) => {
+        return { ...state, showHint: false };
+      });
       clearTimeout(this.timeoutHandle);
     }
     this.timeoutHandle = setTimeout(
@@ -122,10 +126,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
   }
 
   private onSwitchAppMode = () => {
-    this.setState((state: OwnState) => {
-      return { ...state, showHint: false };
-    });
-    this.setHintTimeout();
+    this.resetHint();
     this.props.switchAppMode(undefined);
   }
 
@@ -136,7 +137,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
   private checkAvailability = (callback: () => void): void => {
     if (!this.props.network.isConnected) {
       Alert.alert('No Connectivity!', 'Please check you internet connection.');
-    } else if (!this.props.network.adReceived && this.props.processState.totalCalled >= SHOW_INTERSTITIAL_INTERVAL) {
+    } else if (!this.props.network.adReceived && this.props.processState.totalCalled >= LIMITED_ACCESS_CALLS) {
       Alert.alert('Limited Access!', 'Service is limited in your region.');
     } else {
       callback();
@@ -144,15 +145,17 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
   }
 
   private onPickFromCamera = () => {
+    this.resetHint();
     this.checkAvailability(() => this.props.pickImageFromCamera(undefined));
   }
 
   private onPickFromLibrary = () => {
+    this.resetHint();
     this.checkAvailability(() => this.props.pickImageFromLibrary(undefined));
   }
 
   private checkInterstitial = (callback: () => void): void => {
-    if (this.props.totalCalled > 0 && this.props.totalCalled % 3 === 0) {
+    if (this.props.totalCalled > 0 && this.props.totalCalled % INTERSTITIAL_THRESHOLD === 0) {
       AdMobInterstitial.setAdUnitID(getInterstitialId());
       AdMobInterstitial.setTestDeviceID(TEST_DEVICE_ID);
       AdMobInterstitial.addEventListener(

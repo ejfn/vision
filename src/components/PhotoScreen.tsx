@@ -44,7 +44,9 @@ interface DispatchProps {
   describePhoto: typeof describePhoto;
 }
 
-class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & DispatchProps> {
+type Props = OwnProps & StateProps & DispatchProps;
+
+class InnerPhotoScreen extends React.PureComponent<Props> {
 
   public static navigationOptions = (props: NavigationScreenConfigProps): NavigationStackScreenOptions => {
     return {
@@ -58,49 +60,53 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
     }
   }
 
-  public render(): JSX.Element {
-    if (this.props.processState.status === 'success' && this.props.processState.result != null) {
-      if ((this.props.appMode === 'Face' && (
-        this.props.processState.result.face == null ||
-        this.props.processState.result.face.length === 0)) ||
-        (this.props.appMode === 'Emotion' && (
-          this.props.processState.result.emotion == null ||
-          this.props.processState.result.emotion.length === 0))
-      ) {
+  public componentDidUpdate(prevProps: Props): void {
+    if (prevProps.processState.status === 'requesting') {
+      if (this.props.processState.status === 'error') {
+        let message = 'Something went wrong.';
+        if (this.props.processState.error != null) {
+          message = this.props.processState.error.message;
+        }
         Alert.alert(
-          'No face detected!',
-          'Please select a photo with faces.',
+          'Oops!',
+          message,
           [
             {
-              text: 'OK',
-              onPress: () => this.props.navigation.goBack()
+              text: 'Cancel',
+              onPress: () => this.props.navigation.goBack(),
+              style: 'cancel'
+            },
+            {
+              text: 'Retry',
+              onPress: async () => { await this.process(); }
             }
-          ]
+          ],
+          { cancelable: false }
         );
+      } else if (this.props.processState.status === 'success' && this.props.processState.result != null) {
+        if ((this.props.appMode === 'Face' && (
+          this.props.processState.result.face == null ||
+          this.props.processState.result.face.length === 0)) ||
+          (this.props.appMode === 'Emotion' && (
+            this.props.processState.result.emotion == null ||
+            this.props.processState.result.emotion.length === 0))
+        ) {
+          Alert.alert(
+            'No face detected!',
+            'Please select a photo with faces.',
+            [
+              {
+                text: 'OK',
+                onPress: () => this.props.navigation.goBack()
+              }
+            ]
+          );
+        }
       }
     }
-    if (this.props.processState.status === 'error') {
-      let message = 'Something went wrong.';
-      if (this.props.processState.error != null) {
-        message = this.props.processState.error.message;
-      }
-      Alert.alert(
-        'Oops!',
-        message,
-        [
-          {
-            text: 'Cancel',
-            onPress: () => this.props.navigation.goBack(),
-            style: 'cancel'
-          },
-          {
-            text: 'Retry',
-            onPress: async () => { await this.process(); }
-          }
-        ],
-        { cancelable: false }
-      );
-    }
+  }
+
+  public render(): JSX.Element {
 
     const imageSize: number = Math.min(height, width);
 
@@ -118,7 +124,8 @@ class InnerPhotoScreen extends React.PureComponent<OwnProps & StateProps & Dispa
               /> : null
           }
           {
-            this.props.processState.status === 'requesting' ?
+            (this.props.processState.status === 'requesting' ||
+              this.props.processState.status === 'ready') ?
               <View style={styles.indicatorContainer} >
                 <ActivityIndicator size="large" />
                 <Text style={styles.indicatorText}>PROCESSING...</Text>
