@@ -1,12 +1,12 @@
 import { RequestPayload } from '../actions/process';
-import { ApiKey, getApiKey } from '../apiSelector';
+import { getApiKey } from '../apiSelector';
 import { b64toBinary } from '../utils';
 import { VisionResult } from './types';
 
 export async function postDescribePhoto(payload: RequestPayload): Promise<VisionResult> {
-  const apiKey: ApiKey = getApiKey('Vision', payload.azureLocation);
+  const apiKey = getApiKey('Vision', payload.azureLocation);
+  const url: string = `https://${payload.azureLocation}.api.cognitive.microsoft.com/vision/v1.0/describe`;
 
-  const url: string = `${apiKey.url}/describe`;
   const headers: Headers = new Headers();
   headers.append('Content-Type', 'application/octet-stream');
   headers.append('Ocp-Apim-Subscription-Key', apiKey.key);

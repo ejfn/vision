@@ -1,12 +1,12 @@
 import { RequestPayload } from '../actions/process';
-import { ApiKey, getApiKey } from '../apiSelector';
+import { getApiKey } from '../apiSelector';
 import { b64toBinary } from '../utils';
 import { EmotionResult } from './types';
 
 export async function postRecognizeEmotion(payload: RequestPayload): Promise<Array<EmotionResult>> {
-  const apiKey: ApiKey = getApiKey('Emotion', payload.azureLocation);
+  const apiKey = getApiKey('Emotion', payload.azureLocation);
+  const url: string = `https://${payload.azureLocation}.api.cognitive.microsoft.com/emotion/v1.0/recognize`;
 
-  const url: string = `${apiKey.url}/recognize`;
   const headers: Headers = new Headers();
   headers.append('Content-Type', 'application/octet-stream');
   headers.append('Ocp-Apim-Subscription-Key', apiKey.key);

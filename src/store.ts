@@ -2,7 +2,7 @@ import { ImagePicker } from 'expo';
 
 import { FreeGeoIpResult } from './api/freeGeoIp';
 import { EmotionResult, FaceResult, VisionResult } from './api/types';
-import { AzureLocation } from './config';
+import { AzureLocation } from './typings/extra';
 
 export type AppMode = 'Face' | 'Emotion' | 'Vision';
 

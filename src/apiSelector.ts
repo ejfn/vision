@@ -1,16 +1,15 @@
-import { API_KEYS, AzureLocation } from './config';
+import { extra } from './config';
 import { AppMode } from './store';
-
-export interface ApiKey {
-  url: string;
-  key: string;
-}
-
-export type RegionalApiKeys = Partial<Record<AzureLocation, ApiKey>>;
+import { ApiKey, AzureLocation } from './typings/extra';
 
 export function getApiKey(mode: AppMode, azureLocation: AzureLocation): ApiKey {
-  const apis = API_KEYS[mode];
-  const api = apis[azureLocation];
-  // tslint:disable-next-line:no-non-null-assertion
-  return api !== undefined ? api : apis.westus!;
+  // tslint:disable-next-line:switch-default
+  switch (mode) {
+    case 'Face':
+      return extra.faceApiKeys.find(i => i.location === azureLocation) || extra.faceApiKeys[0];
+    case 'Emotion':
+      return extra.emotionApiKeys.find(i => i.location === azureLocation) || extra.emotionApiKeys[0];
+    case 'Vision':
+      return extra.visionApiKeys.find(i => i.location === azureLocation) || extra.visionApiKeys[0];
+  }
 }

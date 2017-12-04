@@ -1,0 +1,163 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Extra",
+  "description": "extra section in app.json",
+  "definitions": {
+    "AzureLocation": {
+      "type": "string",
+      "enum": [
+        "westus",
+        "australiaeast",
+        "southeastasia",
+        "northeurope"
+      ]
+    },
+    "GeoLocationMap": {
+      "type": "object",
+      "properties": {
+        "AF": {
+          "$ref": "#/definitions/AzureLocation",
+          "default": "northeurope"
+        },
+        "AN": {
+          "$ref": "#/definitions/AzureLocation",
+          "default": "australiaeast"
+        },
+        "AS": {
+          "$ref": "#/definitions/AzureLocation",
+          "default": "southeastasia"
+        },
+        "EU": {
+          "$ref": "#/definitions/AzureLocation",
+          "default": "northeurope"
+        },
+        "NA": {
+          "$ref": "#/definitions/AzureLocation",
+          "default": "westus"
+        },
+        "OC": {
+          "$ref": "#/definitions/AzureLocation",
+          "default": "australiaeast"
+        },
+        "SA": {
+          "$ref": "#/definitions/AzureLocation",
+          "default": "westus"
+        }
+      },
+      "additionalProperties": false
+    },
+    "AdMob": {
+      "type": "object",
+      "properties": {
+        "banner1": {
+          "$ref": "#/definitions/AdUnit"
+        },
+        "banner2": {
+          "$ref": "#/definitions/AdUnit"
+        },
+        "interstitial": {
+          "$ref": "#/definitions/AdUnit"
+        },
+        "testDeviceId": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "AdUnit": {
+      "type": "object",
+      "properties": {
+        "ios": {
+          "type": "string"
+        },
+        "android": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ApiKey": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "$ref": "#/definitions/AzureLocation"
+        },
+        "key": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "location",
+        "key"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "properties": {
+    "semver": {
+      "description": "Semantic Version",
+      "type": "string",
+      "default": "1.0.0"
+    },
+    "showHintIdleSeconds": {
+      "description": "Show Hint when idle for x seconds ",
+      "type": "number",
+      "default": 5
+    },
+    "showInterstitialCalls": {
+      "description": "Show interstitial ad every x calls",
+      "type": "number",
+      "default": 10
+    },
+    "limitedAccessCalls": {
+      "description": "Maximium calls when failed to load ad",
+      "type": "number",
+      "default": 3
+    },
+    "adMobSettings": {
+      "description": "AdMob Settings",
+      "$ref": "#/definitions/AdMob"
+    },
+    "geoAzureLocationMap": {
+      "description": "Geo and azure location mapping",
+      "$ref": "#/definitions/GeoLocationMap"
+    },
+    "faceApiKeys": {
+      "description": "Face api endpoints and keys",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ApiKey"
+      },
+      "minItems": 1
+    },
+    "emotionApiKeys": {
+      "description": "Emotion api endpoints and keys",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ApiKey"
+      },
+      "minItems": 1
+    },
+    "visionApiKeys": {
+      "description": "Vision api endpoints and keys",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ApiKey"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "semver",
+    "showHintIdleSeconds",
+    "showInterstitialCalls",
+    "limitedAccessCalls",
+    "geoAzureLocationMap",
+    "adMobSettings",
+    "faceApiKeys",
+    "emotionApiKeys",
+    "visionApiKeys"
+  ],
+  "additionalProperties": false
+}

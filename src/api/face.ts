@@ -1,12 +1,13 @@
 import { RequestPayload } from '../actions/process';
-import { ApiKey, getApiKey } from '../apiSelector';
+import { getApiKey } from '../apiSelector';
 import { b64toBinary } from '../utils';
 import { FaceResult } from './types';
 
 export async function postDetectFace(payload: RequestPayload): Promise<Array<FaceResult>> {
-  const apiKey: ApiKey = getApiKey('Face', payload.azureLocation);
+  const apiKey = getApiKey('Face', payload.azureLocation);
+  const url: string = `https://${payload.azureLocation}.api.cognitive.microsoft.com/face/v1.0/detect` +
+    '?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender';
 
-  const url: string = `${apiKey.url}/detect?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender`;
   const headers: Headers = new Headers();
   headers.append('Content-Type', 'application/octet-stream');
   headers.append('Ocp-Apim-Subscription-Key', apiKey.key);

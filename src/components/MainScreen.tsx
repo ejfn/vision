@@ -8,9 +8,9 @@ import { connect, MapStateToProps } from 'react-redux';
 import { switchAppMode } from '../actions/appMode';
 import { adReceived } from '../actions/network';
 import { pickImageFromCamera, pickImageFromLibrary } from '../actions/process';
-import { getBannerId, getInterstitialId } from '../adSelector';
+import { getBannerId, getInterstitialId, getTestDeviceId } from '../adSelector';
+import { extra } from '../config';
 import { APP_CONFIG, AppConfig } from '../constants';
-import { TEST_DEVICE_ID } from '../secure';
 import { AppMode, AppState, NetworkState, ProcessState } from '../store';
 import { Button } from './Button';
 
@@ -32,11 +32,13 @@ interface DispatchProps {
   pickImageFromLibrary: typeof pickImageFromLibrary;
 }
 
-interface OwnState {
+type Props = OwnProps & StateProps & DispatchProps;
+
+interface State {
   showHint: boolean;
 }
 
-class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & DispatchProps, OwnState> {
+class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & DispatchProps, State> {
 
   private timeoutHandle: number | null = null;
 
@@ -44,7 +46,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
     header: null
   };
 
-  public state: OwnState = {
+  public state: State = {
     showHint: false
   };
 
@@ -52,8 +54,8 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
     this.resetHint();
   }
 
-  public componentDidUpdate(): void {
-    if (this.props.processState.status === 'ready') {
+  public componentDidUpdate(prevProps: Props): void {
+    if (prevProps.processState.status === 'picking' && this.props.processState.status === 'ready') {
       this.checkInterstitial(() => {
         const title = APP_CONFIG[this.props.appMode].title;
         this.props.navigation.navigate('Photo', { title });
@@ -70,7 +72,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
           <AdMobBanner
             bannerSize="smartBannerPortrait"
             adUnitID={getBannerId('main')}
-            testDeviceID={TEST_DEVICE_ID}
+            testDeviceID={getTestDeviceId()}
             adViewDidReceiveAd={this.onAdReceived} />
         </View>
         <View style={styles.main} >
@@ -108,18 +110,18 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
 
   private resetHint(): void {
     if (this.timeoutHandle != null) {
-      this.setState((state: OwnState) => {
+      this.setState((state: State) => {
         return { ...state, showHint: false };
       });
       clearTimeout(this.timeoutHandle);
     }
     this.timeoutHandle = setTimeout(
       () => {
-        this.setState((state: OwnState) => {
+        this.setState((state: State) => {
           return { ...state, showHint: true };
         });
       },
-      Constants.manifest.extra.showHintIdleSeconds * 1000);
+      extra.showHintIdleSeconds * 1000);
   }
 
   private onSwitchAppMode = () => {
@@ -135,7 +137,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
     if (!this.props.network.isConnected) {
       Alert.alert('No Connectivity!', 'Please check you internet connection.');
     } else if (!this.props.network.adReceived &&
-      this.props.processState.totalCalled >= Constants.manifest.extra.limitedAccessCalls) {
+      this.props.processState.totalCalled >= extra.limitedAccessCalls) {
       Alert.alert('Limited Access!', 'Service is limited in your region.');
     } else {
       callback();
@@ -154,9 +156,9 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
 
   private checkInterstitial = (callback: () => void): void => {
     if (this.props.totalCalled > 0 &&
-      this.props.totalCalled % Constants.manifest.extra.showInterstitialCalls === 0) {
+      this.props.totalCalled % extra.showInterstitialCalls === 0) {
       AdMobInterstitial.setAdUnitID(getInterstitialId());
-      AdMobInterstitial.setTestDeviceID(TEST_DEVICE_ID);
+      AdMobInterstitial.setTestDeviceID(getTestDeviceId());
       AdMobInterstitial.addEventListener(
         'interstitialDidClose',
         callback,

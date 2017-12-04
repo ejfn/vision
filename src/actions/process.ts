@@ -1,7 +1,7 @@
 import { ImagePicker } from 'expo';
 
-import { AzureLocation } from '../config';
 import { ProcessResult } from '../store';
+import { AzureLocation } from '../typings/extra';
 import { createAction } from './action';
 
 export interface RequestPayload {

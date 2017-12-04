@@ -23,7 +23,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.fanstek.vision",
-      "buildNumber": "1010022",
+      "buildNumber": "1010023",
       "supportsTablet": false,
       "config": {
         "usesNonExemptEncryption": false
@@ -31,16 +31,66 @@
     },
     "android": {
       "package": "com.fanstek.vision",
-      "versionCode": 1010022,
+      "versionCode": 1010023,
       "permissions": [
         "CAMERA"
       ]
     },
     "extra": {
-      "semver": "1.1.0-beta.22",
+      "semver": "1.0.0",
       "showHintIdleSeconds": 5,
       "showInterstitialCalls": 10,
-      "limitedAccessCalls": 3
+      "limitedAccessCalls": 3,
+      "adMobSettings": {
+        "banner1": {
+        },
+        "banner2": {
+        },
+        "interstitial": {
+        },
+      },
+      "geoAzureLocationMap": {
+        "AF": "northeurope",
+        "AN": "australiaeast",
+        "AS": "southeastasia",
+        "EU": "northeurope",
+        "NA": "westus",
+        "OC": "australiaeast",
+        "SA": "westus"
+      },
+      "faceApiKeys": [
+        {
+          "location": "westus"
+        },
+        {
+          "location": "southeastasia"
+        },
+        {
+          "location": "australiaeast"
+        },
+        {
+          "location": "northeurope"
+        }
+      ],
+      "emotionApiKeys": [
+        {
+          "location": "westus"
+        }
+      ],
+      "visionApiKeys": [
+        {
+          "location": "westus"
+        },
+        {
+          "location": "australiaeast"
+        },
+        {
+          "location": "southeastasia"
+        },
+        {
+          "location": "northeurope"
+        }
+      ]
     }
   }
 }
