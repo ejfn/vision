@@ -1,6 +1,6 @@
 import { decode } from 'base-64';
 
-export function b64toBinary(b64Data: string): Uint8Array {
+export function base64ToBinary(b64Data: string): Uint8Array {
   const byteCharacters: string = decode(b64Data);
   const byteNumbers: Array<number> = [];
   for (let i: number = 0; i < byteCharacters.length; i++) {

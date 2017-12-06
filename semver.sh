@@ -17,4 +17,4 @@ export BuildNumber=$(($Major * 1000000 + $Minor * 10000 + $Patch * 100 + $Candid
 sed -i '' -e 's/"version": ".*"/"version": "'$MajorMinorPatch'"/g' app.json
 sed -i '' -e 's/"buildNumber": ".*"/"buildNumber": "'$BuildNumber'"/g' app.json
 sed -i '' -e 's/"versionCode": [0-9]*/"versionCode": '$BuildNumber'/g' app.json
-sed -i '' -e 's/"semver": ".*"/"semver": "'$SemVer'"/g' app.json
+sed -i '' -e 's/"semver": ".*"/"semver": "'$MajorMinorPatch'"/g' app.json

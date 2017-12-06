@@ -1,6 +1,6 @@
 import { RequestPayload } from '../actions/process';
 import { ApiLocationKey } from '../typings/extra';
-import { b64toBinary } from '../utils';
+import { base64ToBinary } from '../utils/base64';
 import { FaceResult } from './types';
 
 export async function postDetectFace(payload: RequestPayload, key: ApiLocationKey): Promise<Array<FaceResult>> {
@@ -15,7 +15,7 @@ export async function postDetectFace(payload: RequestPayload, key: ApiLocationKe
     url,
     {
       method: 'POST',
-      body: b64toBinary(payload.base64),
+      body: base64ToBinary(payload.base64),
       headers
     }
   );
