@@ -20,7 +20,7 @@ import {
 import { connect, MapStateToProps } from 'react-redux';
 
 import { describePhoto, detectFace, recognizeEmotion } from '../actions/process';
-import { getBannerId, getTestDeviceId } from '../adSelector';
+import { getBannerId, getTestDeviceIds } from '../adSelector';
 import { AppMode, AppState, NetworkState, ProcessState } from '../store';
 import { Button } from './Button';
 import { TaggedPhoto } from './TaggedPhoto';
@@ -143,15 +143,14 @@ class InnerPhotoScreen extends React.PureComponent<Props> {
         <View style={styles.banner}>
           <AdMobBanner
             bannerSize="smartBannerPortrait"
-            adUnitID={getBannerId('photo')}
-            testDeviceID={getTestDeviceId()} />
+            adUnitID={getBannerId(1)}
+            testDeviceID={getTestDeviceIds()[0] || undefined} />
         </View>
       </SafeAreaView>
     );
   }
 
   private process = async (): Promise<void> => {
-    const azureLocation = this.props.network.azureLocation;
     // tslint:disable-next-line:no-any
     const base64: string = await takeSnapshotAsync(this.refs.image as any, {
       format: 'jpeg',
@@ -162,13 +161,13 @@ class InnerPhotoScreen extends React.PureComponent<Props> {
     });
     switch (this.props.appMode) {
       case 'Face':
-        this.props.detectFace({ azureLocation, base64 });
+        this.props.detectFace({ base64 });
         break;
       case 'Emotion':
-        this.props.recognizeEmotion({ azureLocation, base64 });
+        this.props.recognizeEmotion({ base64 });
         break;
       case 'Vision':
-        this.props.describePhoto({ azureLocation, base64 });
+        this.props.describePhoto({ base64 });
         break;
       default:
         return;

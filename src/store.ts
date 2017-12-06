@@ -2,7 +2,6 @@ import { ImagePicker } from 'expo';
 
 import { FreeGeoIpResult } from './api/freeGeoIp';
 import { EmotionResult, FaceResult, VisionResult } from './api/types';
-import { AzureLocation } from './typings/extra';
 
 export type AppMode = 'Face' | 'Emotion' | 'Vision';
 
@@ -16,7 +15,6 @@ export interface NetworkState {
   isConnected: boolean;
   adReceived: boolean;
   freeGeoIp: FreeGeoIpResult;
-  azureLocation: AzureLocation;
 }
 
 export type ProcessStatus = 'none' | 'picking' | 'ready' | 'requesting' | 'success' | 'error';

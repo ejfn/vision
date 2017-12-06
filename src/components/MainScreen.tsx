@@ -8,7 +8,7 @@ import { connect, MapStateToProps } from 'react-redux';
 import { switchAppMode } from '../actions/appMode';
 import { adReceived } from '../actions/network';
 import { pickImageFromCamera, pickImageFromLibrary } from '../actions/process';
-import { getBannerId, getInterstitialId, getTestDeviceId } from '../adSelector';
+import { getBannerId, getInterstitialId, getTestDeviceIds } from '../adSelector';
 import { extra } from '../config';
 import { APP_CONFIG, AppConfig } from '../constants';
 import { AppMode, AppState, NetworkState, ProcessState } from '../store';
@@ -71,8 +71,8 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
         <View style={styles.top}>
           <AdMobBanner
             bannerSize="smartBannerPortrait"
-            adUnitID={getBannerId('main')}
-            testDeviceID={getTestDeviceId()}
+            adUnitID={getBannerId(0)}
+            testDeviceID={getTestDeviceIds()[0] || undefined}
             adViewDidReceiveAd={this.onAdReceived} />
         </View>
         <View style={styles.main} >
@@ -157,8 +157,8 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
   private checkInterstitial = (callback: () => void): void => {
     if (this.props.totalCalled > 0 &&
       this.props.totalCalled % extra.showInterstitialCalls === 0) {
-      AdMobInterstitial.setAdUnitID(getInterstitialId());
-      AdMobInterstitial.setTestDeviceID(getTestDeviceId());
+      AdMobInterstitial.setAdUnitID(getInterstitialId(0));
+      getTestDeviceIds().forEach(i => AdMobInterstitial.setTestDeviceID(i));
       AdMobInterstitial.addEventListener(
         'interstitialDidClose',
         callback,

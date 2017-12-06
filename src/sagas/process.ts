@@ -1,13 +1,18 @@
 import { ImagePicker } from 'expo';
 import { Alert } from 'react-native';
 import { SagaIterator } from 'redux-saga';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import * as actions from '../actions/process';
 import { postRecognizeEmotion } from '../api/emotion';
 import { postDetectFace } from '../api/face';
+import { FreeGeoIpResult } from '../api/freeGeoIp';
 import { FaceResult } from '../api/types';
 import { postDescribePhoto } from '../api/vision';
+import { extra } from '../config';
+import { GEO_COUNTRIES } from '../constants';
+import { AppMode, AppState } from '../store';
+import { ApiLocationKey, AzureLocation } from '../typings/extra';
 
 function* pickImageFromCameraSaga(): SagaIterator {
   yield put(actions.pickImageStart(undefined));
@@ -52,9 +57,11 @@ function* pickImageFromLibrarySaga(): SagaIterator {
 function* detectFaceSaga(action: typeof actions.detectFace.shape): SagaIterator {
   yield put(actions.processStart(undefined));
   try {
+    const key: ApiLocationKey = yield call(getApiKeyByGeoLocation, 'Face');
     const result: Array<FaceResult> = yield call(
       postDetectFace,
-      action.payload
+      action.payload,
+      key
     );
     yield put(actions.processSuccess({ face: result }));
   } catch (e) {
@@ -65,9 +72,11 @@ function* detectFaceSaga(action: typeof actions.detectFace.shape): SagaIterator 
 function* recognizeEmotionSaga(action: typeof actions.recognizeEmotion.shape): SagaIterator {
   yield put(actions.processStart(undefined));
   try {
+    const key: ApiLocationKey = yield call(getApiKeyByGeoLocation, 'Emotion');
     const result = yield call(
       postRecognizeEmotion,
-      action.payload
+      action.payload,
+      key
     );
     yield put(actions.processSuccess({ emotion: result }));
   } catch (e) {
@@ -78,13 +87,36 @@ function* recognizeEmotionSaga(action: typeof actions.recognizeEmotion.shape): S
 function* describePhotoSaga(action: typeof actions.describePhoto.shape): SagaIterator {
   yield put(actions.processStart(undefined));
   try {
+    const key: ApiLocationKey = yield call(getApiKeyByGeoLocation, 'Vision');
     const result = yield call(
       postDescribePhoto,
-      action.payload
+      action.payload,
+      key
     );
     yield put(actions.processSuccess({ vision: result }));
   } catch (e) {
     yield put(actions.processError(e));
+  }
+}
+
+function* getApiKeyByGeoLocation(appMode: AppMode): SagaIterator {
+  const geoIp: FreeGeoIpResult = yield select((s: AppState) => s.network.freeGeoIp);
+
+  let azureLocation: AzureLocation | undefined;
+  const country = GEO_COUNTRIES.find(i => i.country_iso_code === geoIp.country_code);
+  if (country !== undefined) {
+    azureLocation = extra.geoAzureLocationMap[country.continent_code];
+  }
+
+  switch (appMode) {
+    case 'Face':
+      return extra.faceApiKeys.find(i => i.location === azureLocation) || extra.faceApiKeys[0];
+    case 'Emotion':
+      return extra.emotionApiKeys.find(i => i.location === azureLocation) || extra.emotionApiKeys[0];
+    case 'Vision':
+      return extra.visionApiKeys.find(i => i.location === azureLocation) || extra.visionApiKeys[0];
+    default:
+      throw new Error(`Unknown app mode ${appMode}`);
   }
 }
 

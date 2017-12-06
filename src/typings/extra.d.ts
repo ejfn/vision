@@ -30,10 +30,9 @@ export interface Extra {
    * AdMob Settings
    */
   adMobSettings: {
-    banner1?: AdUnit;
-    banner2?: AdUnit;
-    interstitial?: AdUnit;
-    testDeviceId?: string;
+    banners: AdUnitIds[];
+    interstitials: AdUnitIds[];
+    testDeviceIds: string[];
   };
   /**
    * Geo and azure location mapping
@@ -50,21 +49,21 @@ export interface Extra {
   /**
    * Face api endpoints and keys
    */
-  faceApiKeys: ApiKey[];
+  faceApiKeys: ApiLocationKey[];
   /**
    * Emotion api endpoints and keys
    */
-  emotionApiKeys: ApiKey[];
+  emotionApiKeys: ApiLocationKey[];
   /**
    * Vision api endpoints and keys
    */
-  visionApiKeys: ApiKey[];
+  visionApiKeys: ApiLocationKey[];
 }
-export interface AdUnit {
+export interface AdUnitIds {
   ios?: string;
   android?: string;
 }
-export interface ApiKey {
+export interface ApiLocationKey {
   location: AzureLocation;
   key: string;
 }

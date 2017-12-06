@@ -46,25 +46,36 @@
       },
       "additionalProperties": false
     },
-    "AdMob": {
+    "AdModSettings": {
       "type": "object",
       "properties": {
-        "banner1": {
-          "$ref": "#/definitions/AdUnit"
+        "banners": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AdUnitIds"
+          }
         },
-        "banner2": {
-          "$ref": "#/definitions/AdUnit"
+        "interstitials": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AdUnitIds"
+          }
         },
-        "interstitial": {
-          "$ref": "#/definitions/AdUnit"
-        },
-        "testDeviceId": {
-          "type": "string"
+        "testDeviceIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
+      "required": [
+        "banners",
+        "interstitials",
+        "testDeviceIds"
+      ],
       "additionalProperties": false
     },
-    "AdUnit": {
+    "AdUnitIds": {
       "type": "object",
       "properties": {
         "ios": {
@@ -76,7 +87,7 @@
       },
       "additionalProperties": false
     },
-    "ApiKey": {
+    "ApiLocationKey": {
       "type": "object",
       "properties": {
         "location": {
@@ -117,7 +128,7 @@
     },
     "adMobSettings": {
       "description": "AdMob Settings",
-      "$ref": "#/definitions/AdMob"
+      "$ref": "#/definitions/AdModSettings"
     },
     "geoAzureLocationMap": {
       "description": "Geo and azure location mapping",
@@ -127,7 +138,7 @@
       "description": "Face api endpoints and keys",
       "type": "array",
       "items": {
-        "$ref": "#/definitions/ApiKey"
+        "$ref": "#/definitions/ApiLocationKey"
       },
       "minItems": 1
     },
@@ -135,7 +146,7 @@
       "description": "Emotion api endpoints and keys",
       "type": "array",
       "items": {
-        "$ref": "#/definitions/ApiKey"
+        "$ref": "#/definitions/ApiLocationKey"
       },
       "minItems": 1
     },
@@ -143,7 +154,7 @@
       "description": "Vision api endpoints and keys",
       "type": "array",
       "items": {
-        "$ref": "#/definitions/ApiKey"
+        "$ref": "#/definitions/ApiLocationKey"
       },
       "minItems": 1
     }

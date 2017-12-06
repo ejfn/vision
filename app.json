@@ -23,31 +23,42 @@
     },
     "ios": {
       "bundleIdentifier": "com.fanstek.vision",
-      "buildNumber": "1010023",
+      "buildNumber": "1010024",
       "supportsTablet": false,
       "config": {
         "usesNonExemptEncryption": false
+      },
+      "infoPlist": {
+        "NSCameraUsageDescription": "Please allow AiVision to use your camera to take photos for cognitive analysis.",
+        "NSPhotoLibraryUsageDescription": "Pleas allow AiVision to access your photos for cognitive analysis.",
+        "NSPhotoLibraryAddUsageDescription": "Please allow AiVision to save photos."
       }
     },
     "android": {
       "package": "com.fanstek.vision",
-      "versionCode": 1010023,
+      "versionCode": 1010024,
       "permissions": [
         "CAMERA"
       ]
     },
     "extra": {
-      "semver": "1.0.0",
+      "semver": "1.1.0",
       "showHintIdleSeconds": 5,
       "showInterstitialCalls": 10,
       "limitedAccessCalls": 3,
       "adMobSettings": {
-        "banner1": {
-        },
-        "banner2": {
-        },
-        "interstitial": {
-        },
+        "banners": [
+          {
+          },
+          {
+          }
+        ],
+        "interstitials": [
+          {
+          }
+        ],
+        "testDeviceIds": [
+        ]
       },
       "geoAzureLocationMap": {
         "AF": "northeurope",

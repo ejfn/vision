@@ -1,8 +1,8 @@
 import { extra } from './config';
 import { AppMode } from './store';
-import { ApiKey, AzureLocation } from './typings/extra';
+import { ApiLocationKey, AzureLocation } from './typings/extra';
 
-export function getApiKey(mode: AppMode, azureLocation: AzureLocation): ApiKey {
+export function getApiKey(mode: AppMode, azureLocation: AzureLocation): ApiLocationKey {
   // tslint:disable-next-line:switch-default
   switch (mode) {
     case 'Face':

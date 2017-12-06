@@ -14,7 +14,7 @@ then
 fi
 export BuildNumber=$(($Major * 1000000 + $Minor * 10000 + $Patch * 100 + $Candidate))
 
-jq '.expo.extra.semver = env.SemVer' app.json > tmp.json && mv tmp.json app.json
-jq '.expo.version = env.MajorMinorPatch' app.json > tmp.json && mv tmp.json app.json
-jq '.expo.ios.buildNumber = env.BuildNumber' app.json > tmp.json && mv tmp.json app.json
-jq '.expo.android.versionCode = (env.BuildNumber | tonumber)' app.json > tmp.json && mv tmp.json app.json
+sed -i '' -e 's/"version": ".*"/"version": "'$MajorMinorPatch'"/g' app.json
+sed -i '' -e 's/"buildNumber": ".*"/"buildNumber": "'$BuildNumber'"/g' app.json
+sed -i '' -e 's/"versionCode": [0-9]*/"versionCode": '$BuildNumber'/g' app.json
+sed -i '' -e 's/"semver": ".*"/"semver": "'$SemVer'"/g' app.json

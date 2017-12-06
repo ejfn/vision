@@ -4,8 +4,7 @@ export const INITIAL_STATE: AppState = {
   network: {
     isConnected: false,
     adReceived: false,
-    freeGeoIp: {},
-    azureLocation: 'westus'
+    freeGeoIp: {}
   },
   appMode: 'Face',
   processState: {

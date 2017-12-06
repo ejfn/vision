@@ -1,6 +1,4 @@
 import * as actions from '../actions/network';
-import { extra } from '../config';
-import { GEO_COUNTRIES } from '../constants';
 import { NetworkState } from '../store';
 import { INITIAL_STATE } from './initialState';
 
@@ -31,15 +29,9 @@ export function networkReducer(
       };
     case actions.setGeoLocation.type:
       const freeGeoIp = action.payload;
-      let azureLocation = state.azureLocation;
-      const country = GEO_COUNTRIES.find(i => i.country_iso_code === freeGeoIp.country_code);
-      if (country !== undefined) {
-        azureLocation = extra.geoAzureLocationMap[country.continent_code] || state.azureLocation;
-      }
       return {
         ...state,
-        freeGeoIp,
-        azureLocation
+        freeGeoIp
       };
     default:
       return state;
