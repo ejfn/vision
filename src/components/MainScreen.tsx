@@ -102,7 +102,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
             style={[styles.button, { backgroundColor: config.color }]}
             fontSize={18}
             onPress={this.onPickFromLibrary} />
-          <Text style={styles.version}>{Constants.manifest.version}</Text>
+          <Text style={styles.version}>{extra.semver}</Text>
         </View>
       </SafeAreaView>
     );
@@ -138,7 +138,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
       Alert.alert('No Connectivity!', 'Please check you internet connection.');
     } else if (!this.props.network.adReceived &&
       this.props.processState.totalCalled >= extra.limitedAccessCalls) {
-      Alert.alert('Limited Access!', 'Service is limited in your region.');
+      Alert.alert('Limited Access!', 'Service is currently limited on your device. Ad blocked?');
     } else {
       callback();
     }
