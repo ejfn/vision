@@ -1,7 +1,17 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { AdMobBanner, AdMobInterstitial, Constants } from 'expo';
+import { AdMobBanner, AdMobInterstitial } from 'expo';
 import React from 'react';
-import { Alert, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  Dimensions,
+  Image,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { NavigationScreenProp, NavigationStackScreenOptions } from 'react-navigation';
 import { connect, MapStateToProps } from 'react-redux';
 
@@ -10,9 +20,11 @@ import { adReceived } from '../actions/network';
 import { pickImageFromCamera, pickImageFromLibrary } from '../actions/process';
 import { getBannerId, getInterstitialId, getTestDeviceIds } from '../adSelector';
 import { extra } from '../config';
-import { APP_CONFIG, AppConfig } from '../constants';
+import { APP_CONFIG, AppConfig, DECORATIONS } from '../constants';
 import { AppMode, AppState, NetworkState, ProcessState } from '../store';
 import { Button } from './Button';
+
+const { width } = Dimensions.get('window');
 
 interface OwnProps {
   navigation: NavigationScreenProp<{}, void>;
@@ -74,6 +86,11 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
             adUnitID={getBannerId(0)}
             testDeviceID={getTestDeviceIds()[0] || undefined}
             adViewDidReceiveAd={this.onAdReceived} />
+          <View style={{ flex: 1 }}>
+            <Image source={DECORATIONS.christmasBanner}
+              style={styles.xmas}
+              resizeMode="stretch" />
+          </View>
         </View>
         <View style={styles.main} >
           <TouchableOpacity onPress={this.onSwitchAppMode} style={styles.appSwitch}>
@@ -104,7 +121,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
             onPress={this.onPickFromLibrary} />
           <Text style={styles.version}>{extra.semver}</Text>
         </View>
-      </SafeAreaView>
+      </SafeAreaView >
     );
   }
 
@@ -135,7 +152,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
 
   private checkAvailability = (callback: () => void): void => {
     if (!this.props.network.isConnected) {
-      Alert.alert('No Connectivity!', 'Please check you internet connection.');
+      Alert.alert('No Connectivity!', 'Please check you internet connectivity.');
     } else if (!this.props.network.adReceived &&
       this.props.processState.totalCalled >= extra.limitedAccessCalls) {
       Alert.alert('Limited Access!', 'Service is currently limited on your device. Ad blocked?');
@@ -191,7 +208,8 @@ export const MainScreen = connect<StateProps, DispatchProps, OwnProps>(
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#fff'
   },
   top: {
     flex: 0.3,
@@ -199,18 +217,19 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   main: {
-    flex: 0.3,
+    flex: 0.4,
     justifyContent: 'center',
     alignItems: 'center'
   },
   bottom: {
-    flex: 0.4,
+    flex: 0.3,
     justifyContent: 'flex-end',
     alignItems: 'center',
     paddingHorizontal: 10
   },
   appSwitch: {
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0)'
   },
   appTitle: {
     fontSize: 18,
@@ -230,5 +249,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     paddingRight: 5,
     paddingBottom: 5
+  },
+  xmas: {
+    width: width,
+    height: width / 1.49
   }
 });

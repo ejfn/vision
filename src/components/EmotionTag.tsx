@@ -2,19 +2,7 @@ import React from 'react';
 import { Image, PixelRatio, View } from 'react-native';
 
 import { EmotionResult, EmotionScores } from '../api/types';
-
-const ICONS: { [key: string]: {} } = {
-  // tslint:disable:no-require-imports
-  anger: require('../../assets/emotions/anger.png'),
-  contempt: require('../../assets/emotions/contempt.png'),
-  disgust: require('../../assets/emotions/disgust.png'),
-  fear: require('../../assets/emotions/fear.png'),
-  happiness: require('../../assets/emotions/happiness.png'),
-  neutral: require('../../assets/emotions/neutral.png'),
-  sadness: require('../../assets/emotions/sadness.png'),
-  surprise: require('../../assets/emotions/surprise.png')
-  // tslint:enable:no-require-imports
-};
+import { EMOJI_ICONS } from '../constants';
 
 interface Props {
   emotion: EmotionResult;
@@ -47,7 +35,7 @@ export class EmotionTag extends React.PureComponent<Props, {}> {
           borderWidth: 2
         }}>
         <Image
-          source={ICONS[emotion]}
+          source={EMOJI_ICONS[emotion]}
           style={{
             opacity: 0.8,
             position: 'absolute',

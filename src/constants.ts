@@ -1,6 +1,23 @@
 import { GeoCountry } from './api/freeGeoIp';
 import { AppMode } from './store';
 
+// tslint:disable:no-require-imports
+export const EMOJI_ICONS: Record<string, {}> = {
+  anger: require('../assets/emotions/anger.png'),
+  contempt: require('../assets/emotions/contempt.png'),
+  disgust: require('../assets/emotions/disgust.png'),
+  fear: require('../assets/emotions/fear.png'),
+  happiness: require('../assets/emotions/happiness.png'),
+  neutral: require('../assets/emotions/neutral.png'),
+  sadness: require('../assets/emotions/sadness.png'),
+  surprise: require('../assets/emotions/surprise.png')
+};
+
+export const DECORATIONS: Record<string, {}> = {
+  christmasBanner: require('../assets/christmas-banner.jpg')
+};
+// tslint:enable:no-require-imports
+
 export interface AppConfig {
   color: string;
   logo: string;
