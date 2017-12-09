@@ -81,11 +81,6 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
       <SafeAreaView style={styles.container} >
         <StatusBar barStyle="dark-content" />
         <View style={styles.top}>
-          <AdMobBanner
-            bannerSize="smartBannerPortrait"
-            adUnitID={getBannerId(0)}
-            testDeviceID={getTestDeviceIds()[0] || undefined}
-            adViewDidReceiveAd={this.onAdReceived} />
           <View style={{ flex: 1 }}>
             <Image source={DECORATIONS.christmasBanner}
               style={styles.xmas}
@@ -120,6 +115,11 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
             fontSize={18}
             onPress={this.onPickFromLibrary} />
           <Text style={styles.version}>{extra.semver}</Text>
+          <AdMobBanner
+            bannerSize="smartBannerPortrait"
+            adUnitID={getBannerId(0)}
+            testDeviceID={getTestDeviceIds()[0] || undefined}
+            adViewDidReceiveAd={this.onAdReceived} />
         </View>
       </SafeAreaView >
     );
@@ -217,12 +217,12 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   main: {
-    flex: 0.4,
+    flex: 0.3,
     justifyContent: 'center',
     alignItems: 'center'
   },
   bottom: {
-    flex: 0.3,
+    flex: 0.4,
     justifyContent: 'flex-end',
     alignItems: 'center',
     paddingHorizontal: 10

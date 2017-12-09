@@ -23,7 +23,8 @@
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
-    "tslib": "1.8.0"
+    "tslib": "1.8.0",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "@types/ajv": "^1.0.0",

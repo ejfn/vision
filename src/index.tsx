@@ -1,4 +1,5 @@
 
+import { AppLoading, Asset } from 'expo';
 import * as React from 'react';
 import { NetInfo } from 'react-native';
 import { StackNavigator } from 'react-navigation';
@@ -37,12 +38,57 @@ const AppNavigator = StackNavigator({
   Photo: { screen: PhotoScreen }
 });
 
-export class App extends React.PureComponent {
+interface Props { }
+
+interface State {
+  isReady: boolean;
+}
+export class App extends React.PureComponent<Props, State> {
+
+  public state: State = {
+    isReady: false
+  };
+
   public render(): JSX.Element {
+
+    if (!this.state.isReady) {
+      return (
+        <AppLoading
+          startAsync={this.cacheResourcesAsync}
+          onFinish={this.finishLoading}
+          onError={console.warn}
+        />
+      );
+    }
+
     return (
       <Provider store={store}>
         <AppNavigator />
       </Provider>
     );
+  }
+
+  private finishLoading = () => {
+    this.setState((state: State) => {
+      return {
+        ...state,
+        isReady: true
+      };
+    });
+  }
+
+  private cacheResourcesAsync = async () => {
+    // tslint:disable:no-require-imports no-floating-promises
+    Asset.fromModule(require('../assets/emotions/anger.png')).downloadAsync();
+    Asset.fromModule(require('../assets/emotions/contempt.png')).downloadAsync();
+    Asset.fromModule(require('../assets/emotions/disgust.png')).downloadAsync();
+    Asset.fromModule(require('../assets/emotions/fear.png')).downloadAsync();
+    Asset.fromModule(require('../assets/emotions/happiness.png')).downloadAsync();
+    Asset.fromModule(require('../assets/emotions/neutral.png')).downloadAsync();
+    Asset.fromModule(require('../assets/emotions/sadness.png')).downloadAsync();
+    Asset.fromModule(require('../assets/emotions/surprise.png')).downloadAsync();
+
+    Asset.fromModule(require('../assets/christmas-banner.jpg')).downloadAsync();
+    // tslint:enable:no-require-imports no-floating-promises
   }
 }
