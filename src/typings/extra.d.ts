@@ -27,24 +27,16 @@ export interface Extra {
    */
   limitedAccessCalls: number;
   /**
-   * AdMob Settings
-   */
-  adMobSettings: {
-    banners: AdUnitIds[];
-    interstitials: AdUnitIds[];
-    testDeviceIds: string[];
-  };
-  /**
    * Geo and azure location mapping
    */
   geoAzureLocationMap: {
-    AF?: "westus" | "australiaeast" | "southeastasia" | "northeurope";
-    AN?: "westus" | "australiaeast" | "southeastasia" | "northeurope";
-    AS?: "westus" | "australiaeast" | "southeastasia" | "northeurope";
-    EU?: "westus" | "australiaeast" | "southeastasia" | "northeurope";
-    NA?: "westus" | "australiaeast" | "southeastasia" | "northeurope";
-    OC?: "westus" | "australiaeast" | "southeastasia" | "northeurope";
-    SA?: "westus" | "australiaeast" | "southeastasia" | "northeurope";
+    AF?: AzureLocation;
+    AN?: AzureLocation;
+    AS?: AzureLocation;
+    EU?: AzureLocation;
+    NA?: AzureLocation;
+    OC?: AzureLocation;
+    SA?: AzureLocation;
   };
   /**
    * Face api endpoints and keys
@@ -58,12 +50,26 @@ export interface Extra {
    * Vision api endpoints and keys
    */
   visionApiKeys: ApiLocationKey[];
-}
-export interface AdUnitIds {
-  ios?: string;
-  android?: string;
+  /**
+   * AdMob Settings
+   */
+  adMob: {
+    banners: AdUnitIds[];
+    interstitials: AdUnitIds[];
+    testDeviceIds: string[];
+  };
+  /**
+   * Amplitude Settings
+   */
+  amplitude: {
+    apiKey: string;
+  };
 }
 export interface ApiLocationKey {
   location: AzureLocation;
   key: string;
+}
+export interface AdUnitIds {
+  ios?: string;
+  android?: string;
 }

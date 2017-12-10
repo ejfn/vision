@@ -12,41 +12,50 @@
         "northeurope"
       ]
     },
+    "ApiLocationKey": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "$ref": "#/definitions/AzureLocation"
+        },
+        "key": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "location",
+        "key"
+      ],
+      "additionalProperties": false
+    },
     "GeoLocationMap": {
       "type": "object",
       "properties": {
         "AF": {
-          "$ref": "#/definitions/AzureLocation",
-          "default": "northeurope"
+          "$ref": "#/definitions/AzureLocation"
         },
         "AN": {
-          "$ref": "#/definitions/AzureLocation",
-          "default": "australiaeast"
+          "$ref": "#/definitions/AzureLocation"
         },
         "AS": {
-          "$ref": "#/definitions/AzureLocation",
-          "default": "southeastasia"
+          "$ref": "#/definitions/AzureLocation"
         },
         "EU": {
-          "$ref": "#/definitions/AzureLocation",
-          "default": "northeurope"
+          "$ref": "#/definitions/AzureLocation"
         },
         "NA": {
-          "$ref": "#/definitions/AzureLocation",
-          "default": "westus"
+          "$ref": "#/definitions/AzureLocation"
         },
         "OC": {
-          "$ref": "#/definitions/AzureLocation",
-          "default": "australiaeast"
+          "$ref": "#/definitions/AzureLocation"
         },
         "SA": {
-          "$ref": "#/definitions/AzureLocation",
-          "default": "westus"
+          "$ref": "#/definitions/AzureLocation"
         }
       },
       "additionalProperties": false
     },
-    "AdModSettings": {
+    "AdMobSettings": {
       "type": "object",
       "properties": {
         "banners": {
@@ -87,19 +96,15 @@
       },
       "additionalProperties": false
     },
-    "ApiLocationKey": {
+    "AmplitudeSettings": {
       "type": "object",
       "properties": {
-        "location": {
-          "$ref": "#/definitions/AzureLocation"
-        },
-        "key": {
+        "apiKey": {
           "type": "string"
         }
       },
       "required": [
-        "location",
-        "key"
+        "apiKey"
       ],
       "additionalProperties": false
     }
@@ -125,10 +130,6 @@
       "description": "Maximium calls when failed to load ad",
       "type": "number",
       "default": 3
-    },
-    "adMobSettings": {
-      "description": "AdMob Settings",
-      "$ref": "#/definitions/AdModSettings"
     },
     "geoAzureLocationMap": {
       "description": "Geo and azure location mapping",
@@ -157,6 +158,14 @@
         "$ref": "#/definitions/ApiLocationKey"
       },
       "minItems": 1
+    },
+    "adMob": {
+      "description": "AdMob Settings",
+      "$ref": "#/definitions/AdMobSettings"
+    },
+    "amplitude": {
+      "description": "Amplitude Settings",
+      "$ref": "#/definitions/AmplitudeSettings"
     }
   },
   "required": [
@@ -165,10 +174,11 @@
     "showInterstitialCalls",
     "limitedAccessCalls",
     "geoAzureLocationMap",
-    "adMobSettings",
     "faceApiKeys",
     "emotionApiKeys",
-    "visionApiKeys"
+    "visionApiKeys",
+    "adMob",
+    "amplitude"
   ],
   "additionalProperties": false
 }

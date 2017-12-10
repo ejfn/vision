@@ -89,7 +89,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
         </View>
         <View style={styles.main} >
           <TouchableOpacity onPress={this.onSwitchAppMode} style={styles.appSwitch}>
-            <MaterialCommunityIcons name={config.logo} size={120} color={config.color} />
+            <MaterialCommunityIcons name={config.logo} size={100} color={config.color} />
             <Text style={[styles.appTitle, { color: config.color }]}>
               {config.title}
             </Text>
@@ -106,13 +106,13 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
             icon="md-camera"
             title="Take A Photo"
             style={[styles.button, { backgroundColor: config.color }]}
-            fontSize={18}
+            fontSize={16}
             onPress={this.onPickFromCamera} />
           <Button
             icon="md-photos"
             title="Pick From Library"
             style={[styles.button, { backgroundColor: config.color }]}
-            fontSize={18}
+            fontSize={16}
             onPress={this.onPickFromLibrary} />
           <Text style={styles.version}>{extra.semver}</Text>
           <AdMobBanner
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)'
   },
   appTitle: {
-    fontSize: 18,
+    fontSize: 16,
     marginTop: -5
   },
   hint: {

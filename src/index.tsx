@@ -1,5 +1,4 @@
-
-import { AppLoading, Asset } from 'expo';
+import { Amplitude, AppLoading, Asset, Constants } from 'expo';
 import * as React from 'react';
 import { NetInfo } from 'react-native';
 import { StackNavigator } from 'react-navigation';
@@ -10,6 +9,7 @@ import createSagaMiddleware from 'redux-saga';
 import * as actions from './actions/network';
 import { MainScreen } from './components/MainScreen';
 import { PhotoScreen } from './components/PhotoScreen';
+import { extra } from './config';
 import * as reducers from './reducers';
 import { INITIAL_STATE } from './reducers/initialState';
 import { rootSaga } from './sagas';
@@ -25,12 +25,20 @@ const store = createStore(
 
 sagaMiddleware.run(rootSaga);
 
-// listen network changes
+// initialise
 NetInfo.addEventListener('connectionChange', () => {
   store.dispatch(actions.checkNetwork(undefined));
 });
 
 store.dispatch(actions.checkNetwork(undefined));
+
+Amplitude.initialize(extra.amplitude.apiKey);
+Amplitude.setUserId(Constants.deviceId);
+Amplitude.setUserProperties({
+  appOwnership: Constants.appOwnership,
+  appVersion: extra.semver
+});
+// #end initialise
 
 // tslint:disable-next-line:variable-name
 const AppNavigator = StackNavigator({

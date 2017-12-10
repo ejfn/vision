@@ -23,7 +23,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.fanstek.vision",
-      "buildNumber": "1020005",
+      "buildNumber": "1020006",
       "supportsTablet": false,
       "config": {
         "usesNonExemptEncryption": false
@@ -36,30 +36,16 @@
     },
     "android": {
       "package": "com.fanstek.vision",
-      "versionCode": 1020005,
+      "versionCode": 1020006,
       "permissions": [
         "CAMERA"
       ]
     },
     "extra": {
-      "semver": "1.2.0-beta.5",
+      "semver": "1.2.0-beta.6",
       "showHintIdleSeconds": 2,
       "showInterstitialCalls": 10,
       "limitedAccessCalls": 5,
-      "adMobSettings": {
-        "banners": [
-          {
-          },
-          {
-          }
-        ],
-        "interstitials": [
-          {
-          }
-        ],
-        "testDeviceIds": [
-        ]
-      },
       "geoAzureLocationMap": {
         "AF": "northeurope",
         "AN": "australiaeast",
@@ -101,7 +87,23 @@
         {
           "location": "northeurope"
         }
-      ]
+      ],
+      "adMob": {
+        "banners": [
+          {
+          },
+          {
+          }
+        ],
+        "interstitials": [
+          {
+          }
+        ],
+        "testDeviceIds": [
+        ]
+      },
+      "amplitude": {
+      }
     }
   }
 }

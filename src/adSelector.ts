@@ -9,7 +9,7 @@ export const TEST_INTERSTITIAL: string = 'ca-app-pub-3940256099942544/4411468910
 export type BannerSpot = 'main' | 'photo';
 
 export function getBannerId(index: number): string {
-  const banner: AdUnitIds = extra.adMobSettings.banners[index] || {};
+  const banner: AdUnitIds = extra.adMob.banners[index] || {};
   switch (Platform.OS) {
     case 'ios':
       return banner.ios || TEST_BANNER;
@@ -21,7 +21,7 @@ export function getBannerId(index: number): string {
 }
 
 export function getInterstitialId(index: number): string {
-  const banner: AdUnitIds = extra.adMobSettings.interstitials[index] || {};
+  const banner: AdUnitIds = extra.adMob.interstitials[index] || {};
   switch (Platform.OS) {
     case 'ios':
       return banner.ios || TEST_INTERSTITIAL;
@@ -33,5 +33,5 @@ export function getInterstitialId(index: number): string {
 }
 
 export function getTestDeviceIds(): Array<string> {
-  return extra.adMobSettings.testDeviceIds;
+  return extra.adMob.testDeviceIds;
 }
