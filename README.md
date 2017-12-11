@@ -1,4 +1,5 @@
 # Vision
+[![Build Status](https://www.bitrise.io/app/b718e422922f5e51/status.svg?token=JjLtHEFo79VsBGwzYGtlcQ&branch=master)](https://www.bitrise.io/app/b718e422922f5e51)
 ## Download
 <a href="https://itunes.apple.com/us/app/aivision/id1318213908?ls=1&mt=8"><img src="https://image.ibb.co/mnWfNw/app_store_badge.png" height="80" /></a>
 
