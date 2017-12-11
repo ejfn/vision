@@ -1,6 +1,7 @@
 # Vision
-## Run from Expo
-* [https://expo.io/@ericvan76/vision]()
+## Download
+<a href="https://itunes.apple.com/us/app/aivision/id1318213908?ls=1&mt=8"><img src="https://image.ibb.co/mnWfNw/app_store_badge.png" height="80" /></a>
+
 ## Snapshots
 
 Face 1                     | Face 2
