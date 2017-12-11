@@ -4,10 +4,10 @@ import { AppMode } from '../store';
 import { AzureLocation } from '../typings/extra';
 
 export function logApiCalledEvent(appMode: AppMode, location: AzureLocation, error?: Error): void {
-  const eventName: string = error === undefined ? `${appMode} Api Succeeded` : `${appMode} Api Failed`;
-  Amplitude.logEventWithProperties(eventName, {
+  Amplitude.logEventWithProperties('Api Called', {
     apiType: appMode,
     azureLocation: location,
+    succeeded: error === undefined,
     error
   });
 }
