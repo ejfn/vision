@@ -1,4 +1,4 @@
-import { FreeGeoIpResult } from '../api/freeGeoIp';
+import { FreeGeoIpResult } from '../api/freegeoip';
 import { createAction } from './action';
 
 export const checkNetwork = createAction<'vision/network/check'>(

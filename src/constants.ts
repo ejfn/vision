@@ -1,4 +1,4 @@
-import { GeoCountry } from './api/freeGeoIp';
+import { GeoCountry } from './api/freegeoip';
 import { AppMode } from './store';
 
 // tslint:disable:no-require-imports

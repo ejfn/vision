@@ -1,6 +1,6 @@
 import { ImagePicker } from 'expo';
 
-import { FreeGeoIpResult } from './api/freeGeoIp';
+import { FreeGeoIpResult } from './api/freegeoip';
 import { EmotionResult, FaceResult, VisionResult } from './api/types';
 
 export type AppMode = 'Face' | 'Emotion' | 'Vision';

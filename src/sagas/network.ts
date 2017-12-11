@@ -3,7 +3,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import * as actions from '../actions/network';
-import { queryFreeGeoIp } from '../api/freeGeoIp';
+import { queryFreeGeoIp } from '../api/freegeoip';
 
 function* checkNetworkSaga(): SagaIterator {
   const isConnected = yield call(NetInfo.isConnected.fetch);

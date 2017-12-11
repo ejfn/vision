@@ -7,7 +7,7 @@ import * as actions from '../actions/process';
 import { logApiCalledEvent } from '../api/amplitude';
 import { postRecognizeEmotion } from '../api/emotion';
 import { postDetectFace } from '../api/face';
-import { FreeGeoIpResult } from '../api/freeGeoIp';
+import { FreeGeoIpResult } from '../api/freegeoip';
 import { FaceResult } from '../api/types';
 import { postDescribePhoto } from '../api/vision';
 import { extra } from '../config';
