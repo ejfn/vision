@@ -29,8 +29,8 @@ function* pickImageFromCameraSaga(): SagaIterator {
       yield put(actions.pickImageSuccess(result));
     } else {
       Alert.alert(
-        'Invalid media type!',
-        `Media type '${result.type}' is not surpported, please select an image.`);
+        'Invalid Media Type!',
+        `Media type '${result.type}' is not surpported. Please select a photo and try again.`);
     }
   }
 }
@@ -49,8 +49,8 @@ function* pickImageFromLibrarySaga(): SagaIterator {
       yield put(actions.pickImageSuccess(result));
     } else {
       Alert.alert(
-        'Invalid media type!',
-        `Media type '${result.type}' is not surpported, please select an image.`);
+        'Invalid Media Type!',
+        `Media type '${result.type}' is not surpported. Please select a photo and try again.`);
     }
   }
 }

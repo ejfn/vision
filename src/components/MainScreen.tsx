@@ -152,10 +152,10 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
 
   private checkAvailability = (callback: () => void): void => {
     if (!this.props.network.isConnected) {
-      Alert.alert('No Connectivity!', 'Please check you internet connectivity.');
+      Alert.alert('No Network Connection!', 'You\'re not connected to the internet. Check your connection and try again.');
     } else if (!this.props.network.adReceived &&
       this.props.processState.totalCalled >= extra.limitedAccessCalls) {
-      Alert.alert('Limited Access!', 'Service is currently limited on your device. Ad blocked?');
+      Alert.alert('Limited Access!', 'You\'re currently limited to use our service. Check your connection and try again.');
     } else {
       callback();
     }

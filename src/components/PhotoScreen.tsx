@@ -91,8 +91,8 @@ class InnerPhotoScreen extends React.PureComponent<Props> {
             this.props.processState.result.emotion.length === 0))
         ) {
           Alert.alert(
-            'No face detected!',
-            'Please select a photo with faces.',
+            'No Face Detected!',
+            'Please select a photo with faces and try agagin.',
             [
               {
                 text: 'OK',
@@ -192,7 +192,7 @@ class InnerPhotoScreen extends React.PureComponent<Props> {
       },
       (completed: boolean, _: string): void => {
         if (completed) {
-          Alert.alert('Successfully shared!');
+          Alert.alert('Succeed!');
         }
       }
     );
