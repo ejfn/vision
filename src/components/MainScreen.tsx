@@ -114,7 +114,6 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
             style={[styles.button, { backgroundColor: config.color }]}
             fontSize={16}
             onPress={this.onPickFromLibrary} />
-          <Text style={styles.version}>{extra.semver}</Text>
           <AdMobBanner
             bannerSize="smartBannerPortrait"
             adUnitID={getBannerId(0)}
@@ -237,11 +236,11 @@ const styles = StyleSheet.create({
   },
   hint: {
     fontSize: 14,
-    marginVertical: 5
+    marginBottom: 10
   },
   button: {
     alignSelf: 'stretch',
-    marginVertical: 5
+    marginBottom: 10
   },
   version: {
     alignSelf: 'flex-end',
