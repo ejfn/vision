@@ -5,11 +5,10 @@ import { StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-
 import * as actions from './actions/network';
 import { MainScreen } from './components/MainScreen';
 import { PhotoScreen } from './components/PhotoScreen';
-import { extra } from './config';
+import { CONFIG } from './config';
 import * as reducers from './reducers';
 import { INITIAL_STATE } from './reducers/initialState';
 import { rootSaga } from './sagas';
@@ -32,11 +31,11 @@ NetInfo.addEventListener('connectionChange', () => {
 
 store.dispatch(actions.checkNetwork(undefined));
 
-Amplitude.initialize(extra.amplitude.apiKey);
+Amplitude.initialize(CONFIG.amplitude.apiKey);
 Amplitude.setUserId(Constants.deviceId);
 Amplitude.setUserProperties({
   appOwnership: Constants.appOwnership,
-  appVersion: extra.semver
+  appVersion: Constants.manifest.extra.semver
 });
 // #end initialise
 
@@ -86,17 +85,21 @@ export class App extends React.PureComponent<Props, State> {
   }
 
   private cacheResourcesAsync = async () => {
-    // tslint:disable:no-require-imports no-floating-promises
-    Asset.fromModule(require('../assets/emotions/anger.png')).downloadAsync();
-    Asset.fromModule(require('../assets/emotions/contempt.png')).downloadAsync();
-    Asset.fromModule(require('../assets/emotions/disgust.png')).downloadAsync();
-    Asset.fromModule(require('../assets/emotions/fear.png')).downloadAsync();
-    Asset.fromModule(require('../assets/emotions/happiness.png')).downloadAsync();
-    Asset.fromModule(require('../assets/emotions/neutral.png')).downloadAsync();
-    Asset.fromModule(require('../assets/emotions/sadness.png')).downloadAsync();
-    Asset.fromModule(require('../assets/emotions/surprise.png')).downloadAsync();
+    const images = [
+      // tslint:disable:no-require-imports
+      require('../assets/emotions/anger.png'),
+      require('../assets/emotions/contempt.png'),
+      require('../assets/emotions/disgust.png'),
+      require('../assets/emotions/fear.png'),
+      require('../assets/emotions/happiness.png'),
+      require('../assets/emotions/neutral.png'),
+      require('../assets/emotions/sadness.png'),
+      require('../assets/emotions/surprise.png'),
+      require('../assets/christmas-banner.jpg')
+      // tslint:enable:no-require-imports
+    ];
 
-    Asset.fromModule(require('../assets/christmas-banner.jpg')).downloadAsync();
-    // tslint:enable:no-require-imports no-floating-promises
+    const cacheImages = images.map(async (img) => Asset.fromModule(img).downloadAsync());
+    await Promise.all([...cacheImages]);
   }
 }

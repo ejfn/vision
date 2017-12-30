@@ -1,7 +1,7 @@
 import { Amplitude } from 'expo';
 
 import { AppMode } from '../store';
-import { AzureLocation } from '../typings/extra';
+import { AzureLocation } from '../typings/config';
 
 export function logApiCalledEvent(appMode: AppMode, location: AzureLocation, error?: Error): void {
   const eventName: string = error === undefined ? `${appMode} Api Succeeded` : `${appMode} Api Failed`;

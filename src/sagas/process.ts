@@ -2,7 +2,6 @@ import { ImagePicker } from 'expo';
 import { Alert } from 'react-native';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-
 import * as actions from '../actions/process';
 import { logApiCalledEvent } from '../api/amplitude';
 import { postRecognizeEmotion } from '../api/emotion';
@@ -10,16 +9,17 @@ import { postDetectFace } from '../api/face';
 import { FreeGeoIpResult } from '../api/freegeoip';
 import { FaceResult } from '../api/types';
 import { postDescribePhoto } from '../api/vision';
-import { extra } from '../config';
+import { CONFIG } from '../config';
 import { GEO_COUNTRIES } from '../constants';
 import { AppMode, AppState } from '../store';
-import { ApiLocationKey, AzureLocation } from '../typings/extra';
+import { ApiLocationKey, AzureLocation } from '../typings/config';
 
 function* pickImageFromCameraSaga(): SagaIterator {
   yield put(actions.pickImageStart(undefined));
   const result: ImagePicker.ImageResult = yield call(
     ImagePicker.launchCameraAsync,
     {
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1]
     }
@@ -40,6 +40,7 @@ function* pickImageFromLibrarySaga(): SagaIterator {
   const result: ImagePicker.ImageResult = yield call(
     ImagePicker.launchImageLibraryAsync,
     {
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1]
     }
@@ -112,16 +113,16 @@ function* getApiKeyByGeoLocation(appMode: AppMode): SagaIterator {
   let azureLocation: AzureLocation | undefined;
   const country = GEO_COUNTRIES.find(i => i.country_iso_code === geoIp.country_code);
   if (country !== undefined) {
-    azureLocation = extra.geoAzureLocationMap[country.continent_code];
+    azureLocation = CONFIG.geoAzureLocationMap[country.continent_code];
   }
 
   switch (appMode) {
     case 'Face':
-      return extra.faceApiKeys.find(i => i.location === azureLocation) || extra.faceApiKeys[0];
+      return CONFIG.faceApiKeys.find(i => i.location === azureLocation) || CONFIG.faceApiKeys[0];
     case 'Emotion':
-      return extra.emotionApiKeys.find(i => i.location === azureLocation) || extra.emotionApiKeys[0];
+      return CONFIG.emotionApiKeys.find(i => i.location === azureLocation) || CONFIG.emotionApiKeys[0];
     case 'Vision':
-      return extra.visionApiKeys.find(i => i.location === azureLocation) || extra.visionApiKeys[0];
+      return CONFIG.visionApiKeys.find(i => i.location === azureLocation) || CONFIG.visionApiKeys[0];
     default:
       throw new Error(`Unknown app mode ${appMode}`);
   }

@@ -4,7 +4,7 @@
     "description": "An AI Vision app powered by Microsoft Cognitive Service",
     "slug": "vision",
     "privacy": "public",
-    "sdkVersion": "23.0.0",
+    "sdkVersion": "24.0.0",
     "version": "1.2.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
@@ -12,6 +12,13 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "assets/**/*"
+    ],
+    "androidStatusBar": {
+      "barStyle": "dark-content",
       "backgroundColor": "#ffffff"
     },
     "packagerOpts": {
@@ -23,7 +30,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.fanstek.vision",
-      "buildNumber": "1020013",
+      "buildNumber": "1020015",
       "supportsTablet": false,
       "config": {
         "usesNonExemptEncryption": false
@@ -32,17 +39,18 @@
         "NSCameraUsageDescription": "Please allow AiVision to use your camera to take photos for cognitive analysis.",
         "NSPhotoLibraryUsageDescription": "Pleas allow AiVision to access your photos for cognitive analysis.",
         "NSPhotoLibraryAddUsageDescription": "Please allow AiVision to save photos."
-      }
+      },
+      "loadJSInBackgroundExperimental": true
     },
     "android": {
       "package": "com.fanstek.vision",
-      "versionCode": 1020013,
+      "versionCode": 1020015,
       "permissions": [
         "CAMERA"
       ]
     },
     "extra": {
-      "semver": "1.2.0-beta.13",
+      "semver": "1.2.0-beta.15",
       "showHintIdleSeconds": 2,
       "showInterstitialCalls": 10,
       "limitedAccessCalls": 5,

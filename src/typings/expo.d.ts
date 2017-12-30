@@ -1138,6 +1138,13 @@ declare module 'expo' {
   }
 
   namespace ImagePicker {
+
+    enum MediaTypeOptions {
+      All = 'All',
+      Videos = 'Videos',
+      Images = 'Images'
+    }
+
     interface ImageInfo {
       uri: string
       width: number
@@ -1148,6 +1155,7 @@ declare module 'expo' {
     type ImageResult = { cancelled: true } | ({ cancelled: false } & ImageInfo)
 
     interface ImageLibraryOptions {
+      mediaTypes?: MediaTypeOptions
       allowsEditing?: boolean
       aspect?: [number, number]
       quality?: number
@@ -1156,6 +1164,7 @@ declare module 'expo' {
     function launchImageLibraryAsync(options?: ImageLibraryOptions): Promise<ImageResult>
 
     interface CameraOptions {
+      mediaTypes?: MediaTypeOptions
       allowsEditing?: boolean
       aspect?: [number, number]
       quality?: number

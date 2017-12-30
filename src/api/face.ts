@@ -1,5 +1,5 @@
 import { RequestPayload } from '../actions/process';
-import { ApiLocationKey } from '../typings/extra';
+import { ApiLocationKey } from '../typings/config';
 import { base64ToBinary } from '../utils/base64';
 import { FaceResult } from './types';
 

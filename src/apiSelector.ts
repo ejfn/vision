@@ -1,15 +1,15 @@
-import { extra } from './config';
+import { CONFIG } from './config';
 import { AppMode } from './store';
-import { ApiLocationKey, AzureLocation } from './typings/extra';
+import { ApiLocationKey, AzureLocation } from './typings/config';
 
 export function getApiKey(mode: AppMode, azureLocation: AzureLocation): ApiLocationKey {
   // tslint:disable-next-line:switch-default
   switch (mode) {
     case 'Face':
-      return extra.faceApiKeys.find(i => i.location === azureLocation) || extra.faceApiKeys[0];
+      return CONFIG.faceApiKeys.find(i => i.location === azureLocation) || CONFIG.faceApiKeys[0];
     case 'Emotion':
-      return extra.emotionApiKeys.find(i => i.location === azureLocation) || extra.emotionApiKeys[0];
+      return CONFIG.emotionApiKeys.find(i => i.location === azureLocation) || CONFIG.emotionApiKeys[0];
     case 'Vision':
-      return extra.visionApiKeys.find(i => i.location === azureLocation) || extra.visionApiKeys[0];
+      return CONFIG.visionApiKeys.find(i => i.location === azureLocation) || CONFIG.visionApiKeys[0];
   }
 }

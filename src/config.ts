@@ -1,8 +1,8 @@
 import { Constants } from 'expo';
-import { Extra } from './typings/extra';
-import extraSchema from './typings/extra.schema.json';
+import { Config } from './typings/config';
+import configSchema from './typings/config.schema.json';
 import { validate } from './utils/schemaValidation';
 
-validate(extraSchema, Constants.manifest.extra, true);
+validate(configSchema, Constants.manifest.extra, true);
 
-export const extra = Constants.manifest.extra as Extra;
+export const CONFIG = Constants.manifest.extra as Config;

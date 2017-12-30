@@ -7,6 +7,7 @@ import {
   Dimensions,
   Platform,
   SafeAreaView,
+  StatusBar,
   StyleSheet,
   Text,
   View
@@ -55,7 +56,8 @@ class InnerPhotoScreen extends React.PureComponent<Props> {
 
   private onLoad = async (): Promise<void> => {
     if (this.props.processState.status === 'ready') {
-      await this.process();
+      setTimeout(async () => this.process(), 1000);
+      //await this.process();
     }
   }
 
@@ -111,6 +113,7 @@ class InnerPhotoScreen extends React.PureComponent<Props> {
 
     return (
       <SafeAreaView style={styles.container}>
+        <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
         <View style={styles.main}>
           {
             this.props.processState.image != null ?

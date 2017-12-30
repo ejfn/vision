@@ -9,7 +9,7 @@ export type AzureLocation = "westus" | "australiaeast" | "southeastasia" | "nort
 /**
  * extra section in app.json
  */
-export interface Extra {
+export interface Config {
   /**
    * Semantic Version
    */

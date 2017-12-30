@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-06/schema#",
-  "title": "Extra",
+  "title": "Config",
   "description": "extra section in app.json",
   "definitions": {
     "AzureLocation": {

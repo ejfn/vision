@@ -19,7 +19,7 @@ import { switchAppMode } from '../actions/appMode';
 import { adReceived } from '../actions/network';
 import { pickImageFromCamera, pickImageFromLibrary } from '../actions/process';
 import { getBannerId, getInterstitialId, getTestDeviceIds } from '../adSelector';
-import { extra } from '../config';
+import { CONFIG } from '../config';
 import { APP_CONFIG, AppConfig, DECORATIONS } from '../constants';
 import { AppMode, AppState, NetworkState, ProcessState } from '../store';
 import { Button } from './Button';
@@ -79,7 +79,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
     const config: AppConfig = APP_CONFIG[this.props.appMode];
     return (
       <SafeAreaView style={styles.container} >
-        <StatusBar barStyle="dark-content" />
+        <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
         <View style={styles.top}>
           <View style={{ flex: 1 }}>
             <Image source={DECORATIONS.christmasBanner}
@@ -120,7 +120,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
             testDeviceID={getTestDeviceIds()[0] || undefined}
             adViewDidReceiveAd={this.onAdReceived} />
         </View>
-      </SafeAreaView >
+      </SafeAreaView>
     );
   }
 
@@ -137,7 +137,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
           return { ...state, showHint: true };
         });
       },
-      extra.showHintIdleSeconds * 1000);
+      CONFIG.showHintIdleSeconds * 1000);
   }
 
   private onSwitchAppMode = () => {
@@ -153,7 +153,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
     if (!this.props.network.isConnected) {
       Alert.alert('No Network Connection!', 'You\'re not connected to the internet. Check your connection and try again.');
     } else if (!this.props.network.adReceived &&
-      this.props.processState.totalCalled >= extra.limitedAccessCalls) {
+      this.props.processState.totalCalled >= CONFIG.limitedAccessCalls) {
       Alert.alert('Limited Access!', 'You\'re currently limited to use our service. Check your connection and try again.');
     } else {
       callback();
@@ -172,7 +172,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
 
   private checkInterstitial = (callback: () => void): void => {
     if (this.props.totalCalled > 0 &&
-      this.props.totalCalled % extra.showInterstitialCalls === 0) {
+      this.props.totalCalled % CONFIG.showInterstitialCalls === 0) {
       AdMobInterstitial.setAdUnitID(getInterstitialId(0));
       getTestDeviceIds().forEach(i => AdMobInterstitial.setTestDeviceID(i));
       AdMobInterstitial.addEventListener(
