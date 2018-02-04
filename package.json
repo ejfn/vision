@@ -10,7 +10,7 @@
     "tslint": "tslint --project tsconfig.json -t stylish --project",
     "start": "exp start --dev --lan",
     "qualitycheck": "npm-run-all typecheck tslint",
-    "config": "node ./node_modules/json-schema-to-typescript/dist/src/cli.js src/typings/config.schema.json > src/typings/config.d.ts"
+    "cfg": "node ./node_modules/json-schema-to-typescript/dist/src/cli.js src/typings/config.schema.json > src/typings/config.d.ts"
   },
   "dependencies": {
     "@expo/vector-icons": "^6.2.1",

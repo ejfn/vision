@@ -4,7 +4,6 @@ import React from 'react';
 import {
   Alert,
   Dimensions,
-  Image,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -20,7 +19,7 @@ import { adReceived } from '../actions/network';
 import { pickImageFromCamera, pickImageFromLibrary } from '../actions/process';
 import { getBannerId, getInterstitialId, getTestDeviceIds } from '../adSelector';
 import { CONFIG } from '../config';
-import { APP_CONFIG, AppConfig, DECORATIONS } from '../constants';
+import { APP_CONFIG, AppConfig } from '../constants';
 import { AppMode, AppState, NetworkState, ProcessState } from '../store';
 import { Button } from './Button';
 
@@ -52,7 +51,7 @@ interface State {
 
 class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & DispatchProps, State> {
 
-  private timeoutHandle: number | null = null;
+  private timeoutHandle: NodeJS.Timer | null = null;
 
   public static navigationOptions: NavigationStackScreenOptions = {
     header: null
@@ -81,11 +80,11 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
       <SafeAreaView style={styles.container} >
         <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
         <View style={styles.top}>
-          <View style={{ flex: 1 }}>
+          {/* <View style={{ flex: 1 }}>
             <Image source={DECORATIONS.christmasBanner}
               style={styles.xmas}
               resizeMode="stretch" />
-          </View>
+          </View> */}
         </View>
         <View style={styles.main} >
           <TouchableOpacity onPress={this.onSwitchAppMode} style={styles.appSwitch}>
