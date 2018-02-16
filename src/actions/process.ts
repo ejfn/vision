@@ -27,10 +27,6 @@ export const detectFace = createAction<'vision/process/face/detect', RequestPayl
   'vision/process/face/detect'
 );
 
-export const recognizeEmotion = createAction<'vision/process/emotion/recognize', RequestPayload>(
-  'vision/process/emotion/recognize'
-);
-
 export const describePhoto = createAction<'vision/process/photo/describe', RequestPayload>(
   'vision/process/photo/describe'
 );

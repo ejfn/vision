@@ -1,9 +1,7 @@
 import React from 'react';
 import { Image, ImageURISource, StyleSheet, View } from 'react-native';
-
-import { EmotionResult, FaceResult } from '../api/types';
+import { FaceResult } from '../api/types';
 import { ProcessResult } from '../store';
-import { EmotionTag } from './EmotionTag';
 import { FaceTag } from './FaceTag';
 import { VisionTag } from './VisionTag';
 
@@ -23,11 +21,6 @@ export class TaggedPhoto extends React.PureComponent<Props, {}> {
       if (this.props.result.face !== undefined) {
         return this.props.result.face.map((f: FaceResult, i: number) =>
           <FaceTag key={i} face={f} />
-        );
-      }
-      if (this.props.result.emotion !== undefined) {
-        return this.props.result.emotion.map((e: EmotionResult, i: number) =>
-          <EmotionTag key={i} emotion={e} />
         );
       }
       if (this.props.result.vision !== undefined) {

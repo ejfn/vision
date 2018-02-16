@@ -4,7 +4,6 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import * as actions from '../actions/process';
 import { logApiCalledEvent } from '../api/amplitude';
-import { postRecognizeEmotion } from '../api/emotion';
 import { postDetectFace } from '../api/face';
 import { FreeGeoIpResult } from '../api/freegeoip';
 import { FaceResult } from '../api/types';
@@ -73,23 +72,6 @@ function* detectFaceSaga(action: typeof actions.detectFace.shape): SagaIterator 
   }
 }
 
-function* recognizeEmotionSaga(action: typeof actions.recognizeEmotion.shape): SagaIterator {
-  yield put(actions.processStart(undefined));
-  const key: ApiLocationKey = yield call(getApiKeyByGeoLocation, 'Emotion');
-  try {
-    const result = yield call(
-      postRecognizeEmotion,
-      action.payload,
-      key
-    );
-    yield call(logApiCalledEvent, 'Emotion', key.location);
-    yield put(actions.processSuccess({ emotion: result }));
-  } catch (e) {
-    yield call(logApiCalledEvent, 'Emotion', key.location, e);
-    yield put(actions.processError(e));
-  }
-}
-
 function* describePhotoSaga(action: typeof actions.describePhoto.shape): SagaIterator {
   yield put(actions.processStart(undefined));
   const key: ApiLocationKey = yield call(getApiKeyByGeoLocation, 'Vision');
@@ -119,8 +101,6 @@ function* getApiKeyByGeoLocation(appMode: AppMode): SagaIterator {
   switch (appMode) {
     case 'Face':
       return CONFIG.faceApiKeys.find(i => i.location === azureLocation) || CONFIG.faceApiKeys[0];
-    case 'Emotion':
-      return CONFIG.emotionApiKeys.find(i => i.location === azureLocation) || CONFIG.emotionApiKeys[0];
     case 'Vision':
       return CONFIG.visionApiKeys.find(i => i.location === azureLocation) || CONFIG.visionApiKeys[0];
     default:
@@ -132,6 +112,5 @@ export function* processSaga(): SagaIterator {
   yield takeLatest(actions.pickImageFromCamera.type, pickImageFromCameraSaga);
   yield takeLatest(actions.pickImageFromLibrary.type, pickImageFromLibrarySaga);
   yield takeLatest(actions.detectFace.type, detectFaceSaga);
-  yield takeLatest(actions.recognizeEmotion.type, recognizeEmotionSaga);
   yield takeLatest(actions.describePhoto.type, describePhotoSaga);
 }

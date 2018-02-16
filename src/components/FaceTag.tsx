@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { PixelRatio, Text, View } from 'react-native';
-
-import { FaceAttributes, FaceRectangle, FaceResult } from '../api/types';
+import { Image, PixelRatio, Text, View } from 'react-native';
+import { Emotion, FaceAttributes, FaceRectangle, FaceResult } from '../api/types';
+import { EMOJI_ICONS } from '../constants';
 
 const LABEL_WIDTH: number = 40;
 const LABEL_HEIGHT: number = 22;
@@ -25,6 +25,8 @@ export class FaceTag extends React.PureComponent<Props, {}> {
     const color: string = faceAttributes.gender === 'male' ? '#3399ff' : '#ff99ff';
     const labelAtBottom: boolean = faceRectangle.top / r < LABEL_HEIGHT;
     const leftOffset: number = Math.max((LABEL_WIDTH - faceRectangle.width) / 2, 0);
+    const emotion: string = this.getEmotionWithMaxScores(this.props.face.faceAttributes.emotion);
+    const size: number = Math.min(30, faceRectangle.width - 4, faceRectangle.height - 4);
 
     if (labelAtBottom) {
       return (
@@ -38,7 +40,7 @@ export class FaceTag extends React.PureComponent<Props, {}> {
             height: faceRectangle.height + LABEL_HEIGHT,
             alignItems: 'center'
           }}>
-          {this.renderBox(faceRectangle, color)}
+          {this.renderBox(faceRectangle, color, emotion, size)}
           {this.renderLabel(faceAttributes, color)}
         </View>
       );
@@ -55,13 +57,13 @@ export class FaceTag extends React.PureComponent<Props, {}> {
             alignItems: 'center'
           }} >
           {this.renderLabel(faceAttributes, color)}
-          {this.renderBox(faceRectangle, color)}
+          {this.renderBox(faceRectangle, color, emotion, size)}
         </View>
       );
     }
   }
 
-  private renderBox = (faceRectangle: FaceRectangle, color: string): JSX.Element => {
+  private renderBox = (faceRectangle: FaceRectangle, color: string, emotion: string, size: number): JSX.Element => {
 
     return (
       <View
@@ -71,7 +73,18 @@ export class FaceTag extends React.PureComponent<Props, {}> {
           height: faceRectangle.height,
           borderColor: color,
           borderWidth: 2
-        }} />
+        }} >
+        <Image
+          source={EMOJI_ICONS[emotion]}
+          style={{
+            opacity: 0.8,
+            position: 'absolute',
+            width: size,
+            height: size,
+            bottom: 0,
+            right: 0
+          }} />
+      </View>
     );
   }
 
@@ -101,6 +114,19 @@ export class FaceTag extends React.PureComponent<Props, {}> {
           {Math.round(faceAttributes.age)}
         </Text>
       </View>
+    );
+  }
+
+  private getEmotionWithMaxScores = (emotion: Record<Emotion, number>): string => {
+    return Object.keys(emotion).reduce(
+      (p: Emotion, c: Emotion): string => {
+        if (emotion[c] > emotion[p]) {
+          return c;
+        } else {
+          return p;
+        }
+      },
+      'neutral'
     );
   }
 }

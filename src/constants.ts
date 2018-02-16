@@ -28,15 +28,9 @@ export interface AppConfig {
 export const APP_CONFIG: Record<AppMode, AppConfig> = {
   Face: {
     color: '#4169e1',
-    logo: 'emoticon',
+    logo: 'emoticon-devil',
     title: 'Face Detection',
     tag: 'Microsoft Face API'
-  },
-  Emotion: {
-    color: '#ba55d3',
-    logo: 'emoticon-devil',
-    title: 'Mood Detection',
-    tag: 'Microsoft Emotion API'
   },
   Vision: {
     color: '#2e8b57',

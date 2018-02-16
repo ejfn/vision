@@ -19,8 +19,7 @@ import {
   NavigationStackScreenOptions
 } from 'react-navigation';
 import { connect, MapStateToProps } from 'react-redux';
-
-import { describePhoto, detectFace, recognizeEmotion } from '../actions/process';
+import { describePhoto, detectFace } from '../actions/process';
 import { getBannerId, getTestDeviceIds } from '../adSelector';
 import { AppMode, AppState, NetworkState, ProcessState } from '../store';
 import { Button } from './Button';
@@ -40,7 +39,6 @@ interface StateProps {
 
 interface DispatchProps {
   detectFace: typeof detectFace;
-  recognizeEmotion: typeof recognizeEmotion;
   describePhoto: typeof describePhoto;
 }
 
@@ -87,10 +85,7 @@ class InnerPhotoScreen extends React.PureComponent<Props> {
       } else if (this.props.processState.status === 'success' && this.props.processState.result != null) {
         if ((this.props.appMode === 'Face' && (
           this.props.processState.result.face == null ||
-          this.props.processState.result.face.length === 0)) ||
-          (this.props.appMode === 'Emotion' && (
-            this.props.processState.result.emotion == null ||
-            this.props.processState.result.emotion.length === 0))
+          this.props.processState.result.face.length === 0))
         ) {
           Alert.alert(
             'No Face Detected!',
@@ -166,9 +161,6 @@ class InnerPhotoScreen extends React.PureComponent<Props> {
       case 'Face':
         this.props.detectFace({ base64 });
         break;
-      case 'Emotion':
-        this.props.recognizeEmotion({ base64 });
-        break;
       case 'Vision':
         this.props.describePhoto({ base64 });
         break;
@@ -214,7 +206,6 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state:
 export const PhotoScreen = connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps, {
     detectFace,
-    recognizeEmotion,
     describePhoto
   })(InnerPhotoScreen);
 

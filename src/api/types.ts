@@ -5,6 +5,8 @@ export interface FaceRectangle {
   top: number;
 }
 
+export type Emotion = 'anger' | 'contempt' | 'disgust' | 'fear' | 'happiness' | 'neutral' | 'sadness' | 'surprise';
+
 export interface FaceAttributes {
   age: number;
   gender: string;
@@ -20,6 +22,7 @@ export interface FaceAttributes {
     yaw: number;
     pitch: number;
   };
+  emotion: Record<Emotion, number>;
 }
 
 export interface FaceResult {
@@ -34,19 +37,9 @@ export interface FaceResult {
   };
 }
 
-export interface EmotionScores {
-  [key: string]: number;
-}
-
-export interface EmotionResult {
-  faceRectangle: FaceRectangle;
-  scores: EmotionScores;
-}
-
 export interface Description {
   tags: Array<string>;
   captions: Array<Caption>;
-
 }
 
 export interface Caption {

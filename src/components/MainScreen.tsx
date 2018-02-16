@@ -51,7 +51,7 @@ interface State {
 
 class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & DispatchProps, State> {
 
-  private timeoutHandle: NodeJS.Timer | null = null;
+  private timeoutHandle: number | null = null;
 
   public static navigationOptions: NavigationStackScreenOptions = {
     header: null
@@ -98,7 +98,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
           {
             this.state.showHint &&
             <Text style={[styles.hint, { color: config.color }]}>
-              Hint: Tap the big icon to try more.
+              Hint: Tap the big icon to switch mode
             </Text>
           }
           <Button

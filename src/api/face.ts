@@ -5,7 +5,7 @@ import { FaceResult } from './types';
 
 export async function postDetectFace(payload: RequestPayload, key: ApiLocationKey): Promise<Array<FaceResult>> {
   const url: string = `https://${key.location}.api.cognitive.microsoft.com/face/v1.0/detect` +
-    '?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender';
+    '?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender,emotion';
 
   const headers: Headers = new Headers();
   headers.append('Content-Type', 'application/octet-stream');

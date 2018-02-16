@@ -1,5 +1,4 @@
 import { Amplitude } from 'expo';
-
 import { AppMode } from '../store';
 import { AzureLocation } from '../typings/config';
 

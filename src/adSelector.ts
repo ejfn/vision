@@ -1,5 +1,4 @@
 import { Platform } from 'react-native';
-
 import { CONFIG } from './config';
 import { AdUnitIds } from './typings/config';
 

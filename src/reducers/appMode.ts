@@ -4,7 +4,6 @@ import { INITIAL_STATE } from './initialState';
 
 const modes: Array<AppMode> = [
   'Face',
-  'Emotion',
   'Vision'
 ];
 
