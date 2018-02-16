@@ -5,7 +5,7 @@
     "slug": "vision",
     "privacy": "public",
     "sdkVersion": "24.0.0",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icon.png",
@@ -30,7 +30,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.fanstek.vision",
-      "buildNumber": "1020017",
+      "buildNumber": "1020103",
       "supportsTablet": false,
       "config": {
         "usesNonExemptEncryption": false
@@ -44,13 +44,13 @@
     },
     "android": {
       "package": "com.fanstek.vision",
-      "versionCode": 1020017,
+      "versionCode": 1020103,
       "permissions": [
         "CAMERA"
       ]
     },
     "extra": {
-      "semver": "1.2.0-beta.17",
+      "semver": "1.2.1-beta.3",
       "showHintIdleSeconds": 2,
       "showInterstitialCalls": 10,
       "limitedAccessCalls": 5,
