@@ -2,7 +2,7 @@ import { GeoCountry } from './api/freegeoip';
 import { AppMode } from './store';
 
 // tslint:disable:no-require-imports
-export const EMOJI_ICONS: Record<string, {}> = {
+export const EMOJI_ICONS: Record<string, number> = {
   anger: require('../assets/emotions/anger.png'),
   contempt: require('../assets/emotions/contempt.png'),
   disgust: require('../assets/emotions/disgust.png'),
@@ -13,7 +13,8 @@ export const EMOJI_ICONS: Record<string, {}> = {
   surprise: require('../assets/emotions/surprise.png')
 };
 
-export const DECORATIONS: Record<string, {}> = {
+export const DECORATIONS: Record<string, number> = {
+  background: require('../assets/background.jpg'),
   christmasBanner: require('../assets/christmas-banner.jpg')
 };
 // tslint:enable:no-require-imports

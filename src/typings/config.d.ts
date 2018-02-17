@@ -19,7 +19,6 @@ export interface Config {
   adMob: {
     banners: AdUnitIds[];
     interstitials: AdUnitIds[];
-    testDeviceIds: string[];
   };
   amplitude: {
     apiKey: string;

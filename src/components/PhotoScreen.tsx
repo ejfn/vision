@@ -20,7 +20,7 @@ import {
 } from 'react-navigation';
 import { connect, MapStateToProps } from 'react-redux';
 import { describePhoto, detectFace } from '../actions/process';
-import { getBannerId, getTestDeviceIds } from '../adSelector';
+import { getBannerId } from '../adSelector';
 import { AppMode, AppState, NetworkState, ProcessState } from '../store';
 import { Button } from './Button';
 import { TaggedPhoto } from './TaggedPhoto';
@@ -108,7 +108,7 @@ class InnerPhotoScreen extends React.PureComponent<Props> {
 
     return (
       <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
+        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
         <View style={styles.main}>
           {
             this.props.processState.image != null ?
@@ -142,7 +142,7 @@ class InnerPhotoScreen extends React.PureComponent<Props> {
           <AdMobBanner
             bannerSize="smartBannerPortrait"
             adUnitID={getBannerId(1)}
-            testDeviceID={getTestDeviceIds()[0] || undefined} />
+            testDeviceID="EMULATOR" />
         </View>
       </SafeAreaView>
     );

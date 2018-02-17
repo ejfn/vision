@@ -3,7 +3,7 @@ import { AdMobBanner, AdMobInterstitial } from 'expo';
 import React from 'react';
 import {
   Alert,
-  Dimensions,
+  ImageBackground,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -13,17 +13,14 @@ import {
 } from 'react-native';
 import { NavigationScreenProp, NavigationStackScreenOptions } from 'react-navigation';
 import { connect, MapStateToProps } from 'react-redux';
-
 import { switchAppMode } from '../actions/appMode';
 import { adReceived } from '../actions/network';
 import { pickImageFromCamera, pickImageFromLibrary } from '../actions/process';
-import { getBannerId, getInterstitialId, getTestDeviceIds } from '../adSelector';
+import { getBannerId, getInterstitialId } from '../adSelector';
 import { CONFIG } from '../config';
-import { APP_CONFIG, AppConfig } from '../constants';
+import { APP_CONFIG, AppConfig, DECORATIONS } from '../constants';
 import { AppMode, AppState, NetworkState, ProcessState } from '../store';
 import { Button } from './Button';
-
-const { width } = Dimensions.get('window');
 
 interface OwnProps {
   navigation: NavigationScreenProp<{}, void>;
@@ -46,7 +43,6 @@ interface DispatchProps {
 type Props = OwnProps & StateProps & DispatchProps;
 
 interface State {
-  showHint: boolean;
 }
 
 class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & DispatchProps, State> {
@@ -58,7 +54,6 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
   };
 
   public state: State = {
-    showHint: false
   };
 
   public componentDidMount(): void {
@@ -78,47 +73,45 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
     const config: AppConfig = APP_CONFIG[this.props.appMode];
     return (
       <SafeAreaView style={styles.container} >
-        <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
-        <View style={styles.top}>
-          {/* <View style={{ flex: 1 }}>
-            <Image source={DECORATIONS.christmasBanner}
-              style={styles.xmas}
-              resizeMode="stretch" />
-          </View> */}
-        </View>
-        <View style={styles.main} >
-          <TouchableOpacity onPress={this.onSwitchAppMode} style={styles.appSwitch}>
-            <MaterialCommunityIcons name={config.logo} size={100} color={config.color} />
-            <Text style={[styles.appTitle, { color: config.color }]}>
-              {config.title}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.bottom} >
-          {
-            this.state.showHint &&
+        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+        <ImageBackground
+          style={styles.background}
+          source={DECORATIONS.background}
+          resizeMode="cover"
+        >
+          <View style={styles.top}>
+          </View>
+          <View style={styles.main} >
+            <TouchableOpacity onPress={this.onSwitchAppMode} style={styles.appSwitch}>
+              <MaterialCommunityIcons name={config.logo} size={100} color={config.color} />
+              <Text style={[styles.appTitle, { color: config.color }]}>
+                {config.title}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.bottom} >
             <Text style={[styles.hint, { color: config.color }]}>
-              Hint: Tap the big icon to switch mode
+              Hint: Tap the big icon.
             </Text>
-          }
-          <Button
-            icon="md-camera"
-            title="Take A Photo"
-            style={[styles.button, { backgroundColor: config.color }]}
-            fontSize={16}
-            onPress={this.onPickFromCamera} />
-          <Button
-            icon="md-photos"
-            title="Pick From Library"
-            style={[styles.button, { backgroundColor: config.color }]}
-            fontSize={16}
-            onPress={this.onPickFromLibrary} />
-          <AdMobBanner
-            bannerSize="smartBannerPortrait"
-            adUnitID={getBannerId(0)}
-            testDeviceID={getTestDeviceIds()[0] || undefined}
-            adViewDidReceiveAd={this.onAdReceived} />
-        </View>
+            <Button
+              icon="md-camera"
+              title="Take A Photo"
+              style={[styles.button, { backgroundColor: config.color }]}
+              fontSize={16}
+              onPress={this.onPickFromCamera} />
+            <Button
+              icon="md-photos"
+              title="Pick From Library"
+              style={[styles.button, { backgroundColor: config.color }]}
+              fontSize={16}
+              onPress={this.onPickFromLibrary} />
+            <AdMobBanner
+              bannerSize="smartBannerPortrait"
+              adUnitID={getBannerId(0)}
+              testDeviceID="EMULATOR"
+              adViewDidReceiveAd={this.onAdReceived} />
+          </View>
+        </ImageBackground>
       </SafeAreaView>
     );
   }
@@ -173,7 +166,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
     if (this.props.totalCalled > 0 &&
       this.props.totalCalled % CONFIG.showInterstitialCalls === 0) {
       AdMobInterstitial.setAdUnitID(getInterstitialId(0));
-      getTestDeviceIds().forEach(i => AdMobInterstitial.setTestDeviceID(i));
+      AdMobInterstitial.setTestDeviceID('EMULATOR');
       AdMobInterstitial.addEventListener(
         'interstitialDidClose',
         callback,
@@ -209,6 +202,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff'
   },
+  background: {
+    flex: 1
+    //position: 'absolute',
+    //top: (height - width) / -2,
+    //width: width
+  },
   top: {
     flex: 0.3,
     justifyContent: 'flex-start',
@@ -227,7 +226,7 @@ const styles = StyleSheet.create({
   },
   appSwitch: {
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0)'
+    backgroundColor: 'transparent'
   },
   appTitle: {
     fontSize: 16,
@@ -235,7 +234,8 @@ const styles = StyleSheet.create({
   },
   hint: {
     fontSize: 14,
-    marginBottom: 10
+    marginBottom: 10,
+    backgroundColor: 'transparent'
   },
   button: {
     alignSelf: 'stretch',
@@ -247,9 +247,5 @@ const styles = StyleSheet.create({
     fontSize: 12,
     paddingRight: 5,
     paddingBottom: 5
-  },
-  xmas: {
-    width: width,
-    height: width / 1.49
   }
 });

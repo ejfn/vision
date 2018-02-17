@@ -9,6 +9,7 @@ import * as actions from './actions/network';
 import { MainScreen } from './components/MainScreen';
 import { PhotoScreen } from './components/PhotoScreen';
 import { CONFIG } from './config';
+import { DECORATIONS, EMOJI_ICONS } from './constants';
 import * as reducers from './reducers';
 import { INITIAL_STATE } from './reducers/initialState';
 import { rootSaga } from './sagas';
@@ -87,15 +88,17 @@ export class App extends React.PureComponent<Props, State> {
   private cacheResourcesAsync = async () => {
     const images = [
       // tslint:disable:no-require-imports
-      require('../assets/emotions/anger.png'),
-      require('../assets/emotions/contempt.png'),
-      require('../assets/emotions/disgust.png'),
-      require('../assets/emotions/fear.png'),
-      require('../assets/emotions/happiness.png'),
-      require('../assets/emotions/neutral.png'),
-      require('../assets/emotions/sadness.png'),
-      require('../assets/emotions/surprise.png'),
-      require('../assets/christmas-banner.jpg')
+      //require('../assets/background.jpg'),
+      ...Object.values(DECORATIONS),
+      ...Object.values(EMOJI_ICONS)
+      // require('../assets/emotions/anger.png),
+      // require('../assets/emotions/contempt.png'),
+      // require('../assets/emotions/disgust.png'),
+      // require('../assets/emotions/fear.png'),
+      // require('../assets/emotions/happiness.png'),
+      // require('../assets/emotions/neutral.png'),
+      // require('../assets/emotions/sadness.png'),
+      // require('../assets/emotions/surprise.png')
       // tslint:enable:no-require-imports
     ];
 
