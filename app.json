@@ -30,7 +30,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.fanstek.vision",
-      "buildNumber": "1020104",
+      "buildNumber": "1020105",
       "supportsTablet": false,
       "config": {
         "usesNonExemptEncryption": false
@@ -44,14 +44,13 @@
     },
     "android": {
       "package": "com.fanstek.vision",
-      "versionCode": 1020104,
+      "versionCode": 1020105,
       "permissions": [
         "CAMERA"
       ]
     },
     "extra": {
-      "semver": "1.2.1-beta.4",
-      "showHintIdleSeconds": 1,
+      "semver": "1.2.1-beta.5",
       "showInterstitialCalls": 10,
       "limitedAccessCalls": 5,
       "geoAzureLocationMap": {

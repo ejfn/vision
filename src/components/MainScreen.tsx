@@ -3,6 +3,7 @@ import { AdMobBanner, AdMobInterstitial } from 'expo';
 import React from 'react';
 import {
   Alert,
+  Animated,
   ImageBackground,
   SafeAreaView,
   StatusBar,
@@ -47,7 +48,7 @@ interface State {
 
 class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & DispatchProps, State> {
 
-  private timeoutHandle: number | null = null;
+  private springValue: Animated.Value = new Animated.Value(1);
 
   public static navigationOptions: NavigationStackScreenOptions = {
     header: null
@@ -56,8 +57,20 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
   public state: State = {
   };
 
+  public spring(): void {
+    this.springValue.setValue(1.1);
+    Animated.spring(
+      this.springValue,
+      {
+        toValue: 1,
+        friction: 1,
+        tension: 1
+      }
+    ).start();
+  }
+
   public componentDidMount(): void {
-    this.resetHint();
+    setInterval(() => { this.spring(); }, 5000);
   }
 
   public componentDidUpdate(prevProps: Props): void {
@@ -77,22 +90,18 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
         <ImageBackground
           style={styles.background}
           source={DECORATIONS.background}
-          resizeMode="cover"
-        >
-          <View style={styles.top}>
+          resizeMode="cover">
+          <View style={styles.top} >
           </View>
-          <View style={styles.main} >
+          <Animated.View style={[styles.main, { transform: [{ scale: this.springValue }] }]} >
             <TouchableOpacity onPress={this.onSwitchAppMode} style={styles.appSwitch}>
               <MaterialCommunityIcons name={config.logo} size={100} color={config.color} />
               <Text style={[styles.appTitle, { color: config.color }]}>
                 {config.title}
               </Text>
             </TouchableOpacity>
-          </View>
+          </Animated.View>
           <View style={styles.bottom} >
-            <Text style={[styles.hint, { color: config.color }]}>
-              Hint: Tap the big icon.
-            </Text>
             <Button
               icon="md-camera"
               title="Take A Photo"
@@ -116,24 +125,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
     );
   }
 
-  private resetHint(): void {
-    if (this.timeoutHandle != null) {
-      this.setState((state: State) => {
-        return { ...state, showHint: false };
-      });
-      clearTimeout(this.timeoutHandle);
-    }
-    this.timeoutHandle = setTimeout(
-      () => {
-        this.setState((state: State) => {
-          return { ...state, showHint: true };
-        });
-      },
-      CONFIG.showHintIdleSeconds * 1000);
-  }
-
   private onSwitchAppMode = () => {
-    this.resetHint();
     this.props.switchAppMode(undefined);
   }
 
@@ -153,12 +145,10 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
   }
 
   private onPickFromCamera = () => {
-    this.resetHint();
     this.checkAvailability(() => this.props.pickImageFromCamera(undefined));
   }
 
   private onPickFromLibrary = () => {
-    this.resetHint();
     this.checkAvailability(() => this.props.pickImageFromLibrary(undefined));
   }
 
@@ -204,9 +194,6 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1
-    //position: 'absolute',
-    //top: (height - width) / -2,
-    //width: width
   },
   top: {
     flex: 0.3,
@@ -231,11 +218,6 @@ const styles = StyleSheet.create({
   appTitle: {
     fontSize: 16,
     marginTop: -5
-  },
-  hint: {
-    fontSize: 14,
-    marginBottom: 10,
-    backgroundColor: 'transparent'
   },
   button: {
     alignSelf: 'stretch',
