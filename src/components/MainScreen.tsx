@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { AdMobBanner, AdMobInterstitial } from 'expo';
 import React from 'react';
 import {
@@ -44,6 +44,7 @@ interface DispatchProps {
 type Props = OwnProps & StateProps & DispatchProps;
 
 interface State {
+  showPointer: boolean;
 }
 
 class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & DispatchProps, State> {
@@ -55,18 +56,22 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
   };
 
   public state: State = {
+    showPointer: false
   };
 
   public spring(): void {
-    this.springValue.setValue(1.1);
+    this.setState((s: State) => ({ ...s, showPointer: true }));
+    this.springValue.setValue(-45);
     Animated.spring(
       this.springValue,
       {
-        toValue: 1,
-        friction: 1,
-        tension: 1
+        toValue: -15,
+        friction: 3,
+        tension: 40
       }
-    ).start();
+    ).start(() => {
+      this.setState((s: State) => ({ ...s, showPointer: false }));
+    });
   }
 
   public componentDidMount(): void {
@@ -85,22 +90,27 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
   public render(): JSX.Element {
     const config: AppConfig = APP_CONFIG[this.props.appMode];
     return (
-      <SafeAreaView style={styles.container} >
-        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
-        <ImageBackground
-          style={styles.background}
-          source={DECORATIONS.background}
-          resizeMode="cover">
+      <ImageBackground
+        style={styles.background}
+        source={DECORATIONS.spring}
+        resizeMode="cover">
+        <SafeAreaView style={styles.container} >
+          <StatusBar backgroundColor="#fff" barStyle="dark-content" />
           <View style={styles.top} >
           </View>
-          <Animated.View style={[styles.main, { transform: [{ scale: this.springValue }] }]} >
+          <View style={styles.main}>
+            {this.state.showPointer &&
+              <Animated.View style={[styles.pointer, { top: this.springValue }]} >
+                <FontAwesome name="hand-o-down" size={40} color={config.color} />
+              </Animated.View>
+            }
             <TouchableOpacity onPress={this.onSwitchAppMode} style={styles.appSwitch}>
               <MaterialCommunityIcons name={config.logo} size={100} color={config.color} />
               <Text style={[styles.appTitle, { color: config.color }]}>
                 {config.title}
               </Text>
             </TouchableOpacity>
-          </Animated.View>
+          </View>
           <View style={styles.bottom} >
             <Button
               icon="md-camera"
@@ -120,8 +130,8 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
               testDeviceID="EMULATOR"
               adViewDidReceiveAd={this.onAdReceived} />
           </View>
-        </ImageBackground>
-      </SafeAreaView>
+        </SafeAreaView>
+      </ImageBackground>
     );
   }
 
@@ -190,7 +200,7 @@ export const MainScreen = connect<StateProps, DispatchProps, OwnProps>(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: 'rgba(255,255,255,0.5)'
   },
   background: {
     flex: 1
@@ -205,6 +215,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  pointer: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 0
+  },
   bottom: {
     flex: 0.4,
     justifyContent: 'flex-end',
@@ -217,6 +232,7 @@ const styles = StyleSheet.create({
   },
   appTitle: {
     fontSize: 16,
+    fontWeight: 'bold',
     marginTop: -5
   },
   button: {

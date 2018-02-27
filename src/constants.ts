@@ -14,8 +14,9 @@ export const EMOJI_ICONS: Record<string, number> = {
 };
 
 export const DECORATIONS: Record<string, number> = {
-  background: require('../assets/background.jpg'),
-  christmasBanner: require('../assets/christmas-banner.jpg')
+  // christmasBanner: require('../assets/christmas-banner.jpg'),
+  // background: require('../assets/background.jpg'),
+  spring: require('../assets/spring.jpg')
 };
 // tslint:enable:no-require-imports
 
