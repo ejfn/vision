@@ -187,7 +187,7 @@ class InnerPhotoScreen extends React.PureComponent<Props> {
       },
       (completed: boolean, _: string): void => {
         if (completed) {
-          Alert.alert('Succeed!');
+          // Alert.alert('Succeed!');
         }
       }
     );
