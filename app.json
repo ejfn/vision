@@ -5,7 +5,7 @@
     "slug": "vision",
     "privacy": "public",
     "sdkVersion": "24.0.0",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "githubUrl": "https://github.com/ericvan76/vision",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
@@ -31,7 +31,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.fanstek.vision",
-      "buildNumber": "1030008",
+      "buildNumber": "1040003",
       "supportsTablet": false,
       "config": {
         "usesNonExemptEncryption": false
@@ -45,13 +45,14 @@
     },
     "android": {
       "package": "com.fanstek.vision",
-      "versionCode": 1030008,
+      "versionCode": 1040003,
       "permissions": [
-        "CAMERA"
+        "CAMERA",
+        "WRITE_EXTERNAL_STORAGE"
       ]
     },
     "extra": {
-      "semver": "1.3.0-beta.8",
+      "semver": "1.4.0-beta.3",
       "showInterstitialCalls": 10,
       "limitedAccessCalls": 20,
       "geoAzureLocationMap": {
