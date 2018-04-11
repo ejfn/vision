@@ -124,11 +124,14 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
               style={[styles.button, { backgroundColor: config.color }]}
               fontSize={16}
               onPress={this.onPickFromLibrary} />
-            <AdMobBanner
-              bannerSize="smartBannerPortrait"
-              adUnitID={getBannerId(0)}
-              testDeviceID="EMULATOR"
-              adViewDidReceiveAd={this.onAdReceived} />
+            {
+              CONFIG.showAd &&
+              <AdMobBanner
+                bannerSize="smartBannerPortrait"
+                adUnitID={getBannerId(0)}
+                testDeviceID="EMULATOR"
+                adViewDidReceiveAd={this.onAdReceived} />
+            }
           </View>
         </SafeAreaView>
       </ImageBackground>
@@ -146,7 +149,7 @@ class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & Dispat
   private checkAvailability = (callback: () => void): void => {
     if (!this.props.network.isConnected) {
       Alert.alert('No Network Connection!', 'You\'re not connected to the internet. Check your connection and try again.');
-    } else if (!this.props.network.adReceived &&
+    } else if (CONFIG.showAd && !this.props.network.adReceived &&
       this.props.processState.totalCalled >= CONFIG.limitedAccessCalls) {
       Alert.alert('Limited Access!', 'You\'re currently limited to use our service. Check your connection and try again.');
     } else {

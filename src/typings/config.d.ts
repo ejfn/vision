@@ -2,6 +2,7 @@ export type AzureLocation = "westus" | "australiaeast" | "southeastasia" | "nort
 
 export interface Config {
   semver: string;
+  showAd: boolean;
   showInterstitialCalls: number;
   limitedAccessCalls: number;
   geoAzureLocationMap: {
