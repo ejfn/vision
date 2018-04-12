@@ -4,7 +4,7 @@
     "description": "An AI Vision app powered by Microsoft Cognitive Service",
     "slug": "vision",
     "privacy": "public",
-    "sdkVersion": "24.0.0",
+    "sdkVersion": "26.0.0",
     "version": "1.4.1",
     "githubUrl": "https://github.com/ericvan76/vision",
     "orientation": "portrait",

@@ -7,7 +7,7 @@ interface Props {
   vision: VisionResult;
 }
 
-export class VisionTag extends React.PureComponent<Props, {}> {
+export class VisionTag extends React.PureComponent<Props> {
   public render(): JSX.Element {
     const { captions, tags } = this.props.vision.description;
 
@@ -60,7 +60,7 @@ interface TagProps {
   text: string;
   style?: ViewStyle;
 }
-class Tag extends React.PureComponent<TagProps, {}> {
+class Tag extends React.PureComponent<TagProps> {
   public render(): JSX.Element {
     return (
       <View

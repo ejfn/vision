@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { NavigationScreenProp, NavigationStackScreenOptions } from 'react-navigation';
+import { NavigationInjectedProps, NavigationStackScreenOptions, withNavigation } from 'react-navigation';
 import { connect, MapStateToProps } from 'react-redux';
 import { switchAppMode } from '../actions/appMode';
 import { adReceived } from '../actions/network';
@@ -24,7 +24,6 @@ import { AppMode, AppState, NetworkState, ProcessState } from '../store';
 import { Button } from './Button';
 
 interface OwnProps {
-  navigation: NavigationScreenProp<{}, void>;
 }
 
 interface StateProps {
@@ -41,13 +40,13 @@ interface DispatchProps {
   pickImageFromLibrary: typeof pickImageFromLibrary;
 }
 
-type Props = OwnProps & StateProps & DispatchProps;
+type Props = OwnProps & StateProps & DispatchProps & NavigationInjectedProps;
 
 interface State {
   showPointer: boolean;
 }
 
-class InnerMainScreen extends React.PureComponent<OwnProps & StateProps & DispatchProps, State> {
+class InnerMainScreen extends React.PureComponent<Props, State> {
 
   private springValue: Animated.Value = new Animated.Value(1);
 
@@ -198,7 +197,7 @@ export const MainScreen = connect<StateProps, DispatchProps, OwnProps>(
     adReceived,
     pickImageFromCamera,
     pickImageFromLibrary
-  })(InnerMainScreen);
+  })(withNavigation(InnerMainScreen));
 
 const styles = StyleSheet.create({
   container: {

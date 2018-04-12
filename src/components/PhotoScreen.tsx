@@ -13,10 +13,10 @@ import {
   View
 } from 'react-native';
 import {
-  NavigationAction,
+  NavigationInjectedProps,
   NavigationScreenConfigProps,
-  NavigationScreenProp,
-  NavigationStackScreenOptions
+  NavigationStackScreenOptions,
+  withNavigation
 } from 'react-navigation';
 import { connect, MapStateToProps } from 'react-redux';
 import { describePhoto, detectFace } from '../actions/process';
@@ -29,7 +29,6 @@ import { TaggedPhoto } from './TaggedPhoto';
 const { height, width } = Dimensions.get('window');
 
 interface OwnProps {
-  navigation: NavigationScreenProp<{}, NavigationAction>;
 }
 
 interface StateProps {
@@ -43,13 +42,13 @@ interface DispatchProps {
   describePhoto: typeof describePhoto;
 }
 
-type Props = OwnProps & StateProps & DispatchProps;
+type Props = OwnProps & StateProps & DispatchProps & NavigationInjectedProps;
 
 class InnerPhotoScreen extends React.PureComponent<Props> {
 
   public static navigationOptions = (props: NavigationScreenConfigProps): NavigationStackScreenOptions => {
     return {
-      title: `${props.navigation.state.params.title}`
+      title: `${props.navigation.state.params && props.navigation.state.params.title}`
     };
   }
 
@@ -211,7 +210,7 @@ export const PhotoScreen = connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps, {
     detectFace,
     describePhoto
-  })(InnerPhotoScreen);
+  })(withNavigation(InnerPhotoScreen));
 
 const styles = StyleSheet.create({
   container: {

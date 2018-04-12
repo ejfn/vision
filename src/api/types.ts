@@ -33,7 +33,7 @@ export interface FaceResult {
     [key: string]: {
       x: number;
       y: number;
-    }
+    };
   };
 }
 

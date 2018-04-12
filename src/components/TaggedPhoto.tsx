@@ -12,7 +12,7 @@ interface Props {
   onLoad?: (() => void) | undefined;
 }
 
-export class TaggedPhoto extends React.PureComponent<Props, {}> {
+export class TaggedPhoto extends React.PureComponent<Props> {
 
   private renderResult(): Array<JSX.Element> | JSX.Element | null {
 
