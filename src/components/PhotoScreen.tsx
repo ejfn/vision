@@ -54,8 +54,10 @@ class InnerPhotoScreen extends React.PureComponent<Props> {
 
   private onLoad = async (): Promise<void> => {
     if (this.props.processState.status === 'ready') {
-      setTimeout(async () => this.process(), 1000);
-      //await this.process();
+      setTimeout(
+        async () => this.process(),
+        Platform.select({ ios: 10, android: 1000 })
+      );
     }
   }
 
@@ -111,31 +113,31 @@ class InnerPhotoScreen extends React.PureComponent<Props> {
         <StatusBar backgroundColor="#fff" barStyle="dark-content" />
         <View style={styles.main}>
           {
-            this.props.processState.image != null ?
-              <TaggedPhoto
-                ref="image"
-                source={{ uri: this.props.processState.image.uri }}
-                result={this.props.processState.result}
-                onLoad={this.onLoad}
-                style={[styles.photo, { width: imageSize, height: imageSize }]}
-              /> : null
+            this.props.processState.image &&
+            <TaggedPhoto
+              ref="image"
+              source={{ uri: this.props.processState.image.uri }}
+              result={this.props.processState.result}
+              onLoad={this.onLoad}
+              style={[styles.photo, { width: imageSize, height: imageSize }]}
+            />
           }
           {
             (this.props.processState.status === 'requesting' ||
-              this.props.processState.status === 'ready') ?
-              <View style={styles.indicatorContainer} >
-                <ActivityIndicator size="large" />
-                <Text style={styles.indicatorText}>PROCESSING...</Text>
-              </View> : null
+              this.props.processState.status === 'ready') &&
+            <View style={styles.indicatorContainer} >
+              <ActivityIndicator size="large" />
+              <Text style={styles.indicatorText}>PROCESSING...</Text>
+            </View>
           }
           {
-            this.props.processState.status === 'success' && Platform.OS === 'ios' ?
-              <Button
-                fontSize={28}
-                icon="ios-share-outline"
-                onPress={this.showShareActionSheet}
-                style={styles.shareButton} />
-              : null
+            (this.props.processState.status === 'success' &&
+              Platform.OS === 'ios') &&
+            <Button
+              fontSize={28}
+              icon="ios-share-outline"
+              onPress={this.showShareActionSheet}
+              style={styles.shareButton} />
           }
         </View>
         <View style={styles.banner}>
@@ -190,7 +192,7 @@ class InnerPhotoScreen extends React.PureComponent<Props> {
       },
       (completed: boolean, _: string): void => {
         if (completed) {
-          // Alert.alert('Succeed!');
+          // Alert.alert('Done!');
         }
       }
     );

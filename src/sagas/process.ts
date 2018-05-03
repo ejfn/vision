@@ -1,4 +1,4 @@
-import { ImagePicker } from 'expo';
+import { ImagePicker, Permissions } from 'expo';
 import { Alert } from 'react-native';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
@@ -15,43 +15,58 @@ import { ApiLocationKey, AzureLocation } from '../typings/config';
 
 function* pickImageFromCameraSaga(): SagaIterator {
   yield put(actions.pickImageStart(undefined));
-  const result: ImagePicker.ImageResult = yield call(
-    ImagePicker.launchCameraAsync,
-    {
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1]
+  const perm1: Permissions.PermissionResponse = yield call(Permissions.askAsync, Permissions.CAMERA);
+  const perm2: Permissions.PermissionResponse = yield call(Permissions.askAsync, Permissions.CAMERA_ROLL);
+  if (perm1.status === 'granted' && perm2.status === 'granted') {
+    const result: ImagePicker.ImageResult = yield call(
+      ImagePicker.launchCameraAsync,
+      {
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1]
+      }
+    );
+    if (!result.cancelled) {
+      if (result.type === 'image') {
+        yield put(actions.pickImageSuccess(result));
+      } else {
+        Alert.alert(
+          'Invalid Media Type!',
+          `Media type '${result.type}' is not surpported. Please select a photo and try again.`);
+      }
     }
-  );
-  if (!result.cancelled) {
-    if (result.type === 'image') {
-      yield put(actions.pickImageSuccess(result));
-    } else {
-      Alert.alert(
-        'Invalid Media Type!',
-        `Media type '${result.type}' is not surpported. Please select a photo and try again.`);
-    }
+  } else {
+    Alert.alert(
+      'Permission Required!',
+      'Permission CAMERA and CAMERA_ROLL are required.');
   }
 }
 
 function* pickImageFromLibrarySaga(): SagaIterator {
   yield put(actions.pickImageStart(undefined));
-  const result: ImagePicker.ImageResult = yield call(
-    ImagePicker.launchImageLibraryAsync,
-    {
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1]
+  const perm: Permissions.PermissionResponse = yield call(Permissions.askAsync, Permissions.CAMERA_ROLL);
+  if (perm.status === 'granted') {
+    const result: ImagePicker.ImageResult = yield call(
+      ImagePicker.launchImageLibraryAsync,
+      {
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1]
+      }
+    );
+    if (!result.cancelled) {
+      if (result.type === 'image') {
+        yield put(actions.pickImageSuccess(result));
+      } else {
+        Alert.alert(
+          'Invalid Media Type!',
+          `Media type '${result.type}' is not surpported. Please select a photo and try again.`);
+      }
     }
-  );
-  if (!result.cancelled) {
-    if (result.type === 'image') {
-      yield put(actions.pickImageSuccess(result));
-    } else {
-      Alert.alert(
-        'Invalid Media Type!',
-        `Media type '${result.type}' is not surpported. Please select a photo and try again.`);
-    }
+  } else {
+    Alert.alert(
+      'Permission Required!',
+      'Permission CAMERA_ROLL is required.');
   }
 }
 

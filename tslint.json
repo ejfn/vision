@@ -45,7 +45,7 @@
     "no-backbone-get-set-outside-model": false,
     "prefer-type-cast": false,
     "no-angle-bracket-type-assertion": true,
-    "no-empty-interface": false, // This is not properly check if the new (empty) interface is a concrete of a generic
+    "no-empty-interface": false,
     "function-name": [
       true,
       {
@@ -87,13 +87,11 @@
       "redux-saga/effects",
       "redux-saga/utils"
     ],
-    "newline-before-return": false, // This is a nice code style improvements, but has no fix and will take to long to update the project.
-    "match-default-export-name": false, // This should be activated and fixed sometime. This helps developers better track what/where an import is/came from
-    "no-implicit-dependencies": false, // This would be quite ueseful, but currently breaks with our absolute imports
-    // This should be enabled for beta and release builds
+    "newline-before-return": false,
+    "match-default-export-name": false,
+    "no-implicit-dependencies": false,
     "no-suspicious-comment": false,
-    "no-use-before-declare": false, // This works now, but requires resoanble amounts of cleanup
-    // This rule is currently broken https://github.com/Microsoft/tslint-microsoft-contrib/issues/339
+    "no-use-before-declare": false,
     "react-unused-props-and-state": false
   },
   "jsRules": {

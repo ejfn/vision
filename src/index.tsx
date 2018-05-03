@@ -1,6 +1,6 @@
 import { Amplitude, AppLoading, Asset, Constants } from 'expo';
 import * as React from 'react';
-import { NetInfo } from 'react-native';
+import { NetInfo, Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
@@ -36,15 +36,24 @@ Amplitude.initialize(CONFIG.amplitude.apiKey);
 Amplitude.setUserId(Constants.deviceId);
 Amplitude.setUserProperties({
   appOwnership: Constants.appOwnership,
-  appVersion: Constants.manifest.extra.semver
+  appVersion: Constants.manifest.extra ? Constants.manifest.extra.semver : ''
 });
 // #end initialise
 
 // tslint:disable-next-line:variable-name
-const AppNavigator = StackNavigator({
-  Main: { screen: MainScreen },
-  Photo: { screen: PhotoScreen }
-});
+const AppNavigator = StackNavigator(
+  {
+    Main: { screen: MainScreen },
+    Photo: { screen: PhotoScreen }
+  },
+  {
+    navigationOptions: {
+      headerStyle: {
+        marginTop: Platform.select({ android: Constants.statusBarHeight * -1 })
+      }
+    }
+  }
+);
 
 interface Props { }
 

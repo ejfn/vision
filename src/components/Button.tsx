@@ -20,6 +20,7 @@ export class Button extends React.PureComponent<Props> {
       <TouchableOpacity
         onPress={this.props.onPress}
         disabled={this.props.disabled}
+        activeOpacity={0.5}
         style={[
           {
             flexDirection: 'row',
@@ -35,23 +36,23 @@ export class Button extends React.PureComponent<Props> {
           this.props.style
         ]}>
         {
-          this.props.icon !== undefined ?
-            <Ionicons
-              name={this.props.icon}
-              color={color}
-              size={fontSize + 4}
-            /> : null
+          this.props.icon &&
+          <Ionicons
+            name={this.props.icon}
+            color={color}
+            size={fontSize + 4}
+          />
         }
         {
-          this.props.title !== undefined ?
-            <Text
-              ellipsizeMode="middle"
-              style={{
-                marginLeft: this.props.icon !== undefined ? fontSize * 0.5 : undefined,
-                color: color,
-                fontSize: fontSize
-              }}>{this.props.title}</Text>
-            : null
+          this.props.title &&
+          <Text
+            ellipsizeMode="middle"
+            style={{
+              marginLeft: this.props.icon !== undefined ? fontSize * 0.5 : undefined,
+              color: color,
+              fontSize: fontSize
+            }}
+          >{this.props.title}</Text>
         }
       </TouchableOpacity>
     );

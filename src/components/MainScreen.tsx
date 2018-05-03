@@ -12,7 +12,11 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { NavigationInjectedProps, NavigationStackScreenOptions, withNavigation } from 'react-navigation';
+import {
+  NavigationInjectedProps,
+  NavigationStackScreenOptions,
+  withNavigation
+} from 'react-navigation';
 import { connect, MapStateToProps } from 'react-redux';
 import { switchAppMode } from '../actions/appMode';
 import { adReceived } from '../actions/network';
@@ -79,7 +83,8 @@ class InnerMainScreen extends React.PureComponent<Props, State> {
 
   public componentDidUpdate(prevProps: Props): void {
     if (prevProps.processState.status === 'picking' && this.props.processState.status === 'ready') {
-      this.checkInterstitial(() => {
+      // tslint:disable-next-line:no-floating-promises
+      this.showInterstitialAsync(() => {
         const title = APP_CONFIG[this.props.appMode].title;
         this.props.navigation.navigate('Photo', { title });
       });
@@ -103,7 +108,7 @@ class InnerMainScreen extends React.PureComponent<Props, State> {
                 <FontAwesome name="hand-o-down" size={40} color={config.color} />
               </Animated.View>
             }
-            <TouchableOpacity onPress={this.onSwitchAppMode} style={styles.appSwitch}>
+            <TouchableOpacity activeOpacity={0.5} onPress={this.onSwitchAppMode} style={styles.appSwitch}>
               <MaterialCommunityIcons name={config.logo} size={100} color={config.color} />
               <Text style={[styles.appTitle, { color: config.color }]}>
                 {config.title}
@@ -164,7 +169,7 @@ class InnerMainScreen extends React.PureComponent<Props, State> {
     this.checkAvailability(() => this.props.pickImageFromLibrary(undefined));
   }
 
-  private checkInterstitial = (callback: () => void): void => {
+  private showInterstitialAsync = async (callback: () => void): Promise<void> => {
     if (this.props.totalCalled > 0 &&
       this.props.totalCalled % CONFIG.showInterstitialCalls === 0) {
       AdMobInterstitial.setAdUnitID(getInterstitialId(0));
@@ -174,7 +179,8 @@ class InnerMainScreen extends React.PureComponent<Props, State> {
         callback,
         { once: true }
       );
-      AdMobInterstitial.requestAd(() => AdMobInterstitial.showAd());
+      await AdMobInterstitial.requestAdAsync();
+      await AdMobInterstitial.showAdAsync();
     } else {
       callback();
     }
