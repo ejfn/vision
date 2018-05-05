@@ -4,7 +4,6 @@ export interface Config {
   semver: string;
   showAd: boolean;
   showInterstitialCalls: number;
-  limitedAccessCalls: number;
   geoAzureLocationMap: {
     AF?: AzureLocation;
     AN?: AzureLocation;

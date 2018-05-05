@@ -153,9 +153,6 @@ class InnerMainScreen extends React.PureComponent<Props, State> {
   private checkAvailability = (callback: () => void): void => {
     if (!this.props.network.isConnected) {
       Alert.alert('No Network Connection!', 'You\'re not connected to the internet. Check your connection and try again.');
-    } else if (CONFIG.showAd && !this.props.network.adReceived &&
-      this.props.processState.totalCalled >= CONFIG.limitedAccessCalls) {
-      Alert.alert('Limited Access!', 'You\'re currently limited to use our service. Check your connection and try again.');
     } else {
       callback();
     }
