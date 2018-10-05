@@ -38,7 +38,8 @@ export class TaggedPhoto extends React.PureComponent<Props> {
         style={[styles.container, this.props.style]}
         collapsable={false} >
         <Image
-          style={styles.image}
+          // tslint:disable-next-line:no-any
+          style={styles.image as any}
           source={this.props.source}
           onLoad={this.props.onLoad} />
         {this.renderResult()}

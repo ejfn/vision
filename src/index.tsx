@@ -1,7 +1,7 @@
 import { Amplitude, AppLoading, Asset, Constants } from 'expo';
 import * as React from 'react';
 import { NetInfo, Platform } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
@@ -41,7 +41,7 @@ Amplitude.setUserProperties({
 // #end initialise
 
 // tslint:disable-next-line:variable-name
-const AppNavigator = StackNavigator(
+const AppNavigator = createStackNavigator(
   {
     Main: { screen: MainScreen },
     Photo: { screen: PhotoScreen }
