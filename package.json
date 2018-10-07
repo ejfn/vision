@@ -8,7 +8,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "tslint": "tslint --project tsconfig.json -t stylish",
-    "start": "expo start --dev --lan",
+    "start": "expo start --lan",
     "qualitycheck": "npm-run-all typecheck tslint"
   },
   "dependencies": {
