@@ -1,5 +1,5 @@
 # Vision
-[![Build Status](https://www.bitrise.io/app/b718e422922f5e51/status.svg?token=JjLtHEFo79VsBGwzYGtlcQ&branch=master)](https://www.bitrise.io/app/b718e422922f5e51)
+[![Build Status](https://app.bitrise.io/app/b718e422922f5e51/status.svg?token=JjLtHEFo79VsBGwzYGtlcQ&branch=master)](https://www.bitrise.io/app/b718e422922f5e51)
 
 ![](https://thumb.ibb.co/n09KSS/0.jpg)
 ![](https://thumb.ibb.co/hcrAZ7/1.jpg)
