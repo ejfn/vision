@@ -128,14 +128,11 @@ class InnerMainScreen extends React.PureComponent<Props, State> {
               style={[styles.button, { backgroundColor: config.color }]}
               fontSize={16}
               onPress={this.onPickFromLibrary} />
-            {
-              CONFIG.showAd &&
-              <AdMobBanner
-                bannerSize="smartBannerPortrait"
-                adUnitID={getBannerId(0)}
-                testDeviceID="EMULATOR"
-                adViewDidReceiveAd={this.onAdReceived} />
-            }
+            <AdMobBanner
+              bannerSize="smartBannerPortrait"
+              adUnitID={getBannerId(0)}
+              testDeviceID="EMULATOR"
+              adViewDidReceiveAd={this.onAdReceived} />
           </View>
         </SafeAreaView>
       </ImageBackground>
