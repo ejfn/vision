@@ -134,7 +134,7 @@ class InnerPhotoScreen extends React.PureComponent<Props> {
               Platform.OS === 'ios') &&
             <Button
               fontSize={28}
-              icon="ios-share-outline"
+              icon="ios-share"
               onPress={this.showShareActionSheet}
               style={styles.shareButton} />
           }

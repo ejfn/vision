@@ -36,7 +36,7 @@ Amplitude.initialize(CONFIG.amplitude.apiKey);
 Amplitude.setUserId(Constants.deviceId);
 Amplitude.setUserProperties({
   appOwnership: Constants.appOwnership,
-  appVersion: Constants.manifest.extra ? Constants.manifest.extra.semver : ''
+  appVersion: CONFIG.semver || ''
 });
 // #end initialise
 
