@@ -9,9 +9,9 @@ export const INITIAL_STATE: AppState = {
   appMode: 'Face',
   processState: {
     status: 'none',
-    image: null,
-    result: null,
-    error: null,
+    image: undefined,
+    result: undefined,
+    error: undefined,
     totalCalled: 0
   }
 };

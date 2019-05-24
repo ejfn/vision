@@ -12,28 +12,33 @@ export function networkReducer(
 ): NetworkState {
   switch (action.type) {
     case actions.connected.type:
+
       return {
         ...state,
         isConnected: true
       };
     case actions.disconnected.type:
+
       return {
         ...state,
         isConnected: false,
         adReceived: true
       };
     case actions.adReceived.type:
+
       return {
         ...state,
         adReceived: true
       };
     case actions.setGeoLocation.type:
       const freeGeoIp = action.payload;
+
       return {
         ...state,
         freeGeoIp
       };
     default:
+
       return state;
   }
 }

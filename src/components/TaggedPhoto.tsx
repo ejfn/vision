@@ -5,18 +5,27 @@ import { ProcessResult } from '../store';
 import { FaceTag } from './FaceTag';
 import { VisionTag } from './VisionTag';
 
+const styles = StyleSheet.create({
+  container: {
+    overflow: 'hidden'
+  },
+  image: {
+    flex: 1
+  }
+});
+
 interface Props {
   style: {};
   source: ImageURISource;
-  result: ProcessResult | null;
-  onLoad?: (() => void) | undefined;
+  result?: ProcessResult;
+  onLoad?: (() => void);
 }
 
 export class TaggedPhoto extends React.PureComponent<Props> {
 
-  private renderResult(): Array<JSX.Element> | JSX.Element | null {
+  private renderResult(): Array<JSX.Element> | JSX.Element | undefined {
 
-    if (this.props.result != null) {
+    if (this.props.result !== undefined) {
 
       if (this.props.result.face !== undefined) {
         return this.props.result.face.map((f: FaceResult, i: number) =>
@@ -29,7 +38,8 @@ export class TaggedPhoto extends React.PureComponent<Props> {
         );
       }
     }
-    return null;
+
+    return undefined;
   }
 
   public render(): JSX.Element {
@@ -38,8 +48,7 @@ export class TaggedPhoto extends React.PureComponent<Props> {
         style={[styles.container, this.props.style]}
         collapsable={false} >
         <Image
-          // tslint:disable-next-line:no-any
-          style={styles.image as any}
+          style={styles.image}
           source={this.props.source}
           onLoad={this.props.onLoad} />
         {this.renderResult()}
@@ -47,12 +56,3 @@ export class TaggedPhoto extends React.PureComponent<Props> {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    overflow: 'hidden'
-  },
-  image: {
-    flex: 1
-  }
-});

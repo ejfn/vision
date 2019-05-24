@@ -1,12 +1,10 @@
 {
   "extends": [
     "tslint:latest",
-    "tslint-microsoft-contrib/recommended_ruleset",
-    "tslint-require-connnect-typing"
+    "tslint-microsoft-contrib/recommended_ruleset"
   ],
   "rulesDirectory": [
-    "node_modules/tslint-microsoft-contrib",
-    "node_modules/tslint-require-connnect-typing"
+    "tslint-microsoft-contrib"
   ],
   "rules": {
     "quotemark": [
@@ -21,8 +19,14 @@
     "no-default-export": false,
     "no-relative-imports": false,
     "no-empty-interfaces": false,
-    "import-name": false,
-    "export-name": false,
+    "no-http-string": false,
+    "no-unsafe-any": false, // this sounds good in principle but is very anoying to work with
+    "import-name": false, // This generate unexpected results when importing node modules which typicly have lowercase names
+    "export-name": false, // This would be good, except it makes multiple exports from the same file messy and irritating
+    "match-default-export-name": {
+      "severity": "warning"
+    },
+    "trailing-comma": true,
     "react-tsx-curly-spacing": [
       true,
       "never",
@@ -45,14 +49,6 @@
     "no-backbone-get-set-outside-model": false,
     "prefer-type-cast": false,
     "no-angle-bracket-type-assertion": true,
-    "no-empty-interface": false,
-    "function-name": [
-      true,
-      {
-        "function-regex": "^[a-z][\\w\\d]+|[A-Z][\\w\\d]+(Component|Controller|View)$",
-        "static-method-regex": "^[a-z][\\w\\d]+$"
-      }
-    ],
     "space-before-function-paren": [
       true,
       {
@@ -70,12 +66,12 @@
     ],
     "member-ordering": false,
     "strict-boolean-expressions": false,
-    "no-unsafe-any": false,
     "completed-docs": false,
+    "mocha-no-side-effect-code": false,
     "no-import-side-effect": [
       true,
       {
-        "ignore-module": "(\\.scss|\\.css|moment-duration-format|isomorphic-fetch)$"
+        "ignore-module": "(\\.scss|\\.css|core-js/.*|isomorphic-fetch)$"
       }
     ],
     "no-submodule-imports": [
@@ -83,15 +79,61 @@
       "src",
       "assets",
       "react-transition-group",
-      "lodash/fp",
       "redux-saga/effects",
-      "redux-saga/utils"
+      "redux-saga/utils",
+      "uuid/v5",
+      "ajv/lib/refs/json-schema-draft-04.json",
+      "ajv/lib/refs/json-schema-draft-06.json",
+      "core-js",
+      "bootstrap",
+      "font-awesome",
+      "react-grid-layout/css/styles.css",
+      "react-resizable/css/styles.css"
     ],
-    "newline-before-return": false,
-    "match-default-export-name": false,
-    "no-implicit-dependencies": false,
+    "function-name": [
+      true,
+      {
+        "method-regex": "^[a-z][\\w\\d]+$",
+        "private-method-regex": "^[a-z][\\w\\d]+$",
+        "protected-method-regex": "^[a-z][\\w\\d]+$",
+        "static-method-regex": "^([A-Z][\\w\\d]+)|getDerivedStateFromProps$",
+        "function-regex": "^[a-z][\\w\\d]+$"
+      }
+    ],
+    "no-console": [
+      true,
+      "memory",
+      "assert",
+      "clear",
+      "count",
+      "debug",
+      "dir",
+      "dirxml",
+      "exception",
+      "group",
+      "groupCollapsed",
+      "groupEnd",
+      "info",
+      "log",
+      "markTimeline",
+      "msIsIndependentlyComposed",
+      "profile",
+      "profileEnd",
+      "select",
+      "table",
+      "time",
+      "timeEnd",
+      "timeStamp",
+      "timeline",
+      "timelineEnd",
+      "trace"
+    ],
+    "no-redundant-jsdoc": false,
+    "no-multiline-string": false, // Disabled becuase of styled-components
+    "no-implicit-dependencies": false, // This would be quite ueseful, but currently breaks with our absolute imports
+    // This should be enabled for beta and release builds
     "no-suspicious-comment": false,
-    "no-use-before-declare": false,
+    // This rule is currently broken https://github.com/Microsoft/tslint-microsoft-contrib/issues/339
     "react-unused-props-and-state": false
   },
   "jsRules": {

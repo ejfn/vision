@@ -4,8 +4,8 @@
     "description": "An AI Vision app powered by Microsoft Cognitive Service",
     "slug": "vision",
     "privacy": "public",
-    "sdkVersion": "30.0.0",
-    "version": "1.5.1",
+    "sdkVersion": "32.0.0",
+    "version": "1.6.0",
     "githubUrl": "https://github.com/ericvan76/vision",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
@@ -31,7 +31,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.fanstek.vision",
-      "buildNumber": "1050101",
+      "buildNumber": "1060001",
       "supportsTablet": false,
       "config": {
         "usesNonExemptEncryption": false
@@ -45,14 +45,14 @@
     },
     "android": {
       "package": "com.fanstek.vision",
-      "versionCode": 1050101,
+      "versionCode": 1060001,
       "permissions": [
         "CAMERA",
         "WRITE_EXTERNAL_STORAGE"
       ]
     },
     "extra": {
-      "semver": "1.5.1-beta.1",
+      "semver": "1.6.0-expo-upgrade.1",
       "showInterstitialCalls": 5,
       "geoAzureLocationMap": {
         "AF": "northeurope",
