@@ -1,5 +1,5 @@
-import { AdMobBanner, takeSnapshotAsync } from 'expo';
-import React from 'react';
+import { AdMobBanner, Constants, takeSnapshotAsync } from 'expo';
+import React, { RefObject } from 'react';
 import {
   ActionSheetIOS,
   ActivityIndicator,
@@ -26,189 +26,6 @@ import { Button } from './Button';
 import { TaggedPhoto } from './TaggedPhoto';
 
 const { height, width } = Dimensions.get('window');
-
-interface OwnProps {
-}
-
-interface StateProps {
-  appMode: AppMode;
-  network: NetworkState;
-  processState: ProcessState;
-}
-
-interface DispatchProps {
-  detectFace: typeof detectFace;
-  describePhoto: typeof describePhoto;
-}
-
-type Props = OwnProps & StateProps & DispatchProps & NavigationInjectedProps;
-
-class InnerPhotoScreen extends React.PureComponent<Props> {
-
-  public static navigationOptions = (props: NavigationScreenConfigProps): NavigationStackScreenOptions => {
-    return {
-      title: `${props.navigation.state.params && props.navigation.state.params.title}`
-    };
-  }
-
-  private onLoad = async (): Promise<void> => {
-    if (this.props.processState.status === 'ready') {
-      setTimeout(
-        async () => this.process(),
-        Platform.select({ ios: 10, android: 1000 })
-      );
-    }
-  }
-
-  public componentDidUpdate(prevProps: Props): void {
-    if (prevProps.processState.status === 'requesting') {
-      if (this.props.processState.status === 'error') {
-        let message = 'Something went wrong.';
-        if (this.props.processState.error != null) {
-          message = this.props.processState.error.message;
-        }
-        Alert.alert(
-          'Oops!',
-          message,
-          [
-            {
-              text: 'Cancel',
-              onPress: () => this.props.navigation.goBack(),
-              style: 'cancel'
-            },
-            {
-              text: 'Retry',
-              onPress: async () => { await this.process(); }
-            }
-          ],
-          { cancelable: false }
-        );
-      } else if (this.props.processState.status === 'success' && this.props.processState.result != null) {
-        if ((this.props.appMode === 'Face' && (
-          this.props.processState.result.face == null ||
-          this.props.processState.result.face.length === 0))
-        ) {
-          Alert.alert(
-            'No Face Detected!',
-            'Please select a photo with faces and try agagin.',
-            [
-              {
-                text: 'OK',
-                onPress: () => this.props.navigation.goBack()
-              }
-            ]
-          );
-        }
-      }
-    }
-  }
-
-  public render(): JSX.Element {
-
-    const imageSize: number = Math.min(height, width);
-
-    return (
-      <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
-        <View style={styles.main}>
-          {
-            this.props.processState.image &&
-            <TaggedPhoto
-              ref="image"
-              source={{ uri: this.props.processState.image.uri }}
-              result={this.props.processState.result}
-              onLoad={this.onLoad}
-              style={[styles.photo, { width: imageSize, height: imageSize }]}
-            />
-          }
-          {
-            (this.props.processState.status === 'requesting' ||
-              this.props.processState.status === 'ready') &&
-            <View style={styles.indicatorContainer} >
-              <ActivityIndicator size="large" />
-              <Text style={styles.indicatorText}>PROCESSING...</Text>
-            </View>
-          }
-          {
-            (this.props.processState.status === 'success' &&
-              Platform.OS === 'ios') &&
-            <Button
-              fontSize={28}
-              icon="ios-share"
-              onPress={this.showShareActionSheet}
-              style={styles.shareButton} />
-          }
-        </View>
-        <View style={styles.banner}>
-          <AdMobBanner
-            bannerSize="smartBannerPortrait"
-            adUnitID={getBannerId(1)}
-            testDeviceID="EMULATOR" />
-        </View>
-      </SafeAreaView>
-    );
-  }
-
-  private process = async (): Promise<void> => {
-    // tslint:disable-next-line:no-any
-    const base64: string = await takeSnapshotAsync(this.refs.image as any, {
-      format: 'jpeg',
-      quality: 1,
-      result: 'base64',
-      height: width,
-      width
-    });
-    switch (this.props.appMode) {
-      case 'Face':
-        this.props.detectFace({ base64 });
-        break;
-      case 'Vision':
-        this.props.describePhoto({ base64 });
-        break;
-      default:
-        return;
-    }
-  }
-
-  private showShareActionSheet = async (): Promise<void> => {
-    // tslint:disable-next-line:no-any
-    const fileToShare: string = await takeSnapshotAsync(this.refs.image as any, {
-      format: 'jpeg',
-      quality: 1,
-      result: 'data-uri',
-      height: width,
-      width: width
-    });
-    ActionSheetIOS.showShareActionSheetWithOptions(
-      {
-        url: fileToShare
-      },
-      (error: Error): void => {
-        Alert.alert('Oops!', error.message);
-      },
-      (completed: boolean, _: string): void => {
-        if (completed) {
-          // Alert.alert('Done!');
-        }
-      }
-    );
-  }
-}
-
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => {
-  return {
-    appMode: state.appMode,
-    network: state.network,
-    processState: state.processState
-  };
-};
-
-// tslint:disable-next-line:variable-name
-export const PhotoScreen = connect<StateProps, DispatchProps, OwnProps>(
-  mapStateToProps, {
-    detectFace,
-    describePhoto
-  })(withNavigation(InnerPhotoScreen));
 
 const styles = StyleSheet.create({
   container: {
@@ -246,3 +63,190 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end'
   }
 });
+
+// tslint:disable-next-line: no-empty-interface
+interface OwnProps {
+}
+
+interface StateProps {
+  appMode: AppMode;
+  network: NetworkState;
+  processState: ProcessState;
+}
+
+interface DispatchProps {
+  detectFace: typeof detectFace;
+  describePhoto: typeof describePhoto;
+}
+
+type Props = OwnProps & StateProps & DispatchProps & NavigationInjectedProps;
+
+class InnerPhotoScreen extends React.PureComponent<Props> {
+
+  private readonly taggedPhoto: RefObject<TaggedPhoto> = React.createRef<TaggedPhoto>();
+
+  public static navigationOptions = (props: NavigationScreenConfigProps): NavigationStackScreenOptions => {
+    return {
+      title: `${props.navigation.state.params && props.navigation.state.params.title}`,
+      headerStyle: { marginTop: Platform.select({ android: Constants.statusBarHeight * -1 }) }
+    };
+  }
+
+  private readonly onLoad = async (): Promise<void> => {
+    if (this.props.processState.status === 'ready') {
+      setTimeout(
+        async () => this.process(),
+        Platform.select({ ios: 10, android: 1000 })
+      );
+    }
+  }
+
+  public componentDidUpdate(prevProps: Props): void {
+    if (prevProps.processState.status === 'requesting') {
+      if (this.props.processState.status === 'error') {
+        let message = 'Something went wrong.';
+        if (this.props.processState.error !== undefined) {
+          message = this.props.processState.error.message;
+        }
+        Alert.alert(
+          'Oops!',
+          message,
+          [
+            {
+              text: 'Cancel',
+              onPress: () => this.props.navigation.goBack(),
+              style: 'cancel'
+            },
+            {
+              text: 'Retry',
+              onPress: async () => { await this.process(); }
+            }
+          ],
+          { cancelable: false }
+        );
+      } else if (this.props.processState.status === 'success' && this.props.processState.result !== undefined) {
+        if ((this.props.appMode === 'Face' && (
+          this.props.processState.result.face === undefined ||
+          this.props.processState.result.face.length === 0))
+        ) {
+          Alert.alert(
+            'No Face Detected!',
+            'Please select a photo with faces and try agagin.',
+            [
+              {
+                text: 'OK',
+                onPress: () => this.props.navigation.goBack()
+              }
+            ]
+          );
+        }
+      }
+    }
+  }
+
+  public render(): JSX.Element {
+
+    const imageSize: number = Math.min(height, width);
+
+    return (
+      <SafeAreaView style={styles.container}>
+        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+        <View style={styles.main}>
+          {
+            this.props.processState.image &&
+            <TaggedPhoto
+              ref={this.taggedPhoto}
+              source={{ uri: this.props.processState.image.uri }}
+              result={this.props.processState.result}
+              onLoad={this.onLoad}
+              style={[styles.photo, { width: imageSize, height: imageSize }]}
+            />
+          }
+          {
+            (this.props.processState.status === 'requesting' ||
+              this.props.processState.status === 'ready') &&
+            <View style={styles.indicatorContainer} >
+              <ActivityIndicator size="large" />
+              <Text style={styles.indicatorText}>PROCESSING...</Text>
+            </View>
+          }
+          {
+            (this.props.processState.status === 'success' &&
+              Platform.OS === 'ios') &&
+            <Button
+              fontSize={28}
+              icon="ios-share"
+              onPress={this.showShareActionSheet}
+              style={styles.shareButton} />
+          }
+        </View>
+        <View style={styles.banner}>
+          <AdMobBanner
+            bannerSize="smartBannerPortrait"
+            adUnitID={getBannerId(1)}
+            testDeviceID="EMULATOR" />
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  private readonly process = async (): Promise<void> => {
+    const base64: string = await takeSnapshotAsync(this.taggedPhoto, {
+      format: 'jpg',
+      quality: 1,
+      result: 'base64',
+      height: width,
+      width,
+      snapshotContentContainer: false
+    });
+    switch (this.props.appMode) {
+      case 'Face':
+        this.props.detectFace({ base64 });
+        break;
+      case 'Vision':
+        this.props.describePhoto({ base64 });
+        break;
+      default:
+        return;
+    }
+  }
+
+  private readonly showShareActionSheet = async (): Promise<void> => {
+    const fileToShare: string = await takeSnapshotAsync(this.taggedPhoto, {
+      format: 'jpg',
+      quality: 1,
+      result: 'data-uri',
+      height: width,
+      width: width,
+      snapshotContentContainer: false
+    });
+    ActionSheetIOS.showShareActionSheetWithOptions(
+      {
+        url: fileToShare
+      },
+      (error: Error): void => {
+        Alert.alert('Oops!', error.message);
+      },
+      (completed: boolean, _: string): void => {
+        if (completed) {
+          // Alert.alert('Done!');
+        }
+      }
+    );
+  }
+}
+
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => {
+  return {
+    appMode: state.appMode,
+    network: state.network,
+    processState: state.processState
+  };
+};
+
+// tslint:disable-next-line:variable-name
+export const PhotoScreen = connect<StateProps, DispatchProps, OwnProps>(
+  mapStateToProps, {
+    detectFace,
+    describePhoto
+  })(withNavigation(InnerPhotoScreen));

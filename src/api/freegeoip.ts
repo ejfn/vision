@@ -29,5 +29,6 @@ export async function queryFreeGeoIp(): Promise<FreeGeoIpResult> {
   if (!response.ok) {
     throw new Error((await response.json()).error.message);
   }
+
   return response.json() as Promise<FreeGeoIpResult>;
 }

@@ -3,6 +3,33 @@ import { Text, View, ViewStyle } from 'react-native';
 
 import { VisionResult } from '../api/types';
 
+interface TagProps {
+  text: string;
+  style?: ViewStyle;
+}
+class Tag extends React.PureComponent<TagProps> {
+  public render(): JSX.Element {
+    return (
+      <View
+        style={[
+          {
+            backgroundColor: '#2e7d32',
+            borderRadius: 7,
+            paddingHorizontal: 6
+          },
+          this.props.style
+        ]} >
+        <Text
+          style={{
+            color: '#ffffff'
+          }} >
+          {this.props.text}
+        </Text>
+      </View>
+    );
+  }
+}
+
 interface Props {
   vision: VisionResult;
 }
@@ -40,7 +67,7 @@ export class VisionTag extends React.PureComponent<Props> {
         <View
           style={{
             alignSelf: 'stretch',
-            backgroundColor: '#1e90ff',
+            backgroundColor: '#2e7d32',
             paddingHorizontal: 6,
             paddingVertical: 1
           }}
@@ -51,33 +78,6 @@ export class VisionTag extends React.PureComponent<Props> {
             }}
           >{captions[0].text}</Text>
         </View>
-      </View>
-    );
-  }
-}
-
-interface TagProps {
-  text: string;
-  style?: ViewStyle;
-}
-class Tag extends React.PureComponent<TagProps> {
-  public render(): JSX.Element {
-    return (
-      <View
-        style={[
-          {
-            backgroundColor: '#1e90ff',
-            borderRadius: 7,
-            paddingHorizontal: 6
-          },
-          this.props.style
-        ]} >
-        <Text
-          style={{
-            color: '#ffffff'
-          }} >
-          {this.props.text}
-        </Text>
       </View>
     );
   }

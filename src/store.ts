@@ -25,8 +25,8 @@ export interface ProcessResult {
 
 export interface ProcessState {
   status: ProcessStatus;
-  image: ImagePicker.ImageInfo | null;
-  result: ProcessResult | null;
-  error: Error | null;
+  image?: ImagePicker.ImageInfo;
+  result?: ProcessResult;
+  error?: Error;
   totalCalled: number;
 }

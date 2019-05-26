@@ -16,6 +16,7 @@ export class Button extends React.PureComponent<Props> {
   public render(): JSX.Element {
     const fontSize: number = this.props.fontSize !== undefined ? this.props.fontSize : 16;
     const color: string = this.props.color !== undefined ? this.props.color : '#eeeeee';
+
     return (
       <TouchableOpacity
         onPress={this.props.onPress}

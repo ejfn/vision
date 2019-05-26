@@ -1,7 +1,7 @@
 import { Amplitude, AppLoading, Asset, Constants } from 'expo';
 import * as React from 'react';
-import { NetInfo, Platform } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import { NetInfo } from 'react-native';
+import { createAppContainer, createStackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
@@ -48,13 +48,16 @@ const AppNavigator = createStackNavigator(
   },
   {
     navigationOptions: {
-      headerStyle: {
-        marginTop: Platform.select({ android: Constants.statusBarHeight * -1 })
-      }
+      // headerStyle: {
+      //   marginTop: Platform.select({ android: Constants.statusBarHeight * -1 })
+      // }
     }
   }
 );
+// tslint:disable-next-line: variable-name
+const AppContainer = createAppContainer(AppNavigator);
 
+// tslint:disable-next-line: no-empty-interface
 interface Props { }
 
 interface State {
@@ -80,12 +83,12 @@ export class App extends React.PureComponent<Props, State> {
 
     return (
       <Provider store={store}>
-        <AppNavigator />
+        <AppContainer />
       </Provider>
     );
   }
 
-  private finishLoading = () => {
+  private readonly finishLoading = () => {
     this.setState((state: State) => {
       return {
         ...state,
@@ -94,13 +97,16 @@ export class App extends React.PureComponent<Props, State> {
     });
   }
 
-  private cacheResourcesAsync = async () => {
+  private readonly cacheResourcesAsync = async () => {
     const images = [
       ...Object.values(DECORATIONS),
       ...Object.values(EMOJI_ICONS)
     ];
 
-    const cacheImages = images.map(async (img) => Asset.fromModule(img).downloadAsync());
+    const cacheImages = images.map(async (img) =>
+      Asset.fromModule(img)
+        .downloadAsync()
+    );
     await Promise.all([...cacheImages]);
   }
 }

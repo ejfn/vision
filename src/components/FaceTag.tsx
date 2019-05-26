@@ -63,7 +63,7 @@ export class FaceTag extends React.PureComponent<Props> {
     }
   }
 
-  private renderBox = (faceRectangle: FaceRectangle, color: string, emotion: string, size: number): JSX.Element => {
+  private readonly renderBox = (faceRectangle: FaceRectangle, color: string, emotion: string, size: number): JSX.Element => {
 
     return (
       <View
@@ -88,7 +88,10 @@ export class FaceTag extends React.PureComponent<Props> {
     );
   }
 
-  private renderLabel = (faceAttributes: FaceAttributes, color: string): JSX.Element => {
+  private readonly renderLabel = (faceAttributes: FaceAttributes, color: string): JSX.Element => {
+
+    const iconName = faceAttributes.gender === 'male' ? 'ios-man' : 'ios-woman';
+
     return (
       <View
         collapsable={false}
@@ -101,7 +104,7 @@ export class FaceTag extends React.PureComponent<Props> {
           width: LABEL_WIDTH
         }}>
         <Ionicons
-          name={faceAttributes.gender === 'male' ? 'ios-man' : 'ios-woman'}
+          name={iconName}
           color="#eeeeee"
           size={18} />
         <Text
@@ -117,16 +120,17 @@ export class FaceTag extends React.PureComponent<Props> {
     );
   }
 
-  private getEmotionWithMaxScores = (emotion: Record<Emotion, number>): string => {
-    return Object.keys(emotion).reduce(
-      (p: Emotion, c: Emotion): string => {
-        if (emotion[c] > emotion[p]) {
-          return c;
-        } else {
-          return p;
-        }
-      },
-      'neutral'
-    );
+  private readonly getEmotionWithMaxScores = (emotion: Record<Emotion, number>): string => {
+    return Object.keys(emotion)
+      .reduce(
+        (p: Emotion, c: Emotion): string => {
+          if (emotion[c] > emotion[p]) {
+            return c;
+          } else {
+            return p;
+          }
+        },
+        'neutral'
+      );
   }
 }

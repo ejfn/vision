@@ -16,15 +16,15 @@ export function processStateReducer(
       return {
         ...state,
         status: 'picking',
-        image: null
+        image: undefined
       };
     case actions.pickImageSuccess.type:
       return {
         ...state,
         status: 'ready',
         image: action.payload,
-        result: null,
-        error: null
+        result: undefined,
+        error: undefined
       };
     case actions.processStart.type:
       return {

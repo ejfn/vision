@@ -1,4 +1,4 @@
-import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AdMobBanner, AdMobInterstitial } from 'expo';
 import React from 'react';
 import {
@@ -27,6 +27,56 @@ import { APP_CONFIG, AppConfig, DECORATIONS } from '../constants';
 import { AppMode, AppState, NetworkState, ProcessState } from '../store';
 import { Button } from './Button';
 
+// #region Styles
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'rgba(255,255,255,0.5)'
+  },
+  background: {
+    flex: 1
+  },
+  top: {
+    flex: 0.2,
+  },
+  main: {
+    flex: 0.4,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bottom: {
+    flex: 0.4,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingHorizontal: 20
+  },
+  appSwitch: {
+    alignItems: 'center',
+    backgroundColor: 'transparent'
+  },
+  appTitle: {
+    alignItems: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  button: {
+    alignSelf: 'stretch',
+    marginBottom: 10,
+    height: 50
+  },
+  version: {
+    alignSelf: 'flex-end',
+    color: '#a9a9a9',
+    fontSize: 12,
+    paddingRight: 5,
+    paddingBottom: 5
+  }
+});
+// #endregion
+
+// tslint:disable-next-line: no-empty-interface
 interface OwnProps {
 }
 
@@ -50,11 +100,14 @@ interface State {
   showPointer: boolean;
 }
 
+const modes: Array<AppMode> = ['Face', 'Vision'];
+
 class InnerMainScreen extends React.PureComponent<Props, State> {
 
-  private springValue: Animated.Value = new Animated.Value(1);
+  private readonly springValue: Animated.Value = new Animated.Value(1);
 
   public static navigationOptions: NavigationStackScreenOptions = {
+    // tslint:disable-next-line: no-null-keyword
     header: null
   };
 
@@ -71,10 +124,10 @@ class InnerMainScreen extends React.PureComponent<Props, State> {
         toValue: -15,
         friction: 3,
         tension: 40
-      }
-    ).start(() => {
-      this.setState((s: State) => ({ ...s, showPointer: false }));
-    });
+      })
+      .start(() => {
+        this.setState((s: State) => ({ ...s, showPointer: false }));
+      });
   }
 
   public componentDidMount(): void {
@@ -83,7 +136,7 @@ class InnerMainScreen extends React.PureComponent<Props, State> {
 
   public componentDidUpdate(prevProps: Props): void {
     if (prevProps.processState.status === 'picking' && this.props.processState.status === 'ready') {
-      // tslint:disable-next-line:no-floating-promises
+      // tslint:disable-next-line: no-floating-promises
       this.showInterstitialAsync(() => {
         const title = APP_CONFIG[this.props.appMode].title;
         this.props.navigation.navigate('Photo', { title });
@@ -93,6 +146,7 @@ class InnerMainScreen extends React.PureComponent<Props, State> {
 
   public render(): JSX.Element {
     const config: AppConfig = APP_CONFIG[this.props.appMode];
+
     return (
       <ImageBackground
         style={styles.background}
@@ -100,33 +154,42 @@ class InnerMainScreen extends React.PureComponent<Props, State> {
         resizeMode="cover">
         <SafeAreaView style={styles.container} >
           <StatusBar backgroundColor="#fff" barStyle="dark-content" />
-          <View style={styles.top} >
-          </View>
+          <View style={styles.top} />
           <View style={styles.main}>
-            {this.state.showPointer &&
-              <Animated.View style={[styles.pointer, { top: this.springValue }]} >
-                <FontAwesome name="hand-o-down" size={40} color={config.color} />
-              </Animated.View>
+            {
+              modes.map((m: AppMode) => {
+                const c = APP_CONFIG[m];
+                if (this.props.appMode === m) {
+                  return <MaterialCommunityIcons key={m} name={c.logo} size={120} color={c.color} />;
+                }
+                const onPress = () => {
+                  this.onSwitchAppMode(m);
+                };
+
+                return (
+                  // tslint:disable-next-line: react-this-binding-issue
+                  <TouchableOpacity key={m} activeOpacity={0.5} onPress={onPress} style={styles.appSwitch}>
+                    <MaterialCommunityIcons key={m} name={c.logo} size={80} color={c.color} style={{ opacity: 0.5 }} />
+                  </TouchableOpacity>
+                );
+              })
             }
-            <TouchableOpacity activeOpacity={0.5} onPress={this.onSwitchAppMode} style={styles.appSwitch}>
-              <MaterialCommunityIcons name={config.logo} size={100} color={config.color} />
-              <Text style={[styles.appTitle, { color: config.color }]}>
-                {config.title}
-              </Text>
-            </TouchableOpacity>
           </View>
           <View style={styles.bottom} >
+            <Text style={[styles.appTitle, { color: config.color }]}>
+              {config.title}
+            </Text>
             <Button
               icon="md-camera"
               title="Take A Photo"
               style={[styles.button, { backgroundColor: config.color }]}
-              fontSize={16}
+              fontSize={20}
               onPress={this.onPickFromCamera} />
             <Button
               icon="md-photos"
               title="Pick From Library"
               style={[styles.button, { backgroundColor: config.color }]}
-              fontSize={16}
+              fontSize={20}
               onPress={this.onPickFromLibrary} />
             <AdMobBanner
               bannerSize="smartBannerPortrait"
@@ -139,15 +202,15 @@ class InnerMainScreen extends React.PureComponent<Props, State> {
     );
   }
 
-  private onSwitchAppMode = () => {
-    this.props.switchAppMode(undefined);
+  private readonly onSwitchAppMode = (mode: AppMode) => {
+    this.props.switchAppMode(mode);
   }
 
-  private onAdReceived = (): void => {
+  private readonly onAdReceived = (): void => {
     this.props.adReceived(undefined);
   }
 
-  private checkAvailability = (callback: () => void): void => {
+  private readonly checkAvailability = (callback: () => void): void => {
     if (!this.props.network.isConnected) {
       Alert.alert('No Network Connection!', 'You\'re not connected to the internet. Check your connection and try again.');
     } else {
@@ -155,15 +218,15 @@ class InnerMainScreen extends React.PureComponent<Props, State> {
     }
   }
 
-  private onPickFromCamera = () => {
+  private readonly onPickFromCamera = () => {
     this.checkAvailability(() => this.props.pickImageFromCamera(undefined));
   }
 
-  private onPickFromLibrary = () => {
+  private readonly onPickFromLibrary = () => {
     this.checkAvailability(() => this.props.pickImageFromLibrary(undefined));
   }
 
-  private showInterstitialAsync = async (callback: () => void): Promise<void> => {
+  private readonly showInterstitialAsync = async (callback: () => void): Promise<void> => {
     if (this.props.totalCalled > 0 &&
       this.props.totalCalled % CONFIG.showInterstitialCalls === 0) {
       AdMobInterstitial.setAdUnitID(getInterstitialId(0));
@@ -198,54 +261,3 @@ export const MainScreen = connect<StateProps, DispatchProps, OwnProps>(
     pickImageFromCamera,
     pickImageFromLibrary
   })(withNavigation(InnerMainScreen));
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'rgba(255,255,255,0.5)'
-  },
-  background: {
-    flex: 1
-  },
-  top: {
-    flex: 0.3,
-    justifyContent: 'flex-start',
-    alignItems: 'center'
-  },
-  main: {
-    flex: 0.3,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  pointer: {
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    top: 0
-  },
-  bottom: {
-    flex: 0.4,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    paddingHorizontal: 10
-  },
-  appSwitch: {
-    alignItems: 'center',
-    backgroundColor: 'transparent'
-  },
-  appTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginTop: -5
-  },
-  button: {
-    alignSelf: 'stretch',
-    marginBottom: 10
-  },
-  version: {
-    alignSelf: 'flex-end',
-    color: '#a9a9a9',
-    fontSize: 12,
-    paddingRight: 5,
-    paddingBottom: 5
-  }
-});
