@@ -5,7 +5,7 @@
     "slug": "vision",
     "privacy": "public",
     "sdkVersion": "32.0.0",
-    "version": "1.6.0",
+    "version": "1.6.1",
     "githubUrl": "https://github.com/ericvan76/vision",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
@@ -16,7 +16,8 @@
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
-      "assets/**/*"
+      "assets/**/*",
+      "!assets/**/*.xcf"
     ],
     "androidStatusBar": {
       "barStyle": "dark-content",
@@ -31,7 +32,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.fanstek.vision",
-      "buildNumber": "1060002",
+      "buildNumber": "1060101",
       "supportsTablet": false,
       "config": {
         "usesNonExemptEncryption": false
@@ -45,14 +46,18 @@
     },
     "android": {
       "package": "com.fanstek.vision",
-      "versionCode": 1060002,
+      "versionCode": 1060101,
       "permissions": [
         "CAMERA",
         "WRITE_EXTERNAL_STORAGE"
-      ]
+      ],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon-foreground.png",
+        "backgroundImage": "./assets/adaptive-icon-background.png"
+      }
     },
     "extra": {
-      "semver": "1.6.0-beta.2",
+      "semver": "1.6.1-beta.1",
       "showInterstitialCalls": 5,
       "geoAzureLocationMap": {
         "AF": "northeurope",
