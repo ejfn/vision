@@ -16,8 +16,8 @@
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
-      "assets/**/*",
-      "!assets/**/*.xcf"
+      "assets/emotions/*.png",
+      "assets/spring.jpg"
     ],
     "androidStatusBar": {
       "barStyle": "dark-content",
@@ -32,7 +32,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.fanstek.vision",
-      "buildNumber": "1060101",
+      "buildNumber": "1060102",
       "supportsTablet": false,
       "config": {
         "usesNonExemptEncryption": false
@@ -46,7 +46,7 @@
     },
     "android": {
       "package": "com.fanstek.vision",
-      "versionCode": 1060101,
+      "versionCode": 1060102,
       "permissions": [
         "CAMERA",
         "WRITE_EXTERNAL_STORAGE"
@@ -57,7 +57,7 @@
       }
     },
     "extra": {
-      "semver": "1.6.1-beta.1",
+      "semver": "1.6.1-beta.2",
       "showInterstitialCalls": 5,
       "geoAzureLocationMap": {
         "AF": "northeurope",
