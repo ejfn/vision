@@ -1,5 +1,7 @@
-import { AdMobBanner, Constants, takeSnapshotAsync } from 'expo';
-import React, { RefObject } from 'react';
+import { AdMobBanner } from 'expo-ads-admob';
+import React, {
+  RefObject, useEffect, Dispatch, useRef,
+} from 'react';
 import {
   ActionSheetIOS,
   ActivityIndicator,
@@ -10,34 +12,33 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  View
+  View,
 } from 'react-native';
-import {
-  NavigationInjectedProps,
-  NavigationScreenConfigProps,
-  NavigationStackScreenOptions,
-  withNavigation
-} from 'react-navigation';
-import { connect, MapStateToProps } from 'react-redux';
+import { captureRef as takeSnapshotAsync } from 'react-native-view-shot';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import { describePhoto, detectFace } from '../actions/process';
 import { getBannerId } from '../adSelector';
-import { AppMode, AppState, NetworkState, ProcessState } from '../store';
-import { Button } from './Button';
-import { TaggedPhoto } from './TaggedPhoto';
+import {
+  AppMode, AppState, ProcessState,
+} from '../store';
+import Button from './Button';
+import TaggedPhoto from './TaggedPhoto';
+import { usePrevious } from '../utils/hooks';
 
 const { height, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000'
+    backgroundColor: '#000000',
   },
   main: {
     flex: 0.9,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   photo: {
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   indicatorContainer: {
     position: 'absolute',
@@ -45,68 +46,95 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 20,
     opacity: 0.8,
-    backgroundColor: '#000000'
+    backgroundColor: '#000000',
   },
   indicatorText: {
     color: '#eeeeee',
     fontSize: 12,
-    marginTop: 10
+    marginTop: 10,
   },
   shareButton: {
     position: 'absolute',
     bottom: 0,
     alignSelf: 'center',
-    backgroundColor: '#000000'
+    backgroundColor: '#000000',
   },
   banner: {
     flex: 0.1,
-    justifyContent: 'flex-end'
-  }
+    justifyContent: 'flex-end',
+  },
 });
 
-// tslint:disable-next-line: no-empty-interface
-interface OwnProps {
-}
-
-interface StateProps {
-  appMode: AppMode;
-  network: NetworkState;
-  processState: ProcessState;
-}
-
-interface DispatchProps {
-  detectFace: typeof detectFace;
-  describePhoto: typeof describePhoto;
-}
-
-type Props = OwnProps & StateProps & DispatchProps & NavigationInjectedProps;
-
-class InnerPhotoScreen extends React.PureComponent<Props> {
-
-  private readonly taggedPhoto: RefObject<TaggedPhoto> = React.createRef<TaggedPhoto>();
-
-  public static navigationOptions = (props: NavigationScreenConfigProps): NavigationStackScreenOptions => {
-    return {
-      title: `${props.navigation.state.params && props.navigation.state.params.title}`,
-      headerStyle: { marginTop: Platform.select({ android: Constants.statusBarHeight * -1 }) }
-    };
+async function process(
+  taggedPhoto: RefObject<any>,
+  appMode: AppMode,
+  dispach: Dispatch<any>,
+): Promise<void> {
+  const base64: string = await takeSnapshotAsync(taggedPhoto, {
+    format: 'jpg',
+    quality: 1,
+    result: 'base64',
+    height: width,
+    width,
+    snapshotContentContainer: false,
+  });
+  switch (appMode) {
+    case 'Face':
+      dispach(detectFace({ base64 }));
+      break;
+    case 'Vision':
+      dispach(describePhoto({ base64 }));
+      break;
+    default:
   }
+}
 
-  private readonly onLoad = async (): Promise<void> => {
-    if (this.props.processState.status === 'ready') {
+async function showShareActionSheet(taggedPhoto: RefObject<any>): Promise<void> {
+  const fileToShare: string = await takeSnapshotAsync(taggedPhoto, {
+    format: 'jpg',
+    quality: 1,
+    result: 'data-uri',
+    height: width,
+    width,
+    snapshotContentContainer: false,
+  });
+  ActionSheetIOS.showShareActionSheetWithOptions(
+    {
+      url: fileToShare,
+    },
+    (error: Error): void => {
+      Alert.alert('Oops!', error.message);
+    },
+    (completed: boolean): void => {
+      if (completed) {
+        // Alert.alert('Done!');
+      }
+    },
+  );
+}
+
+export default function PhotoScreen() {
+  const navigation = useNavigation();
+  const dispach = useDispatch();
+  const { appMode, processState } = useSelector((state: AppState) => state);
+  const photoRef = useRef(null);
+
+  const onLoad = async (): Promise<void> => {
+    if (processState.status === 'ready') {
       setTimeout(
-        async () => this.process(),
-        Platform.select({ ios: 10, android: 1000 })
+        async () => { await process(photoRef, appMode, dispach); },
+        Platform.select({ ios: 10, android: 1000 }),
       );
     }
-  }
+  };
 
-  public componentDidUpdate(prevProps: Props): void {
-    if (prevProps.processState.status === 'requesting') {
-      if (this.props.processState.status === 'error') {
+  const prevProcessState = usePrevious<ProcessState>(processState);
+  useEffect(() => {
+    if (prevProcessState?.status === 'requesting') {
+      if (processState.status === 'error') {
         let message = 'Something went wrong.';
-        if (this.props.processState.error !== undefined) {
-          message = this.props.processState.error.message;
+        if (processState.error !== undefined) {
+          message = processState.error.message;
         }
         Alert.alert(
           'Oops!',
@@ -114,20 +142,20 @@ class InnerPhotoScreen extends React.PureComponent<Props> {
           [
             {
               text: 'Cancel',
-              onPress: () => this.props.navigation.goBack(),
-              style: 'cancel'
+              onPress: () => navigation.goBack(),
+              style: 'cancel',
             },
             {
               text: 'Retry',
-              onPress: async () => { await this.process(); }
-            }
+              onPress: async () => { await process(photoRef, appMode, dispach); },
+            },
           ],
-          { cancelable: false }
+          { cancelable: false },
         );
-      } else if (this.props.processState.status === 'success' && this.props.processState.result !== undefined) {
-        if ((this.props.appMode === 'Face' && (
-          this.props.processState.result.face === undefined ||
-          this.props.processState.result.face.length === 0))
+      } else if (processState.status === 'success' && processState.result !== undefined) {
+        if ((appMode === 'Face' && (
+          processState.result.face === undefined
+          || processState.result.face.length === 0))
         ) {
           Alert.alert(
             'No Face Detected!',
@@ -135,118 +163,63 @@ class InnerPhotoScreen extends React.PureComponent<Props> {
             [
               {
                 text: 'OK',
-                onPress: () => this.props.navigation.goBack()
-              }
-            ]
+                onPress: () => navigation.goBack(),
+              },
+            ],
           );
         }
       }
     }
-  }
+  }, [processState]);
 
-  public render(): JSX.Element {
+  const imageSize: number = Math.min(height, width);
 
-    const imageSize: number = Math.min(height, width);
-
-    return (
-      <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
-        <View style={styles.main}>
-          {
-            this.props.processState.image &&
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+      <View style={styles.main}>
+        {
+          processState.image && !processState.image.cancelled
+          && (
             <TaggedPhoto
-              ref={this.taggedPhoto}
-              source={{ uri: this.props.processState.image.uri }}
-              result={this.props.processState.result}
-              onLoad={this.onLoad}
+              ref={photoRef}
+              source={{ uri: processState.image.uri }}
+              result={processState.result}
+              onLoad={onLoad}
               style={[styles.photo, { width: imageSize, height: imageSize }]}
             />
-          }
-          {
-            (this.props.processState.status === 'requesting' ||
-              this.props.processState.status === 'ready') &&
-            <View style={styles.indicatorContainer} >
+          )
+        }
+        {
+          (processState.status === 'requesting'
+            || processState.status === 'ready')
+          && (
+            <View style={styles.indicatorContainer}>
               <ActivityIndicator size="large" />
               <Text style={styles.indicatorText}>PROCESSING...</Text>
             </View>
-          }
-          {
-            (this.props.processState.status === 'success' &&
-              Platform.OS === 'ios') &&
+          )
+        }
+        {
+          (processState.status === 'success'
+            && Platform.OS === 'ios')
+          && (
             <Button
               fontSize={28}
               icon="ios-share"
-              onPress={this.showShareActionSheet}
-              style={styles.shareButton} />
-          }
-        </View>
-        <View style={styles.banner}>
-          <AdMobBanner
-            bannerSize="smartBannerPortrait"
-            adUnitID={getBannerId(1)}
-            testDeviceID="EMULATOR" />
-        </View>
-      </SafeAreaView>
-    );
-  }
-
-  private readonly process = async (): Promise<void> => {
-    const base64: string = await takeSnapshotAsync(this.taggedPhoto, {
-      format: 'jpg',
-      quality: 1,
-      result: 'base64',
-      height: width,
-      width,
-      snapshotContentContainer: false
-    });
-    switch (this.props.appMode) {
-      case 'Face':
-        this.props.detectFace({ base64 });
-        break;
-      case 'Vision':
-        this.props.describePhoto({ base64 });
-        break;
-      default:
-        return;
-    }
-  }
-
-  private readonly showShareActionSheet = async (): Promise<void> => {
-    const fileToShare: string = await takeSnapshotAsync(this.taggedPhoto, {
-      format: 'jpg',
-      quality: 1,
-      result: 'data-uri',
-      height: width,
-      width: width,
-      snapshotContentContainer: false
-    });
-    ActionSheetIOS.showShareActionSheetWithOptions(
-      {
-        url: fileToShare
-      },
-      (error: Error): void => {
-        Alert.alert('Oops!', error.message);
-      },
-      (completed: boolean, _: string): void => {
-        if (completed) {
-          // Alert.alert('Done!');
+              onPress={() => showShareActionSheet(photoRef)}
+              style={styles.shareButton}
+            />
+          )
         }
-      }
-    );
-  }
+      </View>
+      <View style={styles.banner}>
+        <AdMobBanner
+          bannerSize="smartBannerPortrait"
+          adUnitID={getBannerId(1)}
+          testID="EMULATOR"
+        />
+      </View>
+    </SafeAreaView>
+  );
 }
-
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (state: AppState) => {
-  return {
-    appMode: state.appMode,
-    network: state.network,
-    processState: state.processState
-  };
-};
-
-// tslint:disable-next-line:variable-name
-export const PhotoScreen = connect<StateProps, DispatchProps, OwnProps>(
-  mapStateToProps, {
-    detectFace,
-    describePhoto
-  })(withNavigation(InnerPhotoScreen));

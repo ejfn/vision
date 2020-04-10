@@ -4,8 +4,7 @@
     "description": "An AI Vision app powered by Microsoft Cognitive Service",
     "slug": "vision",
     "privacy": "public",
-    "sdkVersion": "32.0.0",
-    "version": "1.6.1",
+    "version": "1.7.0",
     "githubUrl": "https://github.com/ericvan76/vision",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
@@ -23,16 +22,9 @@
       "barStyle": "dark-content",
       "backgroundColor": "#ffffff"
     },
-    "packagerOpts": {
-      "sourceExts": [
-        "ts",
-        "tsx"
-      ],
-      "transformer": "node_modules/react-native-typescript-transformer/index.js"
-    },
     "ios": {
       "bundleIdentifier": "com.fanstek.vision",
-      "buildNumber": "1060103",
+      "buildNumber": "1070008",
       "supportsTablet": false,
       "config": {
         "usesNonExemptEncryption": false
@@ -46,9 +38,10 @@
     },
     "android": {
       "package": "com.fanstek.vision",
-      "versionCode": 1060103,
+      "versionCode": 1070008,
       "permissions": [
         "CAMERA",
+        "CAMERA_ROLL",
         "WRITE_EXTERNAL_STORAGE"
       ],
       "adaptiveIcon": {
@@ -56,60 +49,9 @@
         "backgroundImage": "./assets/adaptive-icon-background.png"
       }
     },
-    "extra": {
-      "semver": "1.6.1-beta.3",
-      "showInterstitialCalls": 5,
-      "geoAzureLocationMap": {
-        "AF": "northeurope",
-        "AN": "australiaeast",
-        "AS": "southeastasia",
-        "EU": "northeurope",
-        "NA": "westus",
-        "OC": "australiaeast",
-        "SA": "westus"
-      },
-      "faceApiKeys": [
-        {
-          "location": "westus"
-        },
-        {
-          "location": "southeastasia"
-        },
-        {
-          "location": "australiaeast"
-        },
-        {
-          "location": "northeurope"
-        }
-      ],
-      "visionApiKeys": [
-        {
-          "location": "westus"
-        },
-        {
-          "location": "australiaeast"
-        },
-        {
-          "location": "southeastasia"
-        },
-        {
-          "location": "northeurope"
-        }
-      ],
-      "adMob": {
-        "banners": [
-          {
-          },
-          {
-          }
-        ],
-        "interstitials": [
-          {
-          }
-        ]
-      },
-      "amplitude": {
-      }
-    }
+    "platforms": [
+      "android",
+      "ios"
+    ]
   }
 }

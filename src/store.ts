@@ -1,4 +1,4 @@
-import { ImagePicker } from 'expo';
+import * as ImagePicker from 'expo-image-picker';
 import { FreeGeoIpResult } from './api/freegeoip';
 import { FaceResult, VisionResult } from './api/types';
 
@@ -25,8 +25,7 @@ export interface ProcessResult {
 
 export interface ProcessState {
   status: ProcessStatus;
-  image?: ImagePicker.ImageInfo;
+  image?: ImagePicker.ImagePickerResult;
   result?: ProcessResult;
   error?: Error;
-  totalCalled: number;
 }

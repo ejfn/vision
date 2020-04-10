@@ -1,17 +1,19 @@
-import React from 'react';
-import { Image, ImageURISource, StyleSheet, View } from 'react-native';
+import React, { RefObject, forwardRef } from 'react';
+import {
+  Image, ImageURISource, StyleSheet, View,
+} from 'react-native';
 import { FaceResult } from '../api/types';
 import { ProcessResult } from '../store';
-import { FaceTag } from './FaceTag';
-import { VisionTag } from './VisionTag';
+import FaceTag from './FaceTag';
+import VisionTag from './VisionTag';
 
 const styles = StyleSheet.create({
   container: {
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   image: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });
 
 interface Props {
@@ -21,38 +23,34 @@ interface Props {
   onLoad?: (() => void);
 }
 
-export class TaggedPhoto extends React.PureComponent<Props> {
-
-  private renderResult(): Array<JSX.Element> | JSX.Element | undefined {
-
-    if (this.props.result !== undefined) {
-
-      if (this.props.result.face !== undefined) {
-        return this.props.result.face.map((f: FaceResult, i: number) =>
-          <FaceTag key={i} face={f} />
-        );
-      }
-      if (this.props.result.vision !== undefined) {
-        return (
-          <VisionTag vision={this.props.result.vision} />
-        );
-      }
+const renderResult = (props: Props): Array<JSX.Element> | JSX.Element | undefined => {
+  if (props.result !== undefined) {
+    if (props.result.face !== undefined) {
+      return props.result.face
+        .map((f: FaceResult, i: number) => (<FaceTag key={i.toString()} face={f} />));
     }
-
-    return undefined;
+    if (props.result.vision !== undefined) {
+      return (
+        <VisionTag vision={props.result.vision} />
+      );
+    }
   }
+  return undefined;
+};
 
-  public render(): JSX.Element {
-    return (
-      <View
-        style={[styles.container, this.props.style]}
-        collapsable={false} >
-        <Image
-          style={styles.image}
-          source={this.props.source}
-          onLoad={this.props.onLoad} />
-        {this.renderResult()}
-      </View>
-    );
-  }
-}
+const TaggedPhoto = forwardRef((props: Props, ref: RefObject<any>) => (
+  <View
+    style={[styles.container, props.style]}
+    collapsable={false}
+  >
+    <Image
+      ref={ref}
+      style={styles.image}
+      source={props.source}
+      onLoad={props.onLoad}
+    />
+    {renderResult(props)}
+  </View>
+));
+
+export default TaggedPhoto;

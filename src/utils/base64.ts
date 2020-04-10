@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { decode } from 'base-64';
 
 export function base64ToBinary(b64Data: string): Uint8Array {

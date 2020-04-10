@@ -1,4 +1,5 @@
-import 'expo'
-import { App } from './src/';
+/* eslint-disable */
+import 'expo';
+import App from './src';
 
 export default App;

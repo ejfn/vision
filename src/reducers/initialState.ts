@@ -1,10 +1,10 @@
 import { AppState } from '../store';
 
-export const INITIAL_STATE: AppState = {
+export default {
   network: {
     isConnected: false,
     adReceived: false,
-    freeGeoIp: {}
+    freeGeoIp: {},
   },
   appMode: 'Face',
   processState: {
@@ -12,6 +12,6 @@ export const INITIAL_STATE: AppState = {
     image: undefined,
     result: undefined,
     error: undefined,
-    totalCalled: 0
-  }
-};
+    totalCalled: 0,
+  },
+} as AppState;

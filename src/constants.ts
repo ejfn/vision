@@ -1,7 +1,7 @@
 import { GeoCountry } from './api/freegeoip';
 import { AppMode } from './store';
 
-// tslint:disable:no-require-imports
+/* eslint-disable global-require */
 export const EMOJI_ICONS: Record<string, number> = {
   anger: require('../assets/emotions/anger.png'),
   contempt: require('../assets/emotions/contempt.png'),
@@ -10,15 +10,10 @@ export const EMOJI_ICONS: Record<string, number> = {
   happiness: require('../assets/emotions/happiness.png'),
   neutral: require('../assets/emotions/neutral.png'),
   sadness: require('../assets/emotions/sadness.png'),
-  surprise: require('../assets/emotions/surprise.png')
+  surprise: require('../assets/emotions/surprise.png'),
 };
 
-export const DECORATIONS: Record<string, number> = {
-  // christmasBanner: require('../assets/christmas-banner.jpg'),
-  // background: require('../assets/background.jpg'),
-  spring: require('../assets/spring.jpg')
-};
-// tslint:enable:no-require-imports
+/* eslint-enable global-require */
 
 export interface AppConfig {
   color: string;
@@ -31,15 +26,15 @@ export const APP_CONFIG: Record<AppMode, AppConfig> = {
   Face: {
     color: '#4169e1',
     logo: 'emoticon-devil-outline',
-    title: 'Face Detection',
-    tag: 'Microsoft Face API'
+    title: '  Face Detection  ',
+    tag: 'Microsoft Face API',
   },
   Vision: {
     color: '#2e7d32',
     logo: 'tag-text-outline',
-    title: 'Photo Tagging',
-    tag: 'Microsoft Computer Vision API'
-  }
+    title: '  Photo Tagging  ',
+    tag: 'Microsoft Computer Vision API',
+  },
 };
 
 export const GEO_COUNTRIES: Array<GeoCountry> = [
@@ -49,7 +44,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'RW',
-    country_name: 'Rwanda'
+    country_name: 'Rwanda',
   },
   {
     geoname_id: '51537',
@@ -57,7 +52,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'SO',
-    country_name: 'Somalia'
+    country_name: 'Somalia',
   },
   {
     geoname_id: '69543',
@@ -65,7 +60,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'YE',
-    country_name: 'Yemen'
+    country_name: 'Yemen',
   },
   {
     geoname_id: '99237',
@@ -73,7 +68,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'IQ',
-    country_name: 'Iraq'
+    country_name: 'Iraq',
   },
   {
     geoname_id: '102358',
@@ -81,7 +76,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'SA',
-    country_name: 'Saudi Arabia'
+    country_name: 'Saudi Arabia',
   },
   {
     geoname_id: '130758',
@@ -89,7 +84,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'IR',
-    country_name: 'Iran'
+    country_name: 'Iran',
   },
   {
     geoname_id: '146669',
@@ -97,7 +92,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'CY',
-    country_name: 'Cyprus'
+    country_name: 'Cyprus',
   },
   {
     geoname_id: '149590',
@@ -105,7 +100,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'TZ',
-    country_name: 'Tanzania'
+    country_name: 'Tanzania',
   },
   {
     geoname_id: '163843',
@@ -113,7 +108,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'SY',
-    country_name: 'Syria'
+    country_name: 'Syria',
   },
   {
     geoname_id: '174982',
@@ -121,7 +116,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'AM',
-    country_name: 'Armenia'
+    country_name: 'Armenia',
   },
   {
     geoname_id: '192950',
@@ -129,7 +124,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'KE',
-    country_name: 'Kenya'
+    country_name: 'Kenya',
   },
   {
     geoname_id: '203312',
@@ -137,7 +132,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'CD',
-    country_name: 'Congo'
+    country_name: 'Congo',
   },
   {
     geoname_id: '223816',
@@ -145,7 +140,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'DJ',
-    country_name: 'Djibouti'
+    country_name: 'Djibouti',
   },
   {
     geoname_id: '226074',
@@ -153,7 +148,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'UG',
-    country_name: 'Uganda'
+    country_name: 'Uganda',
   },
   {
     geoname_id: '239880',
@@ -161,7 +156,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'CF',
-    country_name: 'Central African Republic'
+    country_name: 'Central African Republic',
   },
   {
     geoname_id: '241170',
@@ -169,7 +164,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'SC',
-    country_name: 'Seychelles'
+    country_name: 'Seychelles',
   },
   {
     geoname_id: '248816',
@@ -177,7 +172,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'JO',
-    country_name: 'Hashemite Kingdom of Jordan'
+    country_name: 'Hashemite Kingdom of Jordan',
   },
   {
     geoname_id: '272103',
@@ -185,7 +180,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'LB',
-    country_name: 'Lebanon'
+    country_name: 'Lebanon',
   },
   {
     geoname_id: '285570',
@@ -193,7 +188,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'KW',
-    country_name: 'Kuwait'
+    country_name: 'Kuwait',
   },
   {
     geoname_id: '286963',
@@ -201,7 +196,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'OM',
-    country_name: 'Oman'
+    country_name: 'Oman',
   },
   {
     geoname_id: '289688',
@@ -209,7 +204,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'QA',
-    country_name: 'Qatar'
+    country_name: 'Qatar',
   },
   {
     geoname_id: '290291',
@@ -217,7 +212,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'BH',
-    country_name: 'Bahrain'
+    country_name: 'Bahrain',
   },
   {
     geoname_id: '290557',
@@ -225,7 +220,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'AE',
-    country_name: 'United Arab Emirates'
+    country_name: 'United Arab Emirates',
   },
   {
     geoname_id: '294640',
@@ -233,7 +228,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'IL',
-    country_name: 'Israel'
+    country_name: 'Israel',
   },
   {
     geoname_id: '298795',
@@ -241,7 +236,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'TR',
-    country_name: 'Turkey'
+    country_name: 'Turkey',
   },
   {
     geoname_id: '337996',
@@ -249,7 +244,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'ET',
-    country_name: 'Ethiopia'
+    country_name: 'Ethiopia',
   },
   {
     geoname_id: '338010',
@@ -257,7 +252,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'ER',
-    country_name: 'Eritrea'
+    country_name: 'Eritrea',
   },
   {
     geoname_id: '357994',
@@ -265,7 +260,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'EG',
-    country_name: 'Egypt'
+    country_name: 'Egypt',
   },
   {
     geoname_id: '366755',
@@ -273,7 +268,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'SD',
-    country_name: 'Sudan'
+    country_name: 'Sudan',
   },
   {
     geoname_id: '390903',
@@ -281,7 +276,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'GR',
-    country_name: 'Greece'
+    country_name: 'Greece',
   },
   {
     geoname_id: '433561',
@@ -289,7 +284,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'BI',
-    country_name: 'Burundi'
+    country_name: 'Burundi',
   },
   {
     geoname_id: '453733',
@@ -297,7 +292,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'EE',
-    country_name: 'Estonia'
+    country_name: 'Estonia',
   },
   {
     geoname_id: '458258',
@@ -305,7 +300,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'LV',
-    country_name: 'Latvia'
+    country_name: 'Latvia',
   },
   {
     geoname_id: '587116',
@@ -313,7 +308,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'AZ',
-    country_name: 'Azerbaijan'
+    country_name: 'Azerbaijan',
   },
   {
     geoname_id: '597427',
@@ -321,7 +316,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'LT',
-    country_name: 'Republic of Lithuania'
+    country_name: 'Republic of Lithuania',
   },
   {
     geoname_id: '607072',
@@ -329,7 +324,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'SJ',
-    country_name: 'Svalbard and Jan Mayen'
+    country_name: 'Svalbard and Jan Mayen',
   },
   {
     geoname_id: '614540',
@@ -337,7 +332,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'GE',
-    country_name: 'Georgia'
+    country_name: 'Georgia',
   },
   {
     geoname_id: '617790',
@@ -345,7 +340,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'MD',
-    country_name: 'Republic of Moldova'
+    country_name: 'Republic of Moldova',
   },
   {
     geoname_id: '630336',
@@ -353,7 +348,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'BY',
-    country_name: 'Belarus'
+    country_name: 'Belarus',
   },
   {
     geoname_id: '660013',
@@ -361,7 +356,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'FI',
-    country_name: 'Finland'
+    country_name: 'Finland',
   },
   {
     geoname_id: '661882',
@@ -369,7 +364,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'AX',
-    country_name: 'Åland'
+    country_name: 'Åland',
   },
   {
     geoname_id: '690791',
@@ -377,7 +372,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'UA',
-    country_name: 'Ukraine'
+    country_name: 'Ukraine',
   },
   {
     geoname_id: '718075',
@@ -385,7 +380,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'MK',
-    country_name: 'Macedonia'
+    country_name: 'Macedonia',
   },
   {
     geoname_id: '719819',
@@ -393,7 +388,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'HU',
-    country_name: 'Hungary'
+    country_name: 'Hungary',
   },
   {
     geoname_id: '732800',
@@ -401,7 +396,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'BG',
-    country_name: 'Bulgaria'
+    country_name: 'Bulgaria',
   },
   {
     geoname_id: '783754',
@@ -409,7 +404,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'AL',
-    country_name: 'Albania'
+    country_name: 'Albania',
   },
   {
     geoname_id: '798544',
@@ -417,7 +412,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'PL',
-    country_name: 'Poland'
+    country_name: 'Poland',
   },
   {
     geoname_id: '798549',
@@ -425,7 +420,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'RO',
-    country_name: 'Romania'
+    country_name: 'Romania',
   },
   {
     geoname_id: '831053',
@@ -433,7 +428,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'XK',
-    country_name: 'Kosovo'
+    country_name: 'Kosovo',
   },
   {
     geoname_id: '878675',
@@ -441,7 +436,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'ZW',
-    country_name: 'Zimbabwe'
+    country_name: 'Zimbabwe',
   },
   {
     geoname_id: '895949',
@@ -449,7 +444,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'ZM',
-    country_name: 'Zambia'
+    country_name: 'Zambia',
   },
   {
     geoname_id: '921929',
@@ -457,7 +452,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'KM',
-    country_name: 'Comoros'
+    country_name: 'Comoros',
   },
   {
     geoname_id: '927384',
@@ -465,7 +460,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'MW',
-    country_name: 'Malawi'
+    country_name: 'Malawi',
   },
   {
     geoname_id: '932692',
@@ -473,7 +468,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'LS',
-    country_name: 'Lesotho'
+    country_name: 'Lesotho',
   },
   {
     geoname_id: '933860',
@@ -481,7 +476,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'BW',
-    country_name: 'Botswana'
+    country_name: 'Botswana',
   },
   {
     geoname_id: '934292',
@@ -489,7 +484,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'MU',
-    country_name: 'Mauritius'
+    country_name: 'Mauritius',
   },
   {
     geoname_id: '934841',
@@ -497,7 +492,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'SZ',
-    country_name: 'Swaziland'
+    country_name: 'Swaziland',
   },
   {
     geoname_id: '935317',
@@ -505,7 +500,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'RE',
-    country_name: 'Réunion'
+    country_name: 'Réunion',
   },
   {
     geoname_id: '953987',
@@ -513,7 +508,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'ZA',
-    country_name: 'South Africa'
+    country_name: 'South Africa',
   },
   {
     geoname_id: '1024031',
@@ -521,7 +516,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'YT',
-    country_name: 'Mayotte'
+    country_name: 'Mayotte',
   },
   {
     geoname_id: '1036973',
@@ -529,7 +524,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'MZ',
-    country_name: 'Mozambique'
+    country_name: 'Mozambique',
   },
   {
     geoname_id: '1062947',
@@ -537,7 +532,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'MG',
-    country_name: 'Madagascar'
+    country_name: 'Madagascar',
   },
   {
     geoname_id: '1149361',
@@ -545,7 +540,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'AF',
-    country_name: 'Afghanistan'
+    country_name: 'Afghanistan',
   },
   {
     geoname_id: '1168579',
@@ -553,7 +548,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'PK',
-    country_name: 'Pakistan'
+    country_name: 'Pakistan',
   },
   {
     geoname_id: '1210997',
@@ -561,7 +556,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'BD',
-    country_name: 'Bangladesh'
+    country_name: 'Bangladesh',
   },
   {
     geoname_id: '1218197',
@@ -569,7 +564,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'TM',
-    country_name: 'Turkmenistan'
+    country_name: 'Turkmenistan',
   },
   {
     geoname_id: '1220409',
@@ -577,7 +572,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'TJ',
-    country_name: 'Tajikistan'
+    country_name: 'Tajikistan',
   },
   {
     geoname_id: '1227603',
@@ -585,7 +580,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'LK',
-    country_name: 'Sri Lanka'
+    country_name: 'Sri Lanka',
   },
   {
     geoname_id: '1252634',
@@ -593,7 +588,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'BT',
-    country_name: 'Bhutan'
+    country_name: 'Bhutan',
   },
   {
     geoname_id: '1269750',
@@ -601,7 +596,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'IN',
-    country_name: 'India'
+    country_name: 'India',
   },
   {
     geoname_id: '1282028',
@@ -609,7 +604,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'MV',
-    country_name: 'Maldives'
+    country_name: 'Maldives',
   },
   {
     geoname_id: '1282588',
@@ -617,7 +612,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'IO',
-    country_name: 'British Indian Ocean Territory'
+    country_name: 'British Indian Ocean Territory',
   },
   {
     geoname_id: '1282988',
@@ -625,7 +620,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'NP',
-    country_name: 'Nepal'
+    country_name: 'Nepal',
   },
   {
     geoname_id: '1327865',
@@ -633,7 +628,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'MM',
-    country_name: 'Myanmar [Burma]'
+    country_name: 'Myanmar [Burma]',
   },
   {
     geoname_id: '1512440',
@@ -641,7 +636,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'UZ',
-    country_name: 'Uzbekistan'
+    country_name: 'Uzbekistan',
   },
   {
     geoname_id: '1522867',
@@ -649,7 +644,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'KZ',
-    country_name: 'Kazakhstan'
+    country_name: 'Kazakhstan',
   },
   {
     geoname_id: '1527747',
@@ -657,7 +652,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'KG',
-    country_name: 'Kyrgyzstan'
+    country_name: 'Kyrgyzstan',
   },
   {
     geoname_id: '1546748',
@@ -665,7 +660,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AN',
     continent_name: 'Antarctica',
     country_iso_code: 'TF',
-    country_name: 'French Southern Territories'
+    country_name: 'French Southern Territories',
   },
   {
     geoname_id: '1547314',
@@ -673,7 +668,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AN',
     continent_name: 'Antarctica',
     country_iso_code: 'HM',
-    country_name: 'Heard Island and McDonald Islands'
+    country_name: 'Heard Island and McDonald Islands',
   },
   {
     geoname_id: '1547376',
@@ -681,7 +676,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'CC',
-    country_name: 'Cocos [Keeling] Islands'
+    country_name: 'Cocos [Keeling] Islands',
   },
   {
     geoname_id: '1559582',
@@ -689,7 +684,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'PW',
-    country_name: 'Palau'
+    country_name: 'Palau',
   },
   {
     geoname_id: '1562822',
@@ -697,7 +692,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'VN',
-    country_name: 'Vietnam'
+    country_name: 'Vietnam',
   },
   {
     geoname_id: '1605651',
@@ -705,7 +700,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'TH',
-    country_name: 'Thailand'
+    country_name: 'Thailand',
   },
   {
     geoname_id: '1643084',
@@ -713,7 +708,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'ID',
-    country_name: 'Indonesia'
+    country_name: 'Indonesia',
   },
   {
     geoname_id: '1655842',
@@ -721,7 +716,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'LA',
-    country_name: 'Laos'
+    country_name: 'Laos',
   },
   {
     geoname_id: '1668284',
@@ -729,7 +724,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'TW',
-    country_name: 'Taiwan'
+    country_name: 'Taiwan',
   },
   {
     geoname_id: '1694008',
@@ -737,7 +732,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'PH',
-    country_name: 'Philippines'
+    country_name: 'Philippines',
   },
   {
     geoname_id: '1733045',
@@ -745,7 +740,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'MY',
-    country_name: 'Malaysia'
+    country_name: 'Malaysia',
   },
   {
     geoname_id: '1814991',
@@ -753,7 +748,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'CN',
-    country_name: 'China'
+    country_name: 'China',
   },
   {
     geoname_id: '1819730',
@@ -761,7 +756,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'HK',
-    country_name: 'Hong Kong'
+    country_name: 'Hong Kong',
   },
   {
     geoname_id: '1820814',
@@ -769,7 +764,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'BN',
-    country_name: 'Brunei'
+    country_name: 'Brunei',
   },
   {
     geoname_id: '1821275',
@@ -777,7 +772,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'MO',
-    country_name: 'Macao'
+    country_name: 'Macao',
   },
   {
     geoname_id: '1831722',
@@ -785,7 +780,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'KH',
-    country_name: 'Cambodia'
+    country_name: 'Cambodia',
   },
   {
     geoname_id: '1835841',
@@ -793,7 +788,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'KR',
-    country_name: 'Republic of Korea'
+    country_name: 'Republic of Korea',
   },
   {
     geoname_id: '1861060',
@@ -801,7 +796,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'JP',
-    country_name: 'Japan'
+    country_name: 'Japan',
   },
   {
     geoname_id: '1873107',
@@ -809,7 +804,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'KP',
-    country_name: 'North Korea'
+    country_name: 'North Korea',
   },
   {
     geoname_id: '1880251',
@@ -817,7 +812,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'SG',
-    country_name: 'Singapore'
+    country_name: 'Singapore',
   },
   {
     geoname_id: '1899402',
@@ -825,7 +820,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'CK',
-    country_name: 'Cook Islands'
+    country_name: 'Cook Islands',
   },
   {
     geoname_id: '1966436',
@@ -833,7 +828,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'TL',
-    country_name: 'East Timor'
+    country_name: 'East Timor',
   },
   {
     geoname_id: '2017370',
@@ -841,7 +836,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'RU',
-    country_name: 'Russia'
+    country_name: 'Russia',
   },
   {
     geoname_id: '2029969',
@@ -849,7 +844,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'MN',
-    country_name: 'Mongolia'
+    country_name: 'Mongolia',
   },
   {
     geoname_id: '2077456',
@@ -857,7 +852,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'AU',
-    country_name: 'Australia'
+    country_name: 'Australia',
   },
   {
     geoname_id: '2078138',
@@ -865,7 +860,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'CX',
-    country_name: 'Christmas Island'
+    country_name: 'Christmas Island',
   },
   {
     geoname_id: '2080185',
@@ -873,7 +868,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'MH',
-    country_name: 'Marshall Islands'
+    country_name: 'Marshall Islands',
   },
   {
     geoname_id: '2081918',
@@ -881,7 +876,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'FM',
-    country_name: 'Federated States of Micronesia'
+    country_name: 'Federated States of Micronesia',
   },
   {
     geoname_id: '2088628',
@@ -889,7 +884,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'PG',
-    country_name: 'Papua New Guinea'
+    country_name: 'Papua New Guinea',
   },
   {
     geoname_id: '2103350',
@@ -897,7 +892,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'SB',
-    country_name: 'Solomon Islands'
+    country_name: 'Solomon Islands',
   },
   {
     geoname_id: '2110297',
@@ -905,7 +900,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'TV',
-    country_name: 'Tuvalu'
+    country_name: 'Tuvalu',
   },
   {
     geoname_id: '2110425',
@@ -913,7 +908,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'NR',
-    country_name: 'Nauru'
+    country_name: 'Nauru',
   },
   {
     geoname_id: '2134431',
@@ -921,7 +916,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'VU',
-    country_name: 'Vanuatu'
+    country_name: 'Vanuatu',
   },
   {
     geoname_id: '2139685',
@@ -929,7 +924,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'NC',
-    country_name: 'New Caledonia'
+    country_name: 'New Caledonia',
   },
   {
     geoname_id: '2155115',
@@ -937,7 +932,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'NF',
-    country_name: 'Norfolk Island'
+    country_name: 'Norfolk Island',
   },
   {
     geoname_id: '2186224',
@@ -945,7 +940,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'NZ',
-    country_name: 'New Zealand'
+    country_name: 'New Zealand',
   },
   {
     geoname_id: '2205218',
@@ -953,7 +948,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'FJ',
-    country_name: 'Fiji'
+    country_name: 'Fiji',
   },
   {
     geoname_id: '2215636',
@@ -961,7 +956,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'LY',
-    country_name: 'Libya'
+    country_name: 'Libya',
   },
   {
     geoname_id: '2233387',
@@ -969,7 +964,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'CM',
-    country_name: 'Cameroon'
+    country_name: 'Cameroon',
   },
   {
     geoname_id: '2245662',
@@ -977,7 +972,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'SN',
-    country_name: 'Senegal'
+    country_name: 'Senegal',
   },
   {
     geoname_id: '2260494',
@@ -985,7 +980,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'CG',
-    country_name: 'Republic of the Congo'
+    country_name: 'Republic of the Congo',
   },
   {
     geoname_id: '2264397',
@@ -993,7 +988,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'PT',
-    country_name: 'Portugal'
+    country_name: 'Portugal',
   },
   {
     geoname_id: '2275384',
@@ -1001,7 +996,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'LR',
-    country_name: 'Liberia'
+    country_name: 'Liberia',
   },
   {
     geoname_id: '2287781',
@@ -1009,7 +1004,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'CI',
-    country_name: 'Ivory Coast'
+    country_name: 'Ivory Coast',
   },
   {
     geoname_id: '2300660',
@@ -1017,7 +1012,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'GH',
-    country_name: 'Ghana'
+    country_name: 'Ghana',
   },
   {
     geoname_id: '2309096',
@@ -1025,7 +1020,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'GQ',
-    country_name: 'Equatorial Guinea'
+    country_name: 'Equatorial Guinea',
   },
   {
     geoname_id: '2328926',
@@ -1033,7 +1028,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'NG',
-    country_name: 'Nigeria'
+    country_name: 'Nigeria',
   },
   {
     geoname_id: '2361809',
@@ -1041,7 +1036,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'BF',
-    country_name: 'Burkina Faso'
+    country_name: 'Burkina Faso',
   },
   {
     geoname_id: '2363686',
@@ -1049,7 +1044,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'TG',
-    country_name: 'Togo'
+    country_name: 'Togo',
   },
   {
     geoname_id: '2372248',
@@ -1057,7 +1052,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'GW',
-    country_name: 'Guinea-Bissau'
+    country_name: 'Guinea-Bissau',
   },
   {
     geoname_id: '2378080',
@@ -1065,7 +1060,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'MR',
-    country_name: 'Mauritania'
+    country_name: 'Mauritania',
   },
   {
     geoname_id: '2395170',
@@ -1073,7 +1068,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'BJ',
-    country_name: 'Benin'
+    country_name: 'Benin',
   },
   {
     geoname_id: '2400553',
@@ -1081,7 +1076,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'GA',
-    country_name: 'Gabon'
+    country_name: 'Gabon',
   },
   {
     geoname_id: '2403846',
@@ -1089,7 +1084,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'SL',
-    country_name: 'Sierra Leone'
+    country_name: 'Sierra Leone',
   },
   {
     geoname_id: '2410758',
@@ -1097,7 +1092,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'ST',
-    country_name: 'São Tomé and Príncipe'
+    country_name: 'São Tomé and Príncipe',
   },
   {
     geoname_id: '2411586',
@@ -1105,7 +1100,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'GI',
-    country_name: 'Gibraltar'
+    country_name: 'Gibraltar',
   },
   {
     geoname_id: '2413451',
@@ -1113,7 +1108,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'GM',
-    country_name: 'Gambia'
+    country_name: 'Gambia',
   },
   {
     geoname_id: '2420477',
@@ -1121,7 +1116,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'GN',
-    country_name: 'Guinea'
+    country_name: 'Guinea',
   },
   {
     geoname_id: '2434508',
@@ -1129,7 +1124,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'TD',
-    country_name: 'Chad'
+    country_name: 'Chad',
   },
   {
     geoname_id: '2440476',
@@ -1137,7 +1132,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'NE',
-    country_name: 'Niger'
+    country_name: 'Niger',
   },
   {
     geoname_id: '2453866',
@@ -1145,7 +1140,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'ML',
-    country_name: 'Mali'
+    country_name: 'Mali',
   },
   {
     geoname_id: '2461445',
@@ -1153,7 +1148,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'EH',
-    country_name: 'Western Sahara'
+    country_name: 'Western Sahara',
   },
   {
     geoname_id: '2464461',
@@ -1161,7 +1156,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'TN',
-    country_name: 'Tunisia'
+    country_name: 'Tunisia',
   },
   {
     geoname_id: '2510769',
@@ -1169,7 +1164,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'ES',
-    country_name: 'Spain'
+    country_name: 'Spain',
   },
   {
     geoname_id: '2542007',
@@ -1177,7 +1172,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'MA',
-    country_name: 'Morocco'
+    country_name: 'Morocco',
   },
   {
     geoname_id: '2562770',
@@ -1185,7 +1180,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'MT',
-    country_name: 'Malta'
+    country_name: 'Malta',
   },
   {
     geoname_id: '2589581',
@@ -1193,7 +1188,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'DZ',
-    country_name: 'Algeria'
+    country_name: 'Algeria',
   },
   {
     geoname_id: '2622320',
@@ -1201,7 +1196,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'FO',
-    country_name: 'Faroe Islands'
+    country_name: 'Faroe Islands',
   },
   {
     geoname_id: '2623032',
@@ -1209,7 +1204,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'DK',
-    country_name: 'Denmark'
+    country_name: 'Denmark',
   },
   {
     geoname_id: '2629691',
@@ -1217,7 +1212,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'IS',
-    country_name: 'Iceland'
+    country_name: 'Iceland',
   },
   {
     geoname_id: '2635167',
@@ -1225,7 +1220,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'GB',
-    country_name: 'United Kingdom'
+    country_name: 'United Kingdom',
   },
   {
     geoname_id: '2658434',
@@ -1233,7 +1228,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'CH',
-    country_name: 'Switzerland'
+    country_name: 'Switzerland',
   },
   {
     geoname_id: '2661886',
@@ -1241,7 +1236,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'SE',
-    country_name: 'Sweden'
+    country_name: 'Sweden',
   },
   {
     geoname_id: '2750405',
@@ -1249,7 +1244,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'NL',
-    country_name: 'Netherlands'
+    country_name: 'Netherlands',
   },
   {
     geoname_id: '2782113',
@@ -1257,7 +1252,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'AT',
-    country_name: 'Austria'
+    country_name: 'Austria',
   },
   {
     geoname_id: '2802361',
@@ -1265,7 +1260,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'BE',
-    country_name: 'Belgium'
+    country_name: 'Belgium',
   },
   {
     geoname_id: '2921044',
@@ -1273,7 +1268,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'DE',
-    country_name: 'Germany'
+    country_name: 'Germany',
   },
   {
     geoname_id: '2960313',
@@ -1281,7 +1276,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'LU',
-    country_name: 'Luxembourg'
+    country_name: 'Luxembourg',
   },
   {
     geoname_id: '2963597',
@@ -1289,7 +1284,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'IE',
-    country_name: 'Ireland'
+    country_name: 'Ireland',
   },
   {
     geoname_id: '2993457',
@@ -1297,7 +1292,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'MC',
-    country_name: 'Monaco'
+    country_name: 'Monaco',
   },
   {
     geoname_id: '3017382',
@@ -1305,7 +1300,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'FR',
-    country_name: 'France'
+    country_name: 'France',
   },
   {
     geoname_id: '3041565',
@@ -1313,7 +1308,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'AD',
-    country_name: 'Andorra'
+    country_name: 'Andorra',
   },
   {
     geoname_id: '3042058',
@@ -1321,7 +1316,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'LI',
-    country_name: 'Liechtenstein'
+    country_name: 'Liechtenstein',
   },
   {
     geoname_id: '3042142',
@@ -1329,7 +1324,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'JE',
-    country_name: 'Jersey'
+    country_name: 'Jersey',
   },
   {
     geoname_id: '3042225',
@@ -1337,7 +1332,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'IM',
-    country_name: 'Isle of Man'
+    country_name: 'Isle of Man',
   },
   {
     geoname_id: '3042362',
@@ -1345,7 +1340,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'GG',
-    country_name: 'Guernsey'
+    country_name: 'Guernsey',
   },
   {
     geoname_id: '3057568',
@@ -1353,7 +1348,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'SK',
-    country_name: 'Slovakia'
+    country_name: 'Slovakia',
   },
   {
     geoname_id: '3077311',
@@ -1361,7 +1356,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'CZ',
-    country_name: 'Czechia'
+    country_name: 'Czechia',
   },
   {
     geoname_id: '3144096',
@@ -1369,7 +1364,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'NO',
-    country_name: 'Norway'
+    country_name: 'Norway',
   },
   {
     geoname_id: '3164670',
@@ -1377,7 +1372,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'VA',
-    country_name: 'Vatican City'
+    country_name: 'Vatican City',
   },
   {
     geoname_id: '3168068',
@@ -1385,7 +1380,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'SM',
-    country_name: 'San Marino'
+    country_name: 'San Marino',
   },
   {
     geoname_id: '3175395',
@@ -1393,7 +1388,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'IT',
-    country_name: 'Italy'
+    country_name: 'Italy',
   },
   {
     geoname_id: '3190538',
@@ -1401,7 +1396,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'SI',
-    country_name: 'Slovenia'
+    country_name: 'Slovenia',
   },
   {
     geoname_id: '3194884',
@@ -1409,7 +1404,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'ME',
-    country_name: 'Montenegro'
+    country_name: 'Montenegro',
   },
   {
     geoname_id: '3202326',
@@ -1417,7 +1412,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'HR',
-    country_name: 'Croatia'
+    country_name: 'Croatia',
   },
   {
     geoname_id: '3277605',
@@ -1425,7 +1420,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'BA',
-    country_name: 'Bosnia and Herzegovina'
+    country_name: 'Bosnia and Herzegovina',
   },
   {
     geoname_id: '3351879',
@@ -1433,7 +1428,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'AO',
-    country_name: 'Angola'
+    country_name: 'Angola',
   },
   {
     geoname_id: '3355338',
@@ -1441,7 +1436,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'NA',
-    country_name: 'Namibia'
+    country_name: 'Namibia',
   },
   {
     geoname_id: '3370751',
@@ -1449,7 +1444,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'SH',
-    country_name: 'Saint Helena'
+    country_name: 'Saint Helena',
   },
   {
     geoname_id: '3374084',
@@ -1457,7 +1452,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'BB',
-    country_name: 'Barbados'
+    country_name: 'Barbados',
   },
   {
     geoname_id: '3374766',
@@ -1465,7 +1460,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'CV',
-    country_name: 'Cabo Verde'
+    country_name: 'Cabo Verde',
   },
   {
     geoname_id: '3378535',
@@ -1473,7 +1468,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'SA',
     continent_name: 'South America',
     country_iso_code: 'GY',
-    country_name: 'Guyana'
+    country_name: 'Guyana',
   },
   {
     geoname_id: '3381670',
@@ -1481,7 +1476,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'SA',
     continent_name: 'South America',
     country_iso_code: 'GF',
-    country_name: 'French Guiana'
+    country_name: 'French Guiana',
   },
   {
     geoname_id: '3382998',
@@ -1489,7 +1484,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'SA',
     continent_name: 'South America',
     country_iso_code: 'SR',
-    country_name: 'Suriname'
+    country_name: 'Suriname',
   },
   {
     geoname_id: '3424932',
@@ -1497,7 +1492,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'PM',
-    country_name: 'Saint Pierre and Miquelon'
+    country_name: 'Saint Pierre and Miquelon',
   },
   {
     geoname_id: '3425505',
@@ -1505,7 +1500,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'GL',
-    country_name: 'Greenland'
+    country_name: 'Greenland',
   },
   {
     geoname_id: '3437598',
@@ -1513,7 +1508,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'SA',
     continent_name: 'South America',
     country_iso_code: 'PY',
-    country_name: 'Paraguay'
+    country_name: 'Paraguay',
   },
   {
     geoname_id: '3439705',
@@ -1521,7 +1516,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'SA',
     continent_name: 'South America',
     country_iso_code: 'UY',
-    country_name: 'Uruguay'
+    country_name: 'Uruguay',
   },
   {
     geoname_id: '3469034',
@@ -1529,7 +1524,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'SA',
     continent_name: 'South America',
     country_iso_code: 'BR',
-    country_name: 'Brazil'
+    country_name: 'Brazil',
   },
   {
     geoname_id: '3474414',
@@ -1537,7 +1532,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'SA',
     continent_name: 'South America',
     country_iso_code: 'FK',
-    country_name: 'Falkland Islands'
+    country_name: 'Falkland Islands',
   },
   {
     geoname_id: '3474415',
@@ -1545,7 +1540,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AN',
     continent_name: 'Antarctica',
     country_iso_code: 'GS',
-    country_name: 'South Georgia and the South Sandwich Islands'
+    country_name: 'South Georgia and the South Sandwich Islands',
   },
   {
     geoname_id: '3489940',
@@ -1553,7 +1548,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'JM',
-    country_name: 'Jamaica'
+    country_name: 'Jamaica',
   },
   {
     geoname_id: '3508796',
@@ -1561,7 +1556,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'DO',
-    country_name: 'Dominican Republic'
+    country_name: 'Dominican Republic',
   },
   {
     geoname_id: '3562981',
@@ -1569,7 +1564,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'CU',
-    country_name: 'Cuba'
+    country_name: 'Cuba',
   },
   {
     geoname_id: '3570311',
@@ -1577,7 +1572,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'MQ',
-    country_name: 'Martinique'
+    country_name: 'Martinique',
   },
   {
     geoname_id: '3572887',
@@ -1585,7 +1580,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'BS',
-    country_name: 'Bahamas'
+    country_name: 'Bahamas',
   },
   {
     geoname_id: '3573345',
@@ -1593,7 +1588,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'BM',
-    country_name: 'Bermuda'
+    country_name: 'Bermuda',
   },
   {
     geoname_id: '3573511',
@@ -1601,7 +1596,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'AI',
-    country_name: 'Anguilla'
+    country_name: 'Anguilla',
   },
   {
     geoname_id: '3573591',
@@ -1609,7 +1604,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'TT',
-    country_name: 'Trinidad and Tobago'
+    country_name: 'Trinidad and Tobago',
   },
   {
     geoname_id: '3575174',
@@ -1617,7 +1612,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'KN',
-    country_name: 'St Kitts and Nevis'
+    country_name: 'St Kitts and Nevis',
   },
   {
     geoname_id: '3575830',
@@ -1625,7 +1620,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'DM',
-    country_name: 'Dominica'
+    country_name: 'Dominica',
   },
   {
     geoname_id: '3576396',
@@ -1633,7 +1628,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'AG',
-    country_name: 'Antigua and Barbuda'
+    country_name: 'Antigua and Barbuda',
   },
   {
     geoname_id: '3576468',
@@ -1641,7 +1636,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'LC',
-    country_name: 'Saint Lucia'
+    country_name: 'Saint Lucia',
   },
   {
     geoname_id: '3576916',
@@ -1649,7 +1644,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'TC',
-    country_name: 'Turks and Caicos Islands'
+    country_name: 'Turks and Caicos Islands',
   },
   {
     geoname_id: '3577279',
@@ -1657,7 +1652,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'AW',
-    country_name: 'Aruba'
+    country_name: 'Aruba',
   },
   {
     geoname_id: '3577718',
@@ -1665,7 +1660,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'VG',
-    country_name: 'British Virgin Islands'
+    country_name: 'British Virgin Islands',
   },
   {
     geoname_id: '3577815',
@@ -1673,7 +1668,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'VC',
-    country_name: 'Saint Vincent and the Grenadines'
+    country_name: 'Saint Vincent and the Grenadines',
   },
   {
     geoname_id: '3578097',
@@ -1681,7 +1676,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'MS',
-    country_name: 'Montserrat'
+    country_name: 'Montserrat',
   },
   {
     geoname_id: '3578421',
@@ -1689,7 +1684,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'MF',
-    country_name: 'Saint Martin'
+    country_name: 'Saint Martin',
   },
   {
     geoname_id: '3578476',
@@ -1697,7 +1692,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'BL',
-    country_name: 'Saint-Barthélemy'
+    country_name: 'Saint-Barthélemy',
   },
   {
     geoname_id: '3579143',
@@ -1705,7 +1700,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'GP',
-    country_name: 'Guadeloupe'
+    country_name: 'Guadeloupe',
   },
   {
     geoname_id: '3580239',
@@ -1713,7 +1708,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'GD',
-    country_name: 'Grenada'
+    country_name: 'Grenada',
   },
   {
     geoname_id: '3580718',
@@ -1721,7 +1716,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'KY',
-    country_name: 'Cayman Islands'
+    country_name: 'Cayman Islands',
   },
   {
     geoname_id: '3582678',
@@ -1729,7 +1724,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'BZ',
-    country_name: 'Belize'
+    country_name: 'Belize',
   },
   {
     geoname_id: '3585968',
@@ -1737,7 +1732,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'SV',
-    country_name: 'El Salvador'
+    country_name: 'El Salvador',
   },
   {
     geoname_id: '3595528',
@@ -1745,7 +1740,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'GT',
-    country_name: 'Guatemala'
+    country_name: 'Guatemala',
   },
   {
     geoname_id: '3608932',
@@ -1753,7 +1748,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'HN',
-    country_name: 'Honduras'
+    country_name: 'Honduras',
   },
   {
     geoname_id: '3617476',
@@ -1761,7 +1756,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'NI',
-    country_name: 'Nicaragua'
+    country_name: 'Nicaragua',
   },
   {
     geoname_id: '3624060',
@@ -1769,7 +1764,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'CR',
-    country_name: 'Costa Rica'
+    country_name: 'Costa Rica',
   },
   {
     geoname_id: '3625428',
@@ -1777,7 +1772,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'SA',
     continent_name: 'South America',
     country_iso_code: 'VE',
-    country_name: 'Venezuela'
+    country_name: 'Venezuela',
   },
   {
     geoname_id: '3658394',
@@ -1785,7 +1780,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'SA',
     continent_name: 'South America',
     country_iso_code: 'EC',
-    country_name: 'Ecuador'
+    country_name: 'Ecuador',
   },
   {
     geoname_id: '3686110',
@@ -1793,7 +1788,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'SA',
     continent_name: 'South America',
     country_iso_code: 'CO',
-    country_name: 'Colombia'
+    country_name: 'Colombia',
   },
   {
     geoname_id: '3703430',
@@ -1801,7 +1796,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'PA',
-    country_name: 'Panama'
+    country_name: 'Panama',
   },
   {
     geoname_id: '3723988',
@@ -1809,7 +1804,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'HT',
-    country_name: 'Haiti'
+    country_name: 'Haiti',
   },
   {
     geoname_id: '3865483',
@@ -1817,7 +1812,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'SA',
     continent_name: 'South America',
     country_iso_code: 'AR',
-    country_name: 'Argentina'
+    country_name: 'Argentina',
   },
   {
     geoname_id: '3895114',
@@ -1825,7 +1820,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'SA',
     continent_name: 'South America',
     country_iso_code: 'CL',
-    country_name: 'Chile'
+    country_name: 'Chile',
   },
   {
     geoname_id: '3923057',
@@ -1833,7 +1828,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'SA',
     continent_name: 'South America',
     country_iso_code: 'BO',
-    country_name: 'Bolivia'
+    country_name: 'Bolivia',
   },
   {
     geoname_id: '3932488',
@@ -1841,7 +1836,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'SA',
     continent_name: 'South America',
     country_iso_code: 'PE',
-    country_name: 'Peru'
+    country_name: 'Peru',
   },
   {
     geoname_id: '3996063',
@@ -1849,7 +1844,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'MX',
-    country_name: 'Mexico'
+    country_name: 'Mexico',
   },
   {
     geoname_id: '4030656',
@@ -1857,7 +1852,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'PF',
-    country_name: 'French Polynesia'
+    country_name: 'French Polynesia',
   },
   {
     geoname_id: '4030699',
@@ -1865,7 +1860,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'PN',
-    country_name: 'Pitcairn Islands'
+    country_name: 'Pitcairn Islands',
   },
   {
     geoname_id: '4030945',
@@ -1873,7 +1868,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'KI',
-    country_name: 'Kiribati'
+    country_name: 'Kiribati',
   },
   {
     geoname_id: '4031074',
@@ -1881,7 +1876,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'TK',
-    country_name: 'Tokelau'
+    country_name: 'Tokelau',
   },
   {
     geoname_id: '4032283',
@@ -1889,7 +1884,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'TO',
-    country_name: 'Tonga'
+    country_name: 'Tonga',
   },
   {
     geoname_id: '4034749',
@@ -1897,7 +1892,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'WF',
-    country_name: 'Wallis and Futuna'
+    country_name: 'Wallis and Futuna',
   },
   {
     geoname_id: '4034894',
@@ -1905,7 +1900,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'WS',
-    country_name: 'Samoa'
+    country_name: 'Samoa',
   },
   {
     geoname_id: '4036232',
@@ -1913,7 +1908,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'NU',
-    country_name: 'Niue'
+    country_name: 'Niue',
   },
   {
     geoname_id: '4041468',
@@ -1921,7 +1916,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'MP',
-    country_name: 'Northern Mariana Islands'
+    country_name: 'Northern Mariana Islands',
   },
   {
     geoname_id: '4043988',
@@ -1929,7 +1924,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'GU',
-    country_name: 'Guam'
+    country_name: 'Guam',
   },
   {
     geoname_id: '4566966',
@@ -1937,7 +1932,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'PR',
-    country_name: 'Puerto Rico'
+    country_name: 'Puerto Rico',
   },
   {
     geoname_id: '4796775',
@@ -1945,7 +1940,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'VI',
-    country_name: 'U.S. Virgin Islands'
+    country_name: 'U.S. Virgin Islands',
   },
   {
     geoname_id: '5854968',
@@ -1953,7 +1948,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'UM',
-    country_name: 'U.S. Minor Outlying Islands'
+    country_name: 'U.S. Minor Outlying Islands',
   },
   {
     geoname_id: '5880801',
@@ -1961,7 +1956,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'OC',
     continent_name: 'Oceania',
     country_iso_code: 'AS',
-    country_name: 'American Samoa'
+    country_name: 'American Samoa',
   },
   {
     geoname_id: '6251999',
@@ -1969,7 +1964,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'CA',
-    country_name: 'Canada'
+    country_name: 'Canada',
   },
   {
     geoname_id: '6252001',
@@ -1977,7 +1972,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'US',
-    country_name: 'United States'
+    country_name: 'United States',
   },
   {
     geoname_id: '6254930',
@@ -1985,7 +1980,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: 'PS',
-    country_name: 'Palestine'
+    country_name: 'Palestine',
   },
   {
     geoname_id: '6255147',
@@ -1993,7 +1988,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AS',
     continent_name: 'Asia',
     country_iso_code: '',
-    country_name: ''
+    country_name: '',
   },
   {
     geoname_id: '6255148',
@@ -2001,7 +1996,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: '',
-    country_name: ''
+    country_name: '',
   },
   {
     geoname_id: '6290252',
@@ -2009,7 +2004,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'EU',
     continent_name: 'Europe',
     country_iso_code: 'RS',
-    country_name: 'Serbia'
+    country_name: 'Serbia',
   },
   {
     geoname_id: '6697173',
@@ -2017,7 +2012,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AN',
     continent_name: 'Antarctica',
     country_iso_code: 'AQ',
-    country_name: 'Antarctica'
+    country_name: 'Antarctica',
   },
   {
     geoname_id: '7609695',
@@ -2025,7 +2020,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'SX',
-    country_name: 'Sint Maarten'
+    country_name: 'Sint Maarten',
   },
   {
     geoname_id: '7626836',
@@ -2033,7 +2028,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'CW',
-    country_name: 'Curaçao'
+    country_name: 'Curaçao',
   },
   {
     geoname_id: '7626844',
@@ -2041,7 +2036,7 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'NA',
     continent_name: 'North America',
     country_iso_code: 'BQ',
-    country_name: 'Bonaire, Sint Eustatius, and Saba'
+    country_name: 'Bonaire, Sint Eustatius, and Saba',
   },
   {
     geoname_id: '7909807',
@@ -2049,6 +2044,6 @@ export const GEO_COUNTRIES: Array<GeoCountry> = [
     continent_code: 'AF',
     continent_name: 'Africa',
     country_iso_code: 'SS',
-    country_name: 'South Sudan'
-  }
+    country_name: 'South Sudan',
+  },
 ];

@@ -1,18 +1,19 @@
-import { Amplitude, AppLoading, Asset, Constants } from 'expo';
-import * as React from 'react';
-import { NetInfo } from 'react-native';
-import { createAppContainer, createStackNavigator } from 'react-navigation';
+import { AppLoading } from 'expo';
+import { Asset } from 'expo-asset';
+import React, { useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import * as actions from './actions/network';
-import { MainScreen } from './components/MainScreen';
-import { PhotoScreen } from './components/PhotoScreen';
-import { CONFIG } from './config';
-import { DECORATIONS, EMOJI_ICONS } from './constants';
+import * as NetInfo from '@react-native-community/netinfo';
+import MainScreen from './components/MainScreen';
+import PhotoScreen from './components/PhotoScreen';
+import { EMOJI_ICONS } from './constants';
 import * as reducers from './reducers';
-import { INITIAL_STATE } from './reducers/initialState';
+import INITIAL_STATE from './reducers/initialState';
 import { rootSaga } from './sagas';
+import * as actions from './actions/network';
 
 const sagaMiddleware = createSagaMiddleware();
 const rootReducer = combineReducers(reducers);
@@ -20,93 +21,65 @@ const rootReducer = combineReducers(reducers);
 const store = createStore(
   rootReducer,
   INITIAL_STATE,
-  applyMiddleware(sagaMiddleware)
+  applyMiddleware(sagaMiddleware),
 );
 
 sagaMiddleware.run(rootSaga);
 
-// initialise
-NetInfo.addEventListener('connectionChange', () => {
-  store.dispatch(actions.checkNetwork(undefined));
-});
+const AppContainer = () => {
+  const Stack = createStackNavigator();
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Main"
+          component={MainScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Photo"
+          component={PhotoScreen}
+          options={{
+            // title: `${props.navigation.state.params && props.navigation.state.params.title}`,
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
-store.dispatch(actions.checkNetwork(undefined));
+export default function App() {
+  const [isReady, setReady] = useState(false);
 
-Amplitude.initialize(CONFIG.amplitude.apiKey);
-Amplitude.setUserId(Constants.deviceId);
-Amplitude.setUserProperties({
-  appOwnership: Constants.appOwnership,
-  appVersion: CONFIG.semver || ''
-});
-// #end initialise
+  const startAsync = async () => {
+    // initialise
+    NetInfo.addEventListener(() => {
+      store.dispatch(actions.checkNetwork(undefined));
+    });
+    store.dispatch(actions.checkNetwork(undefined));
 
-// tslint:disable-next-line:variable-name
-const AppNavigator = createStackNavigator(
-  {
-    Main: { screen: MainScreen },
-    Photo: { screen: PhotoScreen }
-  },
-  {
-    navigationOptions: {
-      // headerStyle: {
-      //   marginTop: Platform.select({ android: Constants.statusBarHeight * -1 })
-      // }
-    }
-  }
-);
-// tslint:disable-next-line: variable-name
-const AppContainer = createAppContainer(AppNavigator);
-
-// tslint:disable-next-line: no-empty-interface
-interface Props { }
-
-interface State {
-  isReady: boolean;
-}
-export class App extends React.PureComponent<Props, State> {
-
-  public state: State = {
-    isReady: false
+    // cache images
+    const images = [
+      ...Object.values(EMOJI_ICONS),
+    ];
+    const cacheImages = images.map(async (img) => Asset.fromModule(img)
+      .downloadAsync());
+    await Promise.all([...cacheImages]);
   };
 
-  public render(): JSX.Element {
+  const finishLoading = () => {
+    setReady(true);
+  };
 
-    if (!this.state.isReady) {
-      return (
-        <AppLoading
-          startAsync={this.cacheResourcesAsync}
-          onFinish={this.finishLoading}
-          onError={console.warn}
-        />
-      );
-    }
-
-    return (
+  return isReady
+    ? (
       <Provider store={store}>
         <AppContainer />
       </Provider>
+    ) : (
+      <AppLoading
+        startAsync={startAsync}
+        onFinish={finishLoading}
+      />
     );
-  }
-
-  private readonly finishLoading = () => {
-    this.setState((state: State) => {
-      return {
-        ...state,
-        isReady: true
-      };
-    });
-  }
-
-  private readonly cacheResourcesAsync = async () => {
-    const images = [
-      ...Object.values(DECORATIONS),
-      ...Object.values(EMOJI_ICONS)
-    ];
-
-    const cacheImages = images.map(async (img) =>
-      Asset.fromModule(img)
-        .downloadAsync()
-    );
-    await Promise.all([...cacheImages]);
-  }
 }

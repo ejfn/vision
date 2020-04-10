@@ -1,9 +1,13 @@
+/* eslint-disable import/prefer-default-export */
 import { RequestPayload } from '../actions/process';
-import { ApiLocationKey } from '../typings/config';
+import { ApiLocationKey } from '../config';
 import { base64ToBinary } from '../utils/base64';
 import { VisionResult } from './types';
 
-export async function postDescribePhoto(payload: RequestPayload, key: ApiLocationKey): Promise<VisionResult> {
+export async function postDescribePhoto(
+  payload: RequestPayload,
+  key: ApiLocationKey,
+): Promise<VisionResult> {
   const url: string = `https://${key.location}.api.cognitive.microsoft.com/vision/v1.0/describe`;
 
   const headers: Headers = new Headers();
@@ -15,8 +19,8 @@ export async function postDescribePhoto(payload: RequestPayload, key: ApiLocatio
     {
       method: 'POST',
       body: base64ToBinary(payload.base64),
-      headers
-    }
+      headers,
+    },
   );
 
   const response: Response = await fetch(request);
